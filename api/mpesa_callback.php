@@ -4,7 +4,7 @@
  * Receives Safaricom webhook and forwards to the REST API.
  *
  * To remove this proxy entirely, change the Safaricom callback URL to:
- *   https://api.rums.ultimatesolutions.co.ke/api/v1/mpesa/callback
+ *   https://api-rums.nexusiot.xyz/api/v1/mpesa/callback
  */
 require_once __DIR__ . '/../config/config.php';
 

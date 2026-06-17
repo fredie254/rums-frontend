@@ -54,7 +54,7 @@ define('API_RATE_LIMIT',  (int)env('API_RATE_LIMIT',  120));
 define('API_RATE_WINDOW', (int)env('API_RATE_WINDOW',  60));
 
 // URL of the standalone RUMS REST API (no trailing slash).
-// In production: https://api.rums.ultimatesolutions.co.ke
+// In production: https://api-rums.nexusiot.xyz
 // In local dev:  http://localhost/Rental_api
 define('API_URL', env('API_URL', 'http://localhost/Rental_api'));
 
