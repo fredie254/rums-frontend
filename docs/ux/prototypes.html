@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUMS — Interactive Prototype</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  body { background:#f0f2f5; font-family: system-ui, sans-serif; }
+  .proto-nav { background:#1a1d23; border-bottom:1px solid #333; }
+  .proto-btn { cursor:pointer; }
+  .screen   { display:none; }
+  .screen.active { display:block; }
+  .sidebar  { background:#1a1d23; min-height:100vh; width:240px; flex-shrink:0; }
+  .sidebar .nav-link { color:#adb5bd; border-radius:8px; margin:1px 0; }
+  .sidebar .nav-link:hover { background:#2d3139; color:#fff; }
+  .sidebar .nav-link.active { background:#0d6efd; color:#fff; }
+  .sidebar .nav-section { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:#6c757d; padding:.5rem .75rem .2rem; margin-top:.5rem; }
+  .sidebar-header { padding:1rem; border-bottom:1px solid #2d3139; }
+  .kpi-card { border-radius:12px; padding:1.1rem 1.25rem; color:#fff; }
+  .kpi-blue   { background:linear-gradient(135deg,#0d6efd,#0a58ca); }
+  .kpi-green  { background:linear-gradient(135deg,#198754,#146c43); }
+  .kpi-red    { background:linear-gradient(135deg,#dc3545,#b02a37); }
+  .kpi-teal   { background:linear-gradient(135deg,#0dcaf0,#0aa2c0); color:#000 !important; }
+  .kpi-orange { background:linear-gradient(135deg,#fd7e14,#ca6510); }
+  .kpi-purple { background:linear-gradient(135deg,#6f42c1,#59359a); }
+  .kpi-value  { font-size:1.5rem; font-weight:700; line-height:1; }
+  .kpi-label  { font-size:.7rem; opacity:.85; text-transform:uppercase; letter-spacing:.05em; }
+  .kpi-icon   { font-size:1.8rem; opacity:.7; }
+  .main-content { flex:1; padding:1.5rem; overflow-y:auto; min-height:100vh; }
+  .screen-wrapper { display:flex; }
+  .login-wrapper  { min-height:100vh; display:flex; align-items:center; justify-content:center;
+                    background:linear-gradient(135deg,#667eea,#764ba2); }
+  .login-card     { background:#fff; border-radius:16px; padding:2rem; width:100%; max-width:400px; }
+  .badge-paid     { background:#198754; }
+  .badge-unpaid   { background:#dc3545; }
+  .badge-partial  { background:#ffc107; color:#000; }
+  .badge-overdue  { background:#dc3545; }
+  .proto-label    { background:#0d6efd; color:#fff; font-size:.7rem; padding:.15rem .4rem; border-radius:4px; }
+  .click-hint     { border:2px dashed #0d6efd; border-radius:6px; position:relative; }
+  .click-hint::after { content:"Click to navigate"; position:absolute; top:-10px; right:6px;
+                        font-size:.65rem; background:#0d6efd; color:#fff; padding:.1rem .4rem; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav class="proto-nav navbar navbar-dark px-3 py-2">
+  <span class="navbar-brand fw-bold">
+    <i class="bi bi-layers me-2 text-warning"></i>RUMS — Interactive Prototype
+  </span>
+  <div class="d-flex gap-2">
+    <span class="badge bg-secondary">Low-Fidelity Clickthrough</span>
+    <span class="badge bg-primary">Bootstrap 5</span>
+  </div>
+</nav>
+
+<!-- ── Screen Selector ───────────────────────────────────── -->
+<div class="bg-white border-bottom px-3 py-2 d-flex gap-2 flex-wrap align-items-center">
+  <small class="text-muted me-2 fw-semibold">JUMP TO SCREEN:</small>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('login')">Login</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('mfa')">MFA Verify</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('dashboard')">Admin Dashboard</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('invoices')">Invoices</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('tenant')">Tenant Portal</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('maintenance')">Maintenance</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('reports')">Reports</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('audit')">Audit Trail</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('gdpr')">Privacy & Data</button>
+  <button class="btn btn-sm btn-outline-primary" onclick="show('mfa-settings')">MFA Settings</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Login
+════════════════════════════════════════════════════════════ -->
+<div id="s-login" class="screen active">
+  <div class="login-wrapper">
+    <div class="login-card shadow-lg">
+      <div class="text-center mb-4">
+        <i class="bi bi-building-fill text-warning fs-1"></i>
+        <h4 class="fw-bold mt-2 mb-0">Property Hub</h4>
+        <p class="text-muted small">Rental Unit Management System</p>
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Email address</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control" placeholder="admin@example.com" value="admin@example.com">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control" value="password">
+          <button class="btn btn-outline-secondary"><i class="bi bi-eye"></i></button>
+        </div>
+      </div>
+      <div class="d-grid gap-2 mt-3">
+        <button class="btn btn-warning fw-bold py-2 click-hint" onclick="show('dashboard')">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </button>
+        <button class="btn btn-outline-secondary" onclick="show('mfa')">
+          Simulate MFA Login →
+        </button>
+      </div>
+      <div class="text-center mt-3">
+        <a href="#" class="text-muted small">Forgot password?</a>
+      </div>
+      <hr>
+      <div class="text-center text-muted small">&copy; 2026 RUMS &mdash; v1.0</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: MFA Verify
+════════════════════════════════════════════════════════════ -->
+<div id="s-mfa" class="screen">
+  <div class="login-wrapper">
+    <div class="login-card shadow-lg" style="max-width:380px">
+      <div class="text-center mb-4">
+        <i class="bi bi-shield-lock-fill text-warning fs-1"></i>
+        <h4 class="fw-bold mt-2 mb-1">Two-Factor Authentication</h4>
+        <p class="text-muted small">Enter the 6-digit code from your authenticator app for <strong>admin@example.com</strong></p>
+      </div>
+      <div class="mb-4">
+        <input type="text" class="form-control text-center fw-bold"
+               style="font-size:2rem;letter-spacing:.5rem"
+               placeholder="000000" maxlength="6" value="123456">
+      </div>
+      <div class="d-flex align-items-center justify-content-center mb-3 gap-2">
+        <svg width="28" height="28" viewBox="0 0 28 28">
+          <circle cx="14" cy="14" r="12" fill="none" stroke="#dee2e6" stroke-width="3"/>
+          <circle cx="14" cy="14" r="12" fill="none" stroke="#0d6efd" stroke-width="3"
+                  stroke-dasharray="75.4" stroke-dashoffset="25"
+                  stroke-linecap="round" transform="rotate(-90 14 14)"/>
+        </svg>
+        <span class="text-muted small">Code refreshes in <strong>20</strong>s</span>
+      </div>
+      <button class="btn btn-warning w-100 fw-bold py-2 click-hint" onclick="show('dashboard')">
+        <i class="bi bi-shield-check me-2"></i>Verify
+      </button>
+      <div class="text-center mt-3">
+        <a href="#" class="text-muted small" onclick="show('login');return false">
+          <i class="bi bi-arrow-left me-1"></i>Back to Login
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Admin Dashboard
+════════════════════════════════════════════════════════════ -->
+<div id="s-dashboard" class="screen">
+  <div class="screen-wrapper">
+    <?php /* sidebar included */ echo sidebar('dashboard'); ?>
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold mb-0"><i class="bi bi-speedometer2 me-2 text-primary"></i>Dashboard</h5>
+        <span class="text-muted small">Tuesday, 17 June 2026</span>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-blue"><div class="d-flex justify-content-between"><div><div class="kpi-value">120</div><div class="kpi-label">Total Units</div></div><div class="kpi-icon"><i class="bi bi-door-open"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-green"><div class="d-flex justify-content-between"><div><div class="kpi-value">KES 450K</div><div class="kpi-label">Monthly Revenue</div></div><div class="kpi-icon"><i class="bi bi-cash-coin"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-red"><div class="d-flex justify-content-between"><div><div class="kpi-value">KES 125K</div><div class="kpi-label">Outstanding AR</div></div><div class="kpi-icon"><i class="bi bi-exclamation-circle"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-purple"><div class="d-flex justify-content-between"><div><div class="kpi-value">87.5%</div><div class="kpi-label">Occupancy Rate</div></div><div class="kpi-icon"><i class="bi bi-graph-up"></i></div></div></div></div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-bar-chart me-1 text-primary"></i>Monthly Revenue — 2026</div>
+            <div class="card-body">
+              <canvas id="revChart" height="100"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-pie-chart me-1 text-success"></i>Unit Status</div>
+            <div class="card-body">
+              <canvas id="unitChart" height="140"></canvas>
+              <div class="mt-2 small">
+                <div class="d-flex justify-content-between"><span><span class="badge bg-success me-1">●</span>Occupied</span><strong>105</strong></div>
+                <div class="d-flex justify-content-between"><span><span class="badge bg-primary me-1">●</span>Available</span><strong>10</strong></div>
+                <div class="d-flex justify-content-between"><span><span class="badge bg-warning text-dark me-1">●</span>Maintenance</span><strong>5</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-calendar-x text-danger me-1"></i>Leases Expiring Soon</div>
+            <div class="table-responsive">
+              <table class="table table-sm mb-0">
+                <thead class="table-light"><tr><th>Tenant</th><th>Unit</th><th>End Date</th><th>Days</th></tr></thead>
+                <tbody>
+                  <tr><td>John Doe</td><td>A-101</td><td>Jul 5, 2026</td><td><span class="badge bg-danger">18d</span></td></tr>
+                  <tr><td>Jane Smith</td><td>B-205</td><td>Jul 12, 2026</td><td><span class="badge bg-warning text-dark">25d</span></td></tr>
+                  <tr><td>Peter K.</td><td>C-302</td><td>Jul 28, 2026</td><td><span class="badge bg-secondary">41d</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-wrench text-warning me-1"></i>Open Maintenance</div>
+            <div class="table-responsive">
+              <table class="table table-sm mb-0">
+                <thead class="table-light"><tr><th>Request</th><th>Unit</th><th>Priority</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Leaking tap</td><td>A-104</td><td><span class="badge bg-danger">Urgent</span></td><td><span class="badge bg-warning text-dark">In Progress</span></td></tr>
+                  <tr><td>Broken door lock</td><td>B-201</td><td><span class="badge bg-warning text-dark">High</span></td><td><span class="badge bg-primary">Open</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Invoices
+════════════════════════════════════════════════════════════ -->
+<div id="s-invoices" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('invoices'); ?>
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0"><i class="bi bi-receipt me-2 text-primary"></i>Invoices</h5>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-plus-circle me-1"></i>Add</button>
+          <button class="btn btn-sm btn-warning"><i class="bi bi-lightning me-1"></i>Generate Monthly</button>
+        </div>
+      </div>
+      <div class="card shadow-sm mb-3">
+        <div class="card-body py-2">
+          <div class="row g-2 align-items-end">
+            <div class="col-auto"><input type="text" class="form-control form-control-sm" placeholder="Search tenant or invoice #..." style="width:220px"></div>
+            <div class="col-auto"><select class="form-select form-select-sm"><option>All Status</option><option>Unpaid</option><option>Paid</option><option>Overdue</option></select></div>
+            <div class="col-auto"><input type="month" class="form-control form-control-sm" value="2026-06"></div>
+            <div class="col-auto"><button class="btn btn-sm btn-primary">Apply</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow-sm">
+        <div class="table-responsive">
+          <table class="table table-hover table-sm mb-0 align-middle">
+            <thead class="table-light">
+              <tr><th>Invoice #</th><th>Tenant</th><th>Period</th><th class="text-end">Total</th><th class="text-end">Paid</th><th class="text-end">Balance</th><th>Status</th><th>Due</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>INV-202606-001</code></td><td>John Doe</td><td>Jun 2026</td><td class="text-end">26,500</td><td class="text-end text-success">26,500</td><td class="text-end">0</td><td><span class="badge bg-success">Paid</span></td><td>Jun 5</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td></tr>
+              <tr><td><code>INV-202606-002</code></td><td>Jane Smith</td><td>Jun 2026</td><td class="text-end">20,000</td><td class="text-end text-success">10,000</td><td class="text-end text-warning fw-semibold">10,000</td><td><span class="badge bg-warning text-dark">Partial</span></td><td>Jun 5</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-success py-0 px-1"><i class="bi bi-cash-coin"></i></a></td></tr>
+              <tr class="table-danger"><td><code>INV-202606-003</code></td><td>Peter K.</td><td>Jun 2026</td><td class="text-end">30,000</td><td class="text-end">0</td><td class="text-end text-danger fw-bold">30,000</td><td><span class="badge bg-danger">Overdue</span></td><td>Jun 5</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-danger py-0 px-1"><i class="bi bi-send"></i></a></td></tr>
+              <tr><td><code>INV-202606-004</code></td><td>Susan M.</td><td>Jun 2026</td><td class="text-end">18,000</td><td class="text-end text-success">18,000</td><td class="text-end">0</td><td><span class="badge bg-success">Paid</span></td><td>Jun 5</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td></tr>
+            </tbody>
+            <tfoot class="table-light fw-semibold">
+              <tr><td colspan="3">Totals (87 invoices)</td><td class="text-end">2,175,000</td><td class="text-end text-success">1,980,000</td><td class="text-end text-danger">195,000</td><td colspan="3"></td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+          <small class="text-muted">Showing 1–20 of 87</small>
+          <nav><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link">◀</a></li><li class="page-item active"><a class="page-link">1</a></li><li class="page-item"><a class="page-link">2</a></li><li class="page-item"><a class="page-link">3</a></li><li class="page-item"><a class="page-link">▶</a></li></ul></nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Tenant Portal
+════════════════════════════════════════════════════════════ -->
+<div id="s-tenant" class="screen">
+  <div class="screen-wrapper">
+    <nav class="sidebar d-flex flex-column p-0" style="width:220px">
+      <div class="sidebar-header d-flex align-items-center gap-2"><i class="bi bi-building-fill text-warning fs-5"></i><span class="fw-bold text-white">Property Hub</span></div>
+      <ul class="nav flex-column px-2 py-2">
+        <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house-fill me-2"></i>My Dashboard</a></li>
+        <li class="nav-section">MY TENANCY</li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text me-2"></i>My Lease</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-receipt me-2"></i>My Invoices</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cash-coin me-2"></i>My Payments</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-wrench me-2"></i>Maintenance</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-folder2-open me-2"></i>My Documents</a></li>
+        <li class="nav-section"></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-bell me-2"></i>Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="show('mfa-settings');return false"><i class="bi bi-person-gear me-2"></i>Account Settings</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="show('gdpr');return false"><i class="bi bi-person-lock me-2"></i>Privacy & Data</a></li>
+        <li class="nav-item mt-2"><a class="nav-link text-danger" href="#" onclick="show('login');return false"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <h5 class="fw-bold mb-3"><i class="bi bi-house-fill me-2 text-primary"></i>My Dashboard — Welcome, Mary</h5>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-green"><div class="d-flex justify-content-between"><div><div class="kpi-value">Active</div><div class="kpi-label">Lease Status</div></div><div class="kpi-icon"><i class="bi bi-file-earmark-check"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-blue"><div class="d-flex justify-content-between"><div><div class="kpi-value">KES 25K</div><div class="kpi-label">Monthly Rent</div></div><div class="kpi-icon"><i class="bi bi-house"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-red"><div class="d-flex justify-content-between"><div><div class="kpi-value">KES 0</div><div class="kpi-label">Balance Due</div></div><div class="kpi-icon"><i class="bi bi-check-circle"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-orange"><div class="d-flex justify-content-between"><div><div class="kpi-value">1</div><div class="kpi-label">Open Requests</div></div><div class="kpi-icon"><i class="bi bi-wrench"></i></div></div></div></div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-file-earmark-text me-1 text-primary"></i>My Lease</div>
+            <div class="card-body small">
+              <div class="row g-2">
+                <div class="col-6"><span class="text-muted">Unit:</span> <strong>A-101</strong></div>
+                <div class="col-6"><span class="text-muted">Property:</span> <strong>Westgate Apts</strong></div>
+                <div class="col-6"><span class="text-muted">Rent:</span> <strong>KES 25,000</strong></div>
+                <div class="col-6"><span class="text-muted">Due Day:</span> <strong>5th</strong></div>
+                <div class="col-6"><span class="text-muted">Start:</span> <strong>Jan 1, 2026</strong></div>
+                <div class="col-6"><span class="text-muted">End:</span> <strong>Dec 31, 2026</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-header fw-semibold py-2 d-flex justify-content-between"><span><i class="bi bi-receipt me-1 text-info"></i>Recent Invoices</span><a href="#" class="small text-primary">View All</a></div>
+            <div class="table-responsive">
+              <table class="table table-sm mb-0">
+                <tbody>
+                  <tr><td>Jun 2026</td><td>KES 26,500</td><td><span class="badge bg-success">Paid</span></td></tr>
+                  <tr><td>May 2026</td><td>KES 26,500</td><td><span class="badge bg-success">Paid</span></td></tr>
+                  <tr><td>Apr 2026</td><td>KES 26,500</td><td><span class="badge bg-success">Paid</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer bg-white"><button class="btn btn-sm btn-warning w-100"><i class="bi bi-phone me-1"></i>Pay via M-Pesa</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Maintenance
+════════════════════════════════════════════════════════════ -->
+<div id="s-maintenance" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('maintenance'); ?>
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0"><i class="bi bi-wrench me-2 text-warning"></i>Maintenance Requests</h5>
+        <button class="btn btn-sm btn-warning"><i class="bi bi-plus-circle me-1"></i>New Request</button>
+      </div>
+      <div class="row g-3 mb-3">
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-blue"><div class="d-flex justify-content-between"><div><div class="kpi-value">24</div><div class="kpi-label">Total</div></div><div class="kpi-icon"><i class="bi bi-clipboard-list"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-orange"><div class="d-flex justify-content-between"><div><div class="kpi-value">8</div><div class="kpi-label">Open</div></div><div class="kpi-icon"><i class="bi bi-hourglass"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-red"><div class="d-flex justify-content-between"><div><div class="kpi-value">2</div><div class="kpi-label">Urgent</div></div><div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="kpi-card kpi-green"><div class="d-flex justify-content-between"><div><div class="kpi-value">KES 45K</div><div class="kpi-label">YTD Cost</div></div><div class="kpi-icon"><i class="bi bi-currency-exchange"></i></div></div></div></div>
+      </div>
+      <div class="card shadow-sm">
+        <div class="table-responsive">
+          <table class="table table-hover table-sm mb-0 align-middle">
+            <thead class="table-light"><tr><th>Request #</th><th>Issue</th><th>Unit</th><th>Priority</th><th>Assigned To</th><th>Status</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><code>MR-202606-001</code></td><td>Leaking kitchen tap</td><td>A-104</td><td><span class="badge bg-danger">Urgent</span></td><td>Brian K.</td><td><span class="badge bg-warning text-dark">In Progress</span></td><td>Jun 10</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td></tr>
+              <tr><td><code>MR-202606-002</code></td><td>Broken door lock</td><td>B-201</td><td><span class="badge bg-warning text-dark">High</span></td><td>Unassigned</td><td><span class="badge bg-primary">Open</span></td><td>Jun 12</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td></tr>
+              <tr><td><code>MR-202606-003</code></td><td>Faulty light switch</td><td>C-305</td><td><span class="badge bg-info text-dark">Medium</span></td><td>Brian K.</td><td><span class="badge bg-success">Completed</span></td><td>Jun 8</td><td><a href="#" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Reports Hub
+════════════════════════════════════════════════════════════ -->
+<div id="s-reports" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('reports'); ?>
+    <div class="main-content">
+      <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-line me-2 text-primary"></i>Reports &amp; Analytics</h5>
+      <h6 class="text-muted text-uppercase small fw-bold mb-2">BI Dashboards</h6>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4"><div class="card shadow-sm border-primary border-2 h-100" style="cursor:pointer"><div class="card-body d-flex align-items-center gap-3 py-3"><div class="rounded-circle bg-primary bg-opacity-10 p-2"><i class="bi bi-speedometer2 text-primary fs-3"></i></div><div><h6 class="fw-bold mb-1">Executive Dashboard</h6><p class="text-muted small mb-0">KPIs, revenue, occupancy, arrears</p></div><i class="bi bi-chevron-right text-muted ms-auto"></i></div></div></div>
+        <div class="col-md-4"><div class="card shadow-sm h-100" style="cursor:pointer"><div class="card-body d-flex align-items-center gap-3 py-3"><div class="rounded-circle bg-primary bg-opacity-10 p-2"><i class="bi bi-graph-up-arrow text-primary fs-3"></i></div><div><h6 class="fw-bold mb-1">Unit Performance</h6><p class="text-muted small mb-0">7 charts: occupancy, revenue</p></div><i class="bi bi-chevron-right text-muted ms-auto"></i></div></div></div>
+        <div class="col-md-4"><div class="card shadow-sm h-100" style="cursor:pointer" onclick="show('audit')"><div class="card-body d-flex align-items-center gap-3 py-3"><div class="rounded-circle bg-danger bg-opacity-10 p-2"><i class="bi bi-graph-down-arrow text-danger fs-3"></i></div><div><h6 class="fw-bold mb-1">Arrears Analysis</h6><p class="text-muted small mb-0">Trend, offenders, collection rate</p></div><i class="bi bi-chevron-right text-muted ms-auto"></i></div></div></div>
+      </div>
+      <h6 class="text-muted text-uppercase small fw-bold mb-2">Standard Reports</h6>
+      <div class="row g-3">
+        <?php
+        $rpts = [
+          ['Financial Report','currency-exchange','primary','Income, collections, outstanding'],
+          ['Occupancy Report','grid-1x2','success','Unit status, vacancy trends'],
+          ['Rent Collection','cash-stack','info','Monthly collection vs expected'],
+          ['Maintenance Report','wrench','warning','Requests, costs, turnaround'],
+          ['Tenant Report','people','secondary','Statistics, analytics, retention'],
+          ['AR Aging','layers','warning','Invoices by aging bucket'],
+          ['Deposit Management','safe','primary','Deposits held vs refunded'],
+          ['Tenant Ledger','journal-text','info','Debit/credit with running balance'],
+        ];
+        foreach ($rpts as [$title,$icon,$color,$desc]):
+        ?>
+        <div class="col-md-4"><div class="card shadow-sm h-100"><div class="card-body d-flex align-items-center gap-3 py-3"><div class="rounded-circle bg-<?= $color ?> bg-opacity-10 p-2"><i class="bi bi-<?= $icon ?> text-<?= $color ?> fs-4"></i></div><div class="flex-grow-1"><h6 class="fw-bold mb-1 small"><?= $title ?></h6><p class="text-muted" style="font-size:.75rem;margin:0"><?= $desc ?></p></div><a href="#" class="btn btn-xs btn-sm btn-outline-success py-0 px-1" title="Export CSV"><i class="bi bi-download"></i></a></div></div></div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Audit Trail
+════════════════════════════════════════════════════════════ -->
+<div id="s-audit" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('audit'); ?>
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0"><i class="bi bi-journal-text me-2 text-info"></i>Audit Trail</h5>
+        <a href="#" class="btn btn-sm btn-outline-success"><i class="bi bi-download me-1"></i>Export CSV</a>
+      </div>
+      <div class="card shadow-sm mb-3">
+        <div class="card-body py-2">
+          <div class="row g-2 align-items-end">
+            <div class="col-auto"><input type="date" class="form-control form-control-sm" value="2026-06-01"></div>
+            <div class="col-auto"><input type="date" class="form-control form-control-sm" value="2026-06-17"></div>
+            <div class="col-auto"><select class="form-select form-select-sm"><option>All Actions</option><option>LOGIN</option><option>CREATE</option><option>UPDATE</option><option>DELETE</option></select></div>
+            <div class="col-auto"><select class="form-select form-select-sm"><option>All Modules</option><option>leases</option><option>invoices</option><option>payments</option><option>auth</option></select></div>
+            <div class="col-auto"><select class="form-select form-select-sm"><option>All Users</option><option>Alice M.</option><option>David A.</option></select></div>
+            <div class="col-auto"><button class="btn btn-sm btn-primary">Filter</button><a href="#" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow-sm">
+        <div class="card-header bg-white py-2 d-flex justify-content-between">
+          <span class="fw-semibold">Audit Events <span class="badge bg-secondary">1,247</span></span>
+          <small class="text-muted">2026-06-01 – 2026-06-17</small>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover mb-0">
+            <thead class="table-light"><tr><th>Time</th><th>User</th><th>Role</th><th>Action</th><th>Module</th><th>Record</th><th>Description</th><th>IP</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="small text-nowrap">Jun 17 09:30</td><td><div>Alice M.</div><small class="text-muted">alice@rums.co.ke</small></td><td><span class="badge bg-secondary small">admin</span></td><td><span class="badge bg-info">UPDATE</span></td><td>leases</td><td>#42</td><td class="text-truncate" style="max-width:160px">Updated monthly_rent 25000→27500</td><td class="font-monospace small">197.x.x.x</td><td><button class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1" data-bs-toggle="modal" data-bs-target="#diffModal"><i class="bi bi-file-diff"></i></button></td></tr>
+              <tr><td class="small text-nowrap">Jun 17 09:15</td><td><div>John D.</div><small class="text-muted">john@tenant.ke</small></td><td><span class="badge bg-secondary small">tenant</span></td><td><span class="badge bg-success">LOGIN</span></td><td>auth</td><td>—</td><td>Successful login</td><td class="font-monospace small">41.x.x.x</td><td></td></tr>
+              <tr><td class="small text-nowrap">Jun 17 08:55</td><td><div>David A.</div><small class="text-muted">david@rums.co.ke</small></td><td><span class="badge bg-secondary small">accountant</span></td><td><span class="badge bg-primary">CREATE</span></td><td>payments</td><td>#187</td><td>Recorded payment KES 26,500 — M-Pesa</td><td class="font-monospace small">41.x.x.x</td><td></td></tr>
+              <tr><td class="small text-nowrap">Jun 17 08:30</td><td><div>Alice M.</div><small class="text-muted">alice@rums.co.ke</small></td><td><span class="badge bg-secondary small">admin</span></td><td><span class="badge bg-danger">DELETE</span></td><td>documents</td><td>#33</td><td>Soft-deleted document: OldPolicy.pdf</td><td class="font-monospace small">197.x.x.x</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+          <small class="text-muted">Showing 1–50 of 1,247</small>
+          <nav><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link">◀</a></li><li class="page-item active"><a class="page-link">1</a></li><li class="page-item"><a class="page-link">2</a></li><li class="page-item"><a class="page-link">▶</a></li></ul></nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Diff Modal -->
+<div class="modal fade" id="diffModal" tabindex="-1">
+  <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Change Details — #42</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body row g-3"><div class="col-md-6"><h6 class="text-danger">Before</h6><pre class="bg-light p-2 rounded small">{"monthly_rent": "25000.00",
+"updated_at": "2026-05-01"}</pre></div><div class="col-md-6"><h6 class="text-success">After</h6><pre class="bg-light p-2 rounded small">{"monthly_rent": "27500.00",
+"updated_at": "2026-06-17"}</pre></div></div></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: Privacy & Data (GDPR)
+════════════════════════════════════════════════════════════ -->
+<div id="s-gdpr" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('gdpr'); ?>
+    <div class="main-content">
+      <div class="d-flex align-items-center mb-3 gap-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="show('dashboard')"><i class="bi bi-arrow-left"></i></button>
+        <h5 class="fw-bold mb-0"><i class="bi bi-person-lock me-2 text-primary"></i>Privacy &amp; Data Management</h5>
+      </div>
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="card shadow-sm mb-3">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-database me-1 text-primary"></i>Data We Hold About You</div>
+            <div class="card-body small">
+              <div class="row g-3"><div class="col-sm-6"><ul class="mb-0 text-muted"><li>Name, email, phone</li><li>National ID (encrypted)</li><li>Lease agreements</li><li>Payment history</li></ul></div><div class="col-sm-6"><ul class="mb-0 text-muted"><li>Maintenance requests</li><li>Uploaded documents</li><li>Login activity</li><li>Notifications</li></ul></div></div>
+            </div>
+          </div>
+          <div class="card shadow-sm mb-3">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-check2-square me-1 text-success"></i>Consent Preferences</div>
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-3 py-2 border-bottom"><div><span class="fw-semibold">Terms of Service</span> <span class="badge bg-secondary ms-1">Required</span><div class="text-muted small">Acceptance required to use the system.</div></div><div class="form-check form-switch ms-3"><input class="form-check-input" type="checkbox" checked disabled></div></div>
+              <div class="d-flex align-items-center justify-content-between mb-3 py-2 border-bottom"><div><span class="fw-semibold">Privacy Policy</span> <span class="badge bg-secondary ms-1">Required</span><div class="text-muted small">Consent to data processing.</div></div><div class="form-check form-switch ms-3"><input class="form-check-input" type="checkbox" checked disabled></div></div>
+              <div class="d-flex align-items-center justify-content-between mb-3 py-2 border-bottom"><div><span class="fw-semibold">Marketing Communications</span> <span class="badge bg-light text-dark border ms-1">Optional</span><div class="text-muted small">Occasional updates and announcements.</div></div><div class="form-check form-switch ms-3"><input class="form-check-input" type="checkbox"></div></div>
+              <button class="btn btn-sm btn-primary"><i class="bi bi-save me-1"></i>Save Preferences</button>
+            </div>
+          </div>
+          <div class="card shadow-sm mb-3">
+            <div class="card-header fw-semibold py-2"><i class="bi bi-download me-1 text-info"></i>Download Your Data <span class="badge bg-info ms-1">GDPR Art. 20</span></div>
+            <div class="card-body"><p class="text-muted small mb-3">Download all personal data we hold as a JSON file. Link valid for 1 hour.</p><button class="btn btn-info text-white"><i class="bi bi-file-earmark-arrow-down me-1"></i>Generate &amp; Download My Data</button></div>
+          </div>
+          <div class="card shadow-sm border-danger mb-3">
+            <div class="card-header fw-semibold py-2 text-danger"><i class="bi bi-person-dash me-1"></i>Right to Erasure <span class="badge bg-danger ms-1">GDPR Art. 17</span></div>
+            <div class="card-body"><p class="text-muted small mb-3">Request deletion. Financial records retained for legal compliance.</p><div class="mb-3"><label class="form-label fw-semibold small">Reason (optional)</label><textarea class="form-control form-control-sm" rows="2" placeholder="Why are you requesting deletion?"></textarea></div><button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash me-1"></i>Submit Deletion Request</button></div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card shadow-sm mb-3"><div class="card-body"><div class="fw-semibold mb-1"><i class="bi bi-shield-lock me-1 text-primary"></i>Account Security</div><p class="text-muted small mb-2">Manage MFA and change password.</p><button class="btn btn-sm btn-outline-primary w-100" onclick="show('mfa-settings')"><i class="bi bi-gear me-1"></i>Security Settings</button></div></div>
+          <div class="card shadow-sm mb-3"><div class="card-header fw-semibold py-2 small"><i class="bi bi-balance-scale me-1"></i>Your Rights</div><div class="card-body small text-muted"><ul class="mb-0"><li><strong>Access</strong> — Art. 15</li><li><strong>Rectification</strong> — Art. 16</li><li><strong>Erasure</strong> — Art. 17</li><li><strong>Portability</strong> — Art. 20</li><li><strong>Objection</strong> — Art. 21</li></ul></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: MFA Settings
+════════════════════════════════════════════════════════════ -->
+<div id="s-mfa-settings" class="screen">
+  <div class="screen-wrapper">
+    <?php echo sidebar('settings'); ?>
+    <div class="main-content">
+      <h5 class="fw-bold mb-3"><i class="bi bi-person-gear me-2 text-primary"></i>Account Settings</h5>
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item"><a class="nav-link active" href="#">Security</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Password</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+      </ul>
+      <div class="card shadow-sm mb-3">
+        <div class="card-header fw-semibold py-2"><i class="bi bi-shield-lock me-1 text-primary"></i>Two-Factor Authentication</div>
+        <div class="card-body">
+          <div class="d-flex align-items-start justify-content-between">
+            <div>
+              <div class="fw-semibold">Two-Factor Authentication <span class="badge bg-secondary ms-1">Disabled</span> <span class="badge bg-light text-dark border ms-1">Optional</span></div>
+              <div class="text-muted small mt-1">Add an extra layer of security using an authenticator app.<br>Off by default — enable for stronger account protection.</div>
+            </div>
+            <button class="btn btn-sm btn-outline-primary ms-3 flex-shrink-0" id="btnEnable" onclick="toggleMfaSetup()">
+              <i class="bi bi-toggle-off me-1"></i>Enable
+            </button>
+          </div>
+          <div id="mfaSetup" class="mt-3 p-3 bg-light rounded" style="display:none">
+            <h6 class="fw-semibold mb-3">Set Up Two-Factor Authentication</h6>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <p class="small fw-semibold">1. Scan this QR code in your authenticator app:</p>
+                <div class="border rounded p-3 text-center bg-white" style="width:fit-content">
+                  <div style="width:140px;height:140px;background:repeating-linear-gradient(0deg,#000 0,#000 2px,#fff 2px,#fff 8px),repeating-linear-gradient(90deg,#000 0,#000 2px,#fff 2px,#fff 8px);opacity:.8"></div>
+                  <div class="small text-muted mt-1">otpauth://totp/RUMS</div>
+                </div>
+                <p class="small text-muted mt-2">Or enter manually: <code>JBSWY3DP EHPK3PXP</code></p>
+              </div>
+              <div class="col-md-6">
+                <p class="small fw-semibold">2. Save your backup codes (shown once):</p>
+                <div class="bg-white border rounded p-2 font-monospace small">
+                  ABC12345 &nbsp; DEF67890<br>
+                  GHI11111 &nbsp; JKL22222<br>
+                  MNO33333 &nbsp; PQR44444<br>
+                  STU55555 &nbsp; VWX66666
+                </div>
+                <p class="small fw-semibold mt-3">3. Enter first code to confirm:</p>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="6-digit code" maxlength="6" style="letter-spacing:.3rem;font-weight:700">
+                  <button class="btn btn-success">Confirm &amp; Enable</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar helper (PHP-style) -->
+<?php
+function sidebar($active) {
+  $links = [
+    ['dashboard','speedometer2','Dashboard'],
+  ];
+  $out = '<nav class="sidebar d-flex flex-column p-0" style="width:220px">';
+  $out .= '<div class="sidebar-header d-flex align-items-center gap-2"><i class="bi bi-building-fill text-warning fs-5"></i><span class="fw-bold text-white">Property Hub</span></div>';
+  $out .= '<ul class="nav flex-column px-2 py-2">';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='dashboard'?'active':'') . '" href="#" onclick="show(\'dashboard\');return false"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>';
+  $out .= '<li class="nav-section">PROPERTIES</li>';
+  $out .= '<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-buildings me-2"></i>Properties</a></li>';
+  $out .= '<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-door-open me-2"></i>Units</a></li>';
+  $out .= '<li class="nav-section">PEOPLE</li>';
+  $out .= '<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-people me-2"></i>Tenants</a></li>';
+  $out .= '<li class="nav-section">OPERATIONS</li>';
+  $out .= '<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text me-2"></i>Leases</a></li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='invoices'?'active':'') . '" href="#" onclick="show(\'invoices\');return false"><i class="bi bi-receipt me-2"></i>Invoices</a></li>';
+  $out .= '<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cash-coin me-2"></i>Payments</a></li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='maintenance'?'active':'') . '" href="#" onclick="show(\'maintenance\');return false"><i class="bi bi-wrench me-2"></i>Maintenance</a></li>';
+  $out .= '<li class="nav-section">ANALYTICS</li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='reports'?'active':'') . '" href="#" onclick="show(\'reports\');return false"><i class="bi bi-bar-chart-line me-2"></i>Reports</a></li>';
+  $out .= '<li class="nav-section">SYSTEM</li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='audit'?'active':'') . '" href="#" onclick="show(\'audit\');return false"><i class="bi bi-journal-text me-2"></i>Audit Log</a></li>';
+  $out .= '<li class="nav-section"></li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='settings'?'active':'') . '" href="#" onclick="show(\'mfa-settings\');return false"><i class="bi bi-person-gear me-2"></i>Account Settings</a></li>';
+  $out .= '<li class="nav-item"><a class="nav-link ' . ($active=='gdpr'?'active':'') . '" href="#" onclick="show(\'gdpr\');return false"><i class="bi bi-person-lock me-2"></i>Privacy &amp; Data</a></li>';
+  $out .= '<li class="nav-item mt-2"><a class="nav-link text-danger" href="#" onclick="show(\'login\');return false"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>';
+  $out .= '</ul></nav>';
+  return $out;
+}
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// ── Screen navigation ─────────────────────────────────────
+function show(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + name).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── Dashboard charts ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const rc = document.getElementById('revChart');
+  if (rc) {
+    new Chart(rc, {
+      type: 'bar',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [{
+          label: 'Revenue (KES)',
+          data: [380000,410000,395000,420000,440000,450000,0,0,0,0,0,0],
+          backgroundColor: '#0d6efd99',
+          borderColor: '#0d6efd',
+          borderWidth: 1,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { callback: v => 'KES ' + (v/1000) + 'K' } } }
+      }
+    });
+  }
+
+  const uc = document.getElementById('unitChart');
+  if (uc) {
+    new Chart(uc, {
+      type: 'doughnut',
+      data: {
+        labels: ['Occupied','Available','Maintenance'],
+        datasets: [{ data: [105,10,5], backgroundColor: ['#198754','#0d6efd','#ffc107'], borderWidth: 2 }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } }, cutout: '70%' }
+    });
+  }
+});
+
+// ── MFA setup toggle ──────────────────────────────────────
+function toggleMfaSetup() {
+  const setup = document.getElementById('mfaSetup');
+  const btn   = document.getElementById('btnEnable');
+  if (setup.style.display === 'none') {
+    setup.style.display = 'block';
+    btn.innerHTML = '<i class="bi bi-x-circle me-1"></i>Cancel';
+    btn.className = 'btn btn-sm btn-outline-secondary ms-3 flex-shrink-0';
+  } else {
+    setup.style.display = 'none';
+    btn.innerHTML = '<i class="bi bi-toggle-off me-1"></i>Enable';
+    btn.className = 'btn btn-sm btn-outline-primary ms-3 flex-shrink-0';
+  }
+}
+</script>
+</body>
+</html>

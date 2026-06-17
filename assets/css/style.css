@@ -1,0 +1,390 @@
+/* ================================================================
+   RUMS — Rental Unit Management System
+   Responsive Stylesheet
+   Breakpoints: xs(<576) sm(576) md(768) lg(992) xl(1200)
+   ================================================================ */
+
+:root {
+  --rums-primary:  #1a56db;
+  --rums-dark:     #1e2a3b;
+  --rums-darker:   #141e2e;
+  --sidebar-width: 240px;
+  --sidebar-sm:    200px;    /* 768-991px */
+  --navbar-height: 56px;
+  --content-pad:   1.5rem;   /* default content padding */
+}
+
+/* ── Reset / Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: #f4f6fb;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: .9rem;
+  overflow-x: hidden;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+.rums-navbar {
+  background: var(--rums-dark);
+  height: var(--navbar-height);
+  z-index: 1040;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--navbar-height));
+  background: var(--rums-darker);
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform .25s ease, width .25s ease;
+  z-index: 1030;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.1) transparent;
+}
+.sidebar::-webkit-scrollbar       { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+
+.sidebar .nav-link {
+  color: rgba(255,255,255,.72);
+  border-radius: 6px;
+  margin-bottom: 2px;
+  padding: .45rem .8rem;
+  font-size: .83rem;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar .nav-link:hover  { background: rgba(255,255,255,.07); color: #fff; }
+.sidebar .nav-link.active { background: var(--rums-primary); color: #fff; font-weight: 600; }
+.sidebar .nav-section-label {
+  color: rgba(255,255,255,.35);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: .6rem .8rem .2rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sidebar-header {
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ── Sidebar collapse (desktop toggle) ────────────────────────── */
+.sidebar-collapsed .sidebar        { transform: translateX(calc(-1 * var(--sidebar-width))); }
+.sidebar-collapsed .main-content   { margin-left: 0; }
+
+/* ── Sidebar backdrop (mobile overlay) ────────────────────────── */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 1029;
+  backdrop-filter: blur(1px);
+}
+.sidebar-backdrop.show { display: block; }
+
+/* ── Main content ─────────────────────────────────────────────── */
+.wrapper { min-height: 100vh; }
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--navbar-height);
+  min-height: calc(100vh - var(--navbar-height));
+  transition: margin-left .25s ease;
+  width: calc(100% - var(--sidebar-width));
+}
+
+.main-content .container-fluid {
+  padding: var(--content-pad);
+}
+
+/* ── KPI Cards ────────────────────────────────────────────────── */
+.kpi-card {
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  height: 100%;
+}
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  right: -20px;
+  top: -20px;
+  background: rgba(255,255,255,.12);
+}
+.kpi-icon  { font-size: 1.5rem; opacity: .85; }
+.kpi-value { font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+.kpi-label { font-size: .75rem; opacity: .85; font-weight: 500; }
+.kpi-sub   { font-size: .7rem;  opacity: .7; }
+
+.kpi-blue   { background: linear-gradient(135deg,#1a56db,#3d7ef5); color:#fff; }
+.kpi-green  { background: linear-gradient(135deg,#057a55,#1bc17c); color:#fff; }
+.kpi-yellow { background: linear-gradient(135deg,#b57d00,#f6b400); color:#fff; }
+.kpi-purple { background: linear-gradient(135deg,#6c29b3,#a855f7); color:#fff; }
+.kpi-teal   { background: linear-gradient(135deg,#076980,#0ea5e9); color:#fff; }
+.kpi-orange { background: linear-gradient(135deg,#c05621,#f97316); color:#fff; }
+.kpi-red    { background: linear-gradient(135deg,#9b1c1c,#e02424); color:#fff; }
+.kpi-cyan   { background: linear-gradient(135deg,#0e7490,#22d3ee); color:#fff; }
+
+/* ── Avatar ───────────────────────────────────────────────────── */
+.avatar-sm { width:32px; height:32px; font-size:.85rem; }
+.avatar-lg { width:56px; height:56px; font-size:1.5rem; }
+
+/* ── Cards ────────────────────────────────────────────────────── */
+.card { border: none; border-radius: 10px; }
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.card-hover { transition: box-shadow .15s, transform .15s; cursor: pointer; }
+.card-hover:hover { box-shadow: 0 6px 20px rgba(0,0,0,.1) !important; transform: translateY(-2px); }
+
+/* ── Property Card ────────────────────────────────────────────── */
+.property-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.1) !important; }
+.property-img { height: 140px; overflow: hidden; border-radius: 10px 10px 0 0; }
+
+/* ── Tables ───────────────────────────────────────────────────── */
+.table { font-size: .85rem; }
+.table th {
+  font-weight: 600;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #6b7280;
+  white-space: nowrap;
+}
+.table > :not(caption) > * > * { padding: .5rem .75rem; }
+.table-hover tbody tr:hover { background: rgba(26,86,219,.04); }
+
+/* All tables scroll horizontally on small screens */
+.table-responsive { -webkit-overflow-scrolling: touch; }
+.card .table-responsive { border-radius: 0 0 10px 10px; }
+
+/* ── Notification dot ─────────────────────────────────────────── */
+.notification-dot { width:8px; height:8px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.notification-item:last-child { border-bottom: none !important; }
+
+/* ── Report / stat cards ──────────────────────────────────────── */
+.report-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.bg-primary-soft { background: rgba(26,86,219,.1); }
+.bg-success-soft { background: rgba(5,122,85,.1); }
+.bg-warning-soft { background: rgba(246,180,0,.12); }
+.bg-info-soft    { background: rgba(14,165,233,.1); }
+.bg-purple-soft  { background: rgba(168,85,247,.1); }
+.text-purple { color: #7c3aed !important; }
+
+/* ── Login page ───────────────────────────────────────────────── */
+.login-body {
+  background: linear-gradient(135deg, #1e2a3b 0%, #1a56db 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.login-wrapper { width: 100%; max-width: 420px; }
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+}
+
+/* ── Badges ───────────────────────────────────────────────────── */
+.badge { font-weight: 500; letter-spacing: .02em; }
+.bg-orange { background-color: #f97316 !important; }
+
+/* ── Currency / Accounting ────────────────────────────────────── */
+/* Right-align all money columns; use tabular nums for clean alignment */
+.money,
+td.money,
+th.money {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-feature-settings: "tnum";
+}
+/* Negative amounts in accounting parenthesis style */
+.money-negative { color: #dc3545; }
+.money-positive { color: #057a55; }
+.money-zero     { color: #6b7280; }
+
+/* Amount cells in tables — consistent right alignment */
+.table td.amount,
+.table th.amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-right: 1.25rem !important;
+}
+
+/* ── Settings page ────────────────────────────────────────────── */
+#settingsTabs {
+  border-bottom: none;
+  gap: 2px;
+}
+#settingsTabs .nav-link {
+  border-radius: 8px 8px 0 0;
+  font-size: .83rem;
+  color: #6b7280;
+  border: 1px solid transparent;
+  padding: .5rem 1rem;
+}
+#settingsTabs .nav-link:hover  { color: var(--rums-primary); background: rgba(26,86,219,.05); }
+#settingsTabs .nav-link.active {
+  color: var(--rums-primary);
+  background: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+  font-weight: 600;
+}
+#settingsTabs + .card {
+  border-top-left-radius: 0;
+}
+
+/* ── Forms ────────────────────────────────────────────────────── */
+.form-control:focus, .form-select:focus {
+  border-color: var(--rums-primary);
+  box-shadow: 0 0 0 3px rgba(26,86,219,.12);
+}
+.form-label { font-size: .83rem; margin-bottom: .35rem; }
+
+/* ── Charts — ensure they never overflow their container ─────── */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+canvas { max-width: 100%; }
+
+/* ── Misc ─────────────────────────────────────────────────────── */
+code { background: #f3f4f6; padding: .15em .4em; border-radius: 4px; font-size: .85em; color: #374151; }
+.table code { font-size: .78rem; }
+
+/* ── Tenant portal action cards ──────────────────────────────── */
+.action-card {
+  border-radius: 12px;
+  transition: transform .15s ease, box-shadow .15s ease;
+  background: #fff;
+}
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.10) !important;
+}
+
+/* ── Page header ──────────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Print ────────────────────────────────────────────────────── */
+@media print {
+  .sidebar, .rums-navbar, .btn, .card-footer, form, .no-print { display: none !important; }
+  .main-content { margin-left: 0 !important; margin-top: 0 !important; width: 100% !important; }
+  .card { box-shadow: none !important; border: 1px solid #dee2e6 !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet portrait (768-991px): narrower sidebar ────────────── */
+@media (min-width: 768px) and (max-width: 991px) {
+  .sidebar { width: var(--sidebar-sm); }
+  .main-content {
+    margin-left: var(--sidebar-sm);
+    width: calc(100% - var(--sidebar-sm));
+  }
+  .sidebar-collapsed .main-content { margin-left: 0; width: 100%; }
+  .kpi-value { font-size: 1.3rem; }
+  .kpi-card  { padding: .85rem 1rem; }
+}
+
+/* ── Mobile (< 768px): overlay sidebar ───────────────────────── */
+@media (max-width: 767.98px) {
+  :root { --content-pad: 1rem; }
+
+  /* Sidebar slides in as overlay */
+  .sidebar {
+    transform: translateX(calc(-1 * var(--sidebar-width)));
+    width: var(--sidebar-width);
+    box-shadow: none;
+  }
+  .sidebar.show {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,.35);
+  }
+
+  /* Content fills full width */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  /* KPI cards: 2 per row on phones */
+  .kpi-value { font-size: 1.1rem; }
+  .kpi-card  { padding: .75rem; }
+  .kpi-icon  { font-size: 1.2rem; }
+
+  /* Navbar compact */
+  .rums-navbar .navbar-brand { font-size: .9rem; }
+
+  /* Reduce chart height on mobile */
+  .chart-container { max-height: 260px; overflow: hidden; }
+
+  /* Tables always scrollable on mobile */
+  .table-responsive { overflow-x: auto !important; }
+
+  /* Stack action buttons on mobile */
+  .btn-toolbar { flex-wrap: wrap; gap: .5rem; }
+
+  /* Modal dialogs full-width on small screens */
+  .modal-dialog { margin: .5rem; }
+  .modal-dialog:not(.modal-dialog-scrollable) { max-width: calc(100% - 1rem); }
+
+  /* Form rows use full width on mobile */
+  .row > [class*="col-"] { margin-bottom: .75rem; }
+
+  /* Page header stacks on mobile */
+  .page-header { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Filter form rows ─────────────────────────────────────────── */
+@media (max-width: 767.98px) {
+  /* Search/filter inputs take full width, buttons stack below */
+  .card-body .row.g-2 > [class*="col-"] { width: 100%; }
+  .card-body .row.g-2 .btn { width: 100%; }
+
+  /* Two filter buttons side-by-side is OK */
+  .card-body .row.g-2 .d-flex .btn { width: auto; }
+
+  /* Stat rows inside cards */
+  .row.text-center > [class*="col-"] { padding: .5rem; }
+}
+
+/* ── Extra-small phones (< 400px) ────────────────────────────── */
+@media (max-width: 399px) {
+  .kpi-value  { font-size: 1rem; }
+  .kpi-label  { font-size: .65rem; }
+  .badge      { font-size: .65rem; }
+  .table      { font-size: .78rem; }
+}

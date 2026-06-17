@@ -1,0 +1,139 @@
+# ============================================================
+# RUMS — Docker Compose
+# Usage:
+#   Development: docker-compose up
+#   Production:  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+# ============================================================
+
+version: "3.9"
+
+services:
+
+  # ── Application (PHP + Nginx) ────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: rums_app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      APP_ENV:       ${APP_ENV:-production}
+      APP_URL:       ${APP_URL:-http://localhost:8080}
+      APP_DEBUG:     ${APP_DEBUG:-false}
+      APP_TIMEZONE:  ${APP_TIMEZONE:-Africa/Nairobi}
+      DB_HOST:       db
+      DB_PORT:       3306
+      DB_NAME:       ${DB_NAME:-rums}
+      DB_USER:       ${DB_USER:-rums_user}
+      DB_PASS:       ${DB_PASS:-secret}
+      SESSION_SECURE: ${SESSION_SECURE:-false}
+      CURRENCY_SYMBOL: ${CURRENCY_SYMBOL:-Ksh}
+      CURRENCY_CODE:   ${CURRENCY_CODE:-KES}
+      MPESA_ENV:       ${MPESA_ENV:-sandbox}
+      MPESA_CONSUMER_KEY:    ${MPESA_CONSUMER_KEY:-}
+      MPESA_CONSUMER_SECRET: ${MPESA_CONSUMER_SECRET:-}
+      MPESA_SHORTCODE:       ${MPESA_SHORTCODE:-174379}
+      MPESA_PASSKEY:         ${MPESA_PASSKEY:-}
+      MPESA_CALLBACK_URL:    ${MPESA_CALLBACK_URL:-}
+      LOG_CHANNEL:   stderr
+    volumes:
+      - uploads_data:/var/www/html/assets/uploads
+      - logs_data:/var/log/rums
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rums_net
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ── MySQL Database ────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: rums_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE:      ${DB_NAME:-rums}
+      MYSQL_USER:          ${DB_USER:-rums_user}
+      MYSQL_PASSWORD:      ${DB_PASS:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-root_secret}
+      TZ:                  ${APP_TIMEZONE:-Africa/Nairobi}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d:ro   # auto-runs *.sql on first start
+    ports:
+      - "${DB_EXPOSE_PORT:-3307}:3306"               # only expose locally for dev tools
+    networks:
+      - rums_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER:-rums_user}", "-p${DB_PASS:-secret}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-authentication-plugin=mysql_native_password
+      --innodb-buffer-pool-size=256M
+      --slow-query-log=1
+      --slow-query-log-file=/var/log/mysql/slow.log
+      --long-query-time=2
+
+  # ── Redis (session / cache / rate-limit) ──────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: rums_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - rums_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # ── phpMyAdmin (development only — remove in production) ──
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: rums_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: ${DB_USER:-rums_user}
+      PMA_PASSWORD: ${DB_PASS:-secret}
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    depends_on:
+      - db
+    networks:
+      - rums_net
+    profiles:
+      - dev                # only starts with: docker-compose --profile dev up
+
+# ── Volumes ───────────────────────────────────────────────────
+volumes:
+  db_data:
+    driver: local
+  uploads_data:
+    driver: local
+  logs_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# ── Networks ──────────────────────────────────────────────────
+networks:
+  rums_net:
+    driver: bridge

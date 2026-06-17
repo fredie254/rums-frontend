@@ -1,0 +1,36 @@
+# ── Environment & Secrets ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
+vendor/
+node_modules/
+
+# ── Logs & Cache ─────────────────────────────────────────────────────────────
+*.log
+logs/
+*.cache
+.php_cs.cache
+.php-cs-fixer.cache
+
+# ── Uploaded / Generated Files ───────────────────────────────────────────────
+storage/uploads/
+storage/documents/
+storage/exports/
+
+# ── OS Files ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE / Editor ─────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Build artifacts ──────────────────────────────────────────────────────────
+*.min.js.map
+*.min.css.map

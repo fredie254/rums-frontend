@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       RUMS – Rental Unit Management System  |  Landing Page  v1.0
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- ── Primary SEO ─────────────────────────────────────────────────────── -->
+  <title>RUMS – Rental Unit Management System | Smart Property Management in Kenya</title>
+  <meta name="description" content="RUMS is a comprehensive rental property management system built for Kenya. Collect rent via M-Pesa STK Push, automate invoicing, manage multiple roles, and track every KES across your portfolio.">
+  <meta name="keywords" content="rental management system, property management Kenya, M-Pesa rent payment, landlord software Kenya, lease management, invoice automation, RUMS, tenant portal Kenya">
+  <meta name="author" content="RUMS Development Team">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rums.example.com/">
+
+  <!-- ── Open Graph ──────────────────────────────────────────────────────── -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rums.example.com/">
+  <meta property="og:title" content="RUMS – Smart Rental Management for Kenya">
+  <meta property="og:description" content="Automate rent collection via M-Pesa STK Push, generate invoices instantly, and manage your entire property portfolio from one intelligent platform.">
+  <meta property="og:image" content="https://rums.example.com/assets/og-image.png">
+  <meta property="og:site_name" content="RUMS Property Management">
+  <meta property="og:locale" content="en_KE">
+
+  <!-- ── Twitter Card ────────────────────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@RUMSKenya">
+  <meta name="twitter:title" content="RUMS – Smart Rental Management for Kenya">
+  <meta name="twitter:description" content="M-Pesa payments · Automated invoicing · Multi-role access · Real-time analytics. The complete rental management solution.">
+  <meta name="twitter:image" content="https://rums.example.com/assets/og-image.png">
+
+  <!-- ── Structured Data ─────────────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RUMS – Rental Unit Management System",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Comprehensive rental property management system for Kenya featuring M-Pesa STK Push payments, automated invoice generation, multi-role access control, and real-time analytics.",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "KES",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
+  <!-- ── Favicon ──────────────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230d6efd'/><text y='24' x='4' font-size='22' font-family='system-ui'>🏢</text></svg>">
+
+  <!-- ── Preconnect ──────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- ── Google Fonts ────────────────────────────────────────────────────── -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ── Bootstrap 5.3.3 ────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <!-- ── Bootstrap Icons 1.11.3 ─────────────────────────────────────────── -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- ── Custom Styles ───────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ANNOUNCEMENT BAR
+════════════════════════════════════════════════════════════════════════ -->
+<div id="announcement-bar" role="banner" aria-label="Product announcement">
+  <div class="container">
+    <div class="announcement-inner">
+      <span class="announcement-text">
+        🚀 RUMS v1.0 is here — M-Pesa STK Push payments, automated invoicing &amp; GDPR compliance. Built for Kenya.
+        <a href="#features" class="announcement-link">See what's new &rarr;</a>
+      </span>
+      <button id="announcement-close" class="announcement-close" aria-label="Dismiss announcement">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+
+      <!-- Brand -->
+      <a href="#hero" class="nav-brand" aria-label="RUMS Home">
+        <div class="brand-icon" aria-hidden="true">
+          <i class="bi bi-building-fill text-white"></i>
+        </div>
+        <span>RUMS</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="d-none d-lg-flex align-items-center gap-1">
+        <a href="#hero"         class="nav-link-custom">Home</a>
+        <a href="#features"     class="nav-link-custom">Features</a>
+        <a href="#how-it-works" class="nav-link-custom">How It Works</a>
+        <a href="#modules"      class="nav-link-custom">Why Us</a>
+        <a href="#pricing"      class="nav-link-custom">Pricing</a>
+        <a href="#faq"          class="nav-link-custom">FAQ</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="#contact-form" class="btn-nav-cta d-none d-md-inline-flex">
+          Request Demo <i class="bi bi-arrow-right"></i>
+        </a>
+        <!-- Mobile hamburger -->
+        <button class="navbar-toggler d-lg-none border-0 p-1" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navMenu"
+                aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list text-white fs-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="collapse" id="navMenu">
+      <div class="d-flex flex-column gap-1 py-3">
+        <a href="#hero"         class="nav-link-custom">Home</a>
+        <a href="#features"     class="nav-link-custom">Features</a>
+        <a href="#how-it-works" class="nav-link-custom">How It Works</a>
+        <a href="#modules"      class="nav-link-custom">Why Us</a>
+        <a href="#pricing"      class="nav-link-custom">Pricing</a>
+        <a href="#faq"          class="nav-link-custom">FAQ</a>
+        <a href="#contact-form" class="btn-nav-cta mt-2 text-center">Request Demo &rarr;</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════════════════════ -->
+<section id="hero" aria-label="Hero">
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="row align-items-center gy-5">
+
+      <!-- Left: Copy -->
+      <div class="col-lg-6">
+        <div class="hero-badge" data-aos="fade-up">
+          <span class="dot" aria-hidden="true"></span>
+          Built for Kenya &middot; M-Pesa Ready &middot; GDPR Compliant
+        </div>
+
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="80">
+          The Smartest Way to Manage Rental Properties in Kenya.
+        </h1>
+
+        <!-- ── Persona switcher ───────────────────────────────────────────── -->
+        <div class="persona-switcher" data-aos="fade-up" data-aos-delay="130"
+             role="group" aria-label="Select your role to see relevant benefits">
+          <span class="persona-label">I am a</span>
+          <button class="persona-btn active" data-persona="manager" aria-pressed="true">Property Manager</button>
+          <button class="persona-btn" data-persona="landlord" aria-pressed="false">Landlord</button>
+          <button class="persona-btn" data-persona="tenant" aria-pressed="false">Tenant</button>
+        </div>
+
+        <p class="hero-subtitle" id="hero-subtitle" data-aos="fade-up" data-aos-delay="160">
+          <span class="persona-text active" data-persona="manager">
+            Automate rent collection, generate invoices on the 1st automatically, and get
+            <strong class="text-white">full portfolio visibility</strong> — all without touching a spreadsheet.
+            Property managers using RUMS cut admin time by <strong class="text-white">over 80%</strong>.
+          </span>
+          <span class="persona-text" data-persona="landlord">
+            See your <strong class="text-white">occupancy rate, net income, and lease expiries</strong> across every
+            property on your phone — every morning in under 60 seconds. No calls to your manager required.
+          </span>
+          <span class="persona-text" data-persona="tenant">
+            Pay rent in <strong class="text-white">under 30 seconds via M-Pesa</strong>, download receipts, raise
+            maintenance requests, and manage your data privacy — all from your phone, 24/7.
+          </span>
+        </p>
+
+        <div class="hero-cta-group" data-aos="fade-up" data-aos-delay="240">
+          <a href="#contact-form" class="btn-hero-primary">
+            Get Started Free <i class="bi bi-arrow-right"></i>
+          </a>
+          <a href="#how-it-works" class="btn-hero-secondary">
+            <i class="bi bi-play-circle-fill"></i> How It Works
+          </a>
+        </div>
+
+        <!-- Business outcome stats pills -->
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="320">
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">⏱️</span>
+            <span>Save 10+ hrs/week</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">⚡</span>
+            <span>Rent in &lt; 60 sec</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">✅</span>
+            <span>Zero missed invoices</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">📱</span>
+            <span>100% M-Pesa Ready</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Dashboard Mockup -->
+      <div class="col-lg-6">
+        <div class="hero-visual" data-aos="zoom-in" data-aos-delay="200">
+          <div class="dashboard-mockup" role="img" aria-label="RUMS admin dashboard preview">
+            <!-- Browser chrome -->
+            <div class="mockup-topbar">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+              <span class="mockup-url">rums.example.com / dashboard</span>
+            </div>
+            <!-- Dashboard body -->
+            <div class="mockup-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <div style="font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em">Admin Dashboard</div>
+                  <div style="font-size:.9rem;font-weight:700;color:#fff">Good morning, Alice</div>
+                </div>
+                <div style="font-size:.65rem;background:rgba(25,135,84,.2);color:#4ade80;border-radius:99px;padding:.2rem .65rem;border:1px solid rgba(25,135,84,.3)">
+                  <i class="bi bi-circle-fill" style="font-size:.4rem;vertical-align:middle"></i> All systems OK
+                </div>
+              </div>
+              <!-- KPI cards -->
+              <div class="mini-kpi-row">
+                <div class="mini-kpi blue">
+                  <div class="val">124</div>
+                  <div class="lbl">Active Units</div>
+                </div>
+                <div class="mini-kpi green">
+                  <div class="val">KES 1.2M</div>
+                  <div class="lbl">Collected</div>
+                </div>
+                <div class="mini-kpi red">
+                  <div class="val">7</div>
+                  <div class="lbl">Overdue</div>
+                </div>
+                <div class="mini-kpi teal">
+                  <div class="val">89%</div>
+                  <div class="lbl">Occupancy</div>
+                </div>
+              </div>
+              <!-- Charts row -->
+              <div class="mini-chart-row">
+                <div class="mini-chart-box">
+                  <div class="chart-title">Monthly Revenue (KES '000)</div>
+                  <div style="height:55px;position:relative">
+                    <canvas id="revenueChart" height="55"></canvas>
+                  </div>
+                </div>
+                <div class="mini-chart-box" style="text-align:center">
+                  <div class="chart-title">Occupancy</div>
+                  <canvas id="occupancyChart" width="64" height="64" style="max-width:64px;margin:0 auto"></canvas>
+                  <div style="font-size:.6rem;color:rgba(255,255,255,.45);margin-top:.3rem">89% Occupied</div>
+                </div>
+              </div>
+              <!-- Recent activity -->
+              <div style="margin-top:.75rem;background:rgba(255,255,255,.04);border-radius:8px;padding:.65rem .85rem">
+                <div style="font-size:.65rem;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em">Recent Activity</div>
+                <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary border-opacity-25">
+                  <span style="font-size:.7rem;color:rgba(255,255,255,.65)"><i class="bi bi-check-circle-fill text-success me-1"></i>M-Pesa · INV-202606-04 · John M.</span>
+                  <span style="font-size:.65rem;background:rgba(25,135,84,.15);color:#4ade80;border-radius:99px;padding:.1rem .5rem">PAID</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-1">
+                  <span style="font-size:.7rem;color:rgba(255,255,255,.65)"><i class="bi bi-wrench-adjustable text-warning me-1"></i>New work order · Unit B-203</span>
+                  <span style="font-size:.65rem;background:rgba(255,193,7,.12);color:#fbbf24;border-radius:99px;padding:.1rem .5rem">OPEN</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating badges -->
+          <div class="hero-badge-float hero-badge-float--green" aria-hidden="true">
+            <i class="bi bi-lightning-fill me-1"></i> STK Push Sent
+          </div>
+          <div class="hero-badge-float hero-badge-float--dark" aria-hidden="true">
+            <i class="bi bi-shield-fill-check text-primary me-1"></i> AES-256-GCM Encrypted
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     TRUST BAR
+════════════════════════════════════════════════════════════════════════ -->
+<div id="trust-bar" role="complementary" aria-label="Trust indicators">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center gap-3 gap-md-0">
+      <div class="trust-item">
+        <i class="bi bi-shield-fill-check" aria-hidden="true"></i>
+        <span>AES-256-GCM Encryption</span>
+      </div>
+      <div class="trust-item">
+        <i class="bi bi-phone-fill" aria-hidden="true"></i>
+        <span>Safaricom Daraja API</span>
+      </div>
+      <div class="trust-item">
+        <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+        <span>GDPR Article 17 &amp; 20</span>
+      </div>
+      <div class="trust-item">
+        <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+        <span>Real-time Analytics</span>
+      </div>
+      <div class="trust-item">
+        <i class="bi bi-lock-fill" aria-hidden="true"></i>
+        <span>TOTP MFA Support</span>
+      </div>
+      <div class="trust-item">
+        <i class="bi bi-file-earmark-text-fill" aria-hidden="true"></i>
+        <span>Audit Trail Logging</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     PAIN POINTS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="pain-points" aria-labelledby="pain-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Sound Familiar?</span>
+      <h2 id="pain-heading" class="section-title mt-2">Still Managing Rent on<br>WhatsApp and Excel?</h2>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="pain-card h-100">
+          <div class="pain-emoji" aria-hidden="true">🗂️</div>
+          <h5>Chasing rent payments every month</h5>
+          <p>Manual follow-ups, cash collection, and no payment trail. You spend the first week of every month texting tenants.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="pain-card h-100">
+          <div class="pain-emoji" aria-hidden="true">📊</div>
+          <h5>No visibility into your portfolio</h5>
+          <p>Which units are vacant? Which tenants are overdue? Which property is most profitable? You just don't know.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="pain-card h-100">
+          <div class="pain-emoji" aria-hidden="true">🔒</div>
+          <h5>Tenant data scattered everywhere</h5>
+          <p>KYC documents in folders, ID copies on email, no secure storage. One data leak and you're legally exposed.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+      <p class="pain-conclusion">RUMS was built specifically to solve these problems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════════════════════════════════ -->
+<section id="features" aria-labelledby="features-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">What RUMS Delivers</span>
+      <h2 id="features-heading" class="section-title mt-2">Everything You Need to<br>Run Your Portfolio</h2>
+      <p class="section-subtitle mt-3">
+        From M-Pesa rent collection to GDPR-compliant data management,
+        RUMS handles every workflow so you can focus on growing your business.
+      </p>
+    </div>
+
+    <!-- Hero feature cards (4 large) -->
+    <div class="row g-4 mb-4">
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-card feature-card--hero h-100">
+          <div class="feature-icon icon-green" aria-hidden="true">
+            <i class="bi bi-phone-fill"></i>
+          </div>
+          <h5>M-Pesa STK Push</h5>
+          <p>Trigger instant M-Pesa payment prompts on tenants' phones. Automatic callback reconciliation updates invoice status to <em>paid</em> in seconds — no manual entry.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-card feature-card--hero h-100">
+          <div class="feature-icon icon-blue" aria-hidden="true">
+            <i class="bi bi-receipt"></i>
+          </div>
+          <h5>Automated Invoicing</h5>
+          <p>Cron-driven monthly invoice generation runs on the 1st of every month. Supports service charges, utilities, prorated periods, and partial payments.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-card feature-card--hero h-100">
+          <div class="feature-icon icon-purple" aria-hidden="true">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h5>Multi-Role Access</h5>
+          <p>Eight distinct roles — Admin, Manager, Landlord, Tenant, Accountant, Maintenance, Auditor, and Security — each with fine-grained scope-based API permissions.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+        <div class="feature-card feature-card--hero h-100">
+          <div class="feature-icon icon-teal" aria-hidden="true">
+            <i class="bi bi-bar-chart-fill"></i>
+          </div>
+          <h5>Real-Time Analytics</h5>
+          <p>Interactive dashboards surface occupancy rates, revenue trends, AR aging, and maintenance KPIs. Scheduled reports email CSV/PDF summaries directly to stakeholders.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smaller feature cards (4) -->
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-card h-100">
+          <div class="feature-icon icon-orange" aria-hidden="true">
+            <i class="bi bi-wrench-adjustable-circle-fill"></i>
+          </div>
+          <h5>Maintenance Tracking</h5>
+          <p>Tenants submit work orders with priority ratings. Maintenance staff receive instant notifications and update status in real time.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-card h-100">
+          <div class="feature-icon icon-indigo" aria-hidden="true">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h5>Bank-Grade Security</h5>
+          <p>AES-256-GCM field encryption, bcrypt passwords (cost 12), TOTP MFA, CSRF protection, CSP headers, rate limiting, and immutable audit logs.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-card h-100">
+          <div class="feature-icon icon-red" aria-hidden="true">
+            <i class="bi bi-file-earmark-person-fill"></i>
+          </div>
+          <h5>GDPR Compliance</h5>
+          <p>Built-in consent management, right to erasure (Art. 17), and data portability (Art. 20). Tenant PII is anonymised on request.</p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+        <div class="feature-card h-100">
+          <div class="feature-icon icon-cyan" aria-hidden="true">
+            <i class="bi bi-bell-fill"></i>
+          </div>
+          <h5>SMS &amp; Email Alerts</h5>
+          <p>Africa's Talking SMS API delivers payment reminders, confirmations, and lease notices. Templated HTML emails via SMTP notify automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FEATURE SPOTLIGHT A — M-Pesa
+════════════════════════════════════════════════════════════════════════ -->
+<section id="spotlight-mpesa" class="spotlight spotlight--dark" aria-labelledby="spotlight-a-heading">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <span class="section-eyebrow">M-Pesa Integration</span>
+        <h2 id="spotlight-a-heading" class="section-title text-white mt-2">Collect Rent in Under 60 Seconds</h2>
+        <p class="spotlight-body">
+          Stop chasing tenants for bank transfers. With RUMS, you trigger an M-Pesa STK Push directly from the dashboard.
+          The tenant's phone prompts them immediately — they enter their PIN and the payment is confirmed in seconds.
+        </p>
+        <ul class="spotlight-checklist">
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> One-click STK Push from tenant invoice page</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Daraja API callback auto-marks invoice as paid</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Receipt SMS sent to tenant instantly on confirmation</li>
+        </ul>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+        <div class="spotlight-card spotlight-card--dark">
+          <div class="spotlight-card-header">
+            <i class="bi bi-phone-fill text-success me-2"></i>
+            <span>M-Pesa Payment Flow</span>
+            <span class="spotlight-live-badge">LIVE</span>
+          </div>
+          <div class="mpesa-flow">
+            <div class="mpesa-step mpesa-step--done">
+              <div class="mpesa-step-num">1</div>
+              <div class="mpesa-step-content">
+                <div class="mpesa-step-title">Tap Pay Now</div>
+                <div class="mpesa-step-desc">Tenant opens invoice &amp; clicks Pay Now button</div>
+              </div>
+              <i class="bi bi-check-circle-fill text-success mpesa-check" aria-hidden="true"></i>
+            </div>
+            <div class="mpesa-connector" aria-hidden="true"></div>
+            <div class="mpesa-step mpesa-step--done">
+              <div class="mpesa-step-num">2</div>
+              <div class="mpesa-step-content">
+                <div class="mpesa-step-title">Enter M-Pesa PIN</div>
+                <div class="mpesa-step-desc">STK Push arrives on phone · PIN entered</div>
+              </div>
+              <i class="bi bi-check-circle-fill text-success mpesa-check" aria-hidden="true"></i>
+            </div>
+            <div class="mpesa-connector" aria-hidden="true"></div>
+            <div class="mpesa-step mpesa-step--active">
+              <div class="mpesa-step-num">3</div>
+              <div class="mpesa-step-content">
+                <div class="mpesa-step-title">Invoice Marked Paid ✓</div>
+                <div class="mpesa-step-desc">Daraja callback · receipt SMS delivered</div>
+              </div>
+              <span class="mpesa-badge-paid">PAID</span>
+            </div>
+          </div>
+          <div class="mpesa-progress-bar">
+            <div class="mpesa-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FEATURE SPOTLIGHT B — Automated Invoicing
+════════════════════════════════════════════════════════════════════════ -->
+<section id="spotlight-invoicing" class="spotlight spotlight--white" aria-labelledby="spotlight-b-heading">
+  <div class="container">
+    <div class="row align-items-center gy-5 flex-lg-row-reverse">
+      <div class="col-lg-6" data-aos="fade-left">
+        <span class="section-eyebrow">Automated Invoicing</span>
+        <h2 id="spotlight-b-heading" class="section-title mt-2">Invoices That Write Themselves</h2>
+        <p class="spotlight-body spotlight-body--light">
+          A cron job fires at 00:05 on the 1st of every month. Every active lease gets an invoice — rent, service
+          charges, utilities — calculated and inserted automatically. Tenants are notified by SMS and email the moment
+          it's ready.
+        </p>
+        <ul class="spotlight-checklist spotlight-checklist--light">
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Zero manual work — runs overnight, every month</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Prorated invoices for mid-month lease starts</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Outstanding balances carried forward automatically</li>
+        </ul>
+      </div>
+      <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+        <div class="spotlight-card spotlight-card--light">
+          <div class="spotlight-card-header spotlight-card-header--light">
+            <i class="bi bi-calendar-check-fill text-primary me-2" aria-hidden="true"></i>
+            <span>Invoice Generation Schedule</span>
+          </div>
+          <div class="invoice-schedule-tag">
+            <i class="bi bi-alarm-fill text-primary me-1" aria-hidden="true"></i>
+            Every 1st of the month at 00:05 &middot; <strong>87 invoices generated automatically</strong>
+          </div>
+          <table class="invoice-mini-table">
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Tenant</th>
+                <th>Amount (KES)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>INV-202606-01</td>
+                <td>J. Mwangi</td>
+                <td>28,500</td>
+                <td><span class="inv-badge inv-badge--sent">Sent</span></td>
+              </tr>
+              <tr>
+                <td>INV-202606-02</td>
+                <td>A. Njoroge</td>
+                <td>18,000</td>
+                <td><span class="inv-badge inv-badge--sent">Sent</span></td>
+              </tr>
+              <tr>
+                <td>INV-202606-03</td>
+                <td>P. Otieno</td>
+                <td>35,000</td>
+                <td><span class="inv-badge inv-badge--sent">Sent</span></td>
+              </tr>
+              <tr class="inv-row-muted">
+                <td colspan="4" style="text-align:center;font-style:italic">+ 84 more invoices</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FEATURE SPOTLIGHT C — Analytics
+════════════════════════════════════════════════════════════════════════ -->
+<section id="spotlight-analytics" class="spotlight spotlight--grey" aria-labelledby="spotlight-c-heading">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <span class="section-eyebrow">Analytics &amp; Reporting</span>
+        <h2 id="spotlight-c-heading" class="section-title mt-2">Your Entire Portfolio at a Glance</h2>
+        <p class="spotlight-body spotlight-body--light">
+          RUMS surfaces every number that matters — occupancy rates, revenue trends, overdue accounts, and maintenance
+          costs — in one live dashboard. Scheduled CSV and PDF reports land in your inbox automatically.
+        </p>
+        <ul class="spotlight-checklist spotlight-checklist--light">
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> AR aging report — know who owes, and by how much</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Revenue by property, unit type, and month</li>
+          <li><i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i> Scheduled CSV/PDF email delivery to stakeholders</li>
+        </ul>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+        <div class="spotlight-card spotlight-card--light">
+          <div class="spotlight-card-header spotlight-card-header--light">
+            <i class="bi bi-bar-chart-fill text-primary me-2" aria-hidden="true"></i>
+            <span>Portfolio Analytics Dashboard</span>
+          </div>
+          <div class="analytics-charts-row">
+            <div class="analytics-chart-box">
+              <div class="analytics-chart-label">Revenue — Last 6 Months (KES '000)</div>
+              <div style="height:90px;position:relative">
+                <canvas id="spotlightBarChart" height="90"></canvas>
+              </div>
+            </div>
+            <div class="analytics-chart-box analytics-chart-box--small">
+              <div class="analytics-chart-label">Occupancy</div>
+              <canvas id="spotlightDoughnutChart" width="72" height="72" style="max-width:72px;margin:0 auto;display:block"></canvas>
+              <div style="text-align:center;font-size:.7rem;color:#64748b;margin-top:.4rem">89% Occupied</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="how-it-works" aria-labelledby="hiw-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Simple Process</span>
+      <h2 id="hiw-heading" class="section-title mt-2">From Onboarding to<br>Rent in 6 Steps</h2>
+      <p class="section-subtitle mt-3">
+        Whether you manage 5 units or 500, RUMS guides every workflow
+        end-to-end with smart automation at each stage.
+      </p>
+    </div>
+
+    <div class="row g-0 steps-row position-relative">
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="0">
+        <div class="step-card h-100">
+          <div class="step-number">1</div>
+          <span class="step-icon" aria-hidden="true">🏢</span>
+          <h5>Add Properties &amp; Units</h5>
+          <p>Register buildings, define unit types, set base rent and payment due dates.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="80">
+        <div class="step-card h-100">
+          <div class="step-number">2</div>
+          <span class="step-icon" aria-hidden="true">👤</span>
+          <h5>Onboard Tenants</h5>
+          <p>Create tenant profiles, upload KYC documents, and generate encrypted portal credentials.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="160">
+        <div class="step-card h-100">
+          <div class="step-number">3</div>
+          <span class="step-icon" aria-hidden="true">📄</span>
+          <h5>Create Leases</h5>
+          <p>Link tenants to units, set lease terms, rent amounts, and auto-renew preferences.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="240">
+        <div class="step-card h-100">
+          <div class="step-number">4</div>
+          <span class="step-icon" aria-hidden="true">🧾</span>
+          <h5>Auto-Generate Invoices</h5>
+          <p>Cron runs on the 1st — invoices land in every tenant portal instantly, no manual work.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="320">
+        <div class="step-card h-100">
+          <div class="step-number">5</div>
+          <span class="step-icon" aria-hidden="true">📱</span>
+          <h5>Collect via M-Pesa</h5>
+          <p>Tenant taps "Pay Now" → STK Push hits their phone → PIN entered → invoice marked paid.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="400">
+        <div class="step-card h-100">
+          <div class="step-number">6</div>
+          <span class="step-icon" aria-hidden="true">📊</span>
+          <h5>Report &amp; Optimise</h5>
+          <p>Dashboards, scheduled CSV/PDF reports, and audit trails keep every stakeholder informed.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="testimonials" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow section-eyebrow--light">Trusted Across Kenya</span>
+      <h2 id="testimonials-heading" class="section-title text-white mt-2">What Property Professionals Say</h2>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="testimonial-card h-100">
+          <div class="testimonial-quote-mark" aria-hidden="true">&ldquo;</div>
+          <p class="testimonial-text">I used to spend the first <strong>5 days of every month</strong> chasing 87 tenants for rent. With RUMS it takes <strong>15 minutes</strong>. Payment follow-up calls dropped by <strong>90%</strong> in the first month.</p>
+          <div class="testimonial-stars" aria-label="5 stars">
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">AM</div>
+            <div>
+              <div class="testimonial-name">Alice M.</div>
+              <div class="testimonial-role">Property Manager</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+        <div class="testimonial-card h-100">
+          <div class="testimonial-quote-mark" aria-hidden="true">&ldquo;</div>
+          <p class="testimonial-text">I used to get a WhatsApp summary from my manager once a month. Now I see <strong>real-time occupancy, net income per property, and leases expiring in 30 days</strong> — every morning on my phone. I caught a vacancy I'd missed for 6 weeks.</p>
+          <div class="testimonial-stars" aria-label="5 stars">
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">JK</div>
+            <div>
+              <div class="testimonial-name">James K.</div>
+              <div class="testimonial-role">Landlord (3 properties)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+        <div class="testimonial-card h-100">
+          <div class="testimonial-quote-mark" aria-hidden="true">&ldquo;</div>
+          <p class="testimonial-text">Month-end reconciliation used to consume <strong>3 full working days</strong>. The CSV bank import with auto-matching by amount ± 3 days cut it to <strong>47 minutes</strong>. I use the saved time on actual accounting work.</p>
+          <div class="testimonial-stars" aria-label="5 stars">
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">DO</div>
+            <div>
+              <div class="testimonial-name">David O.</div>
+              <div class="testimonial-role">Accountant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+        <div class="testimonial-card h-100">
+          <div class="testimonial-quote-mark" aria-hidden="true">&ldquo;</div>
+          <p class="testimonial-text">I used to take half a day off work to queue at the bank every month. Now it takes <strong>28 seconds</strong> — tap Pay Now, enter my M-Pesa PIN, and my receipt SMS arrives before I put my phone down.</p>
+          <div class="testimonial-stars" aria-label="5 stars">
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+            <i class="bi bi-star-fill" aria-hidden="true"></i>
+          </div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">MW</div>
+            <div>
+              <div class="testimonial-name">Mary W.</div>
+              <div class="testimonial-role">Tenant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     INTEGRATIONS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="integrations" aria-labelledby="integrations-heading">
+  <div class="container">
+    <div class="text-center mb-4" data-aos="fade-up">
+      <h2 id="integrations-heading" class="section-title">Powered by Best-in-Class Integrations</h2>
+    </div>
+    <div class="integrations-row" data-aos="fade-up" data-aos-delay="80">
+      <div class="integration-pill">
+        <i class="bi bi-phone-fill text-success" aria-hidden="true"></i>
+        <span>M-Pesa Daraja</span>
+      </div>
+      <div class="integration-pill">
+        <i class="bi bi-chat-dots-fill text-primary" aria-hidden="true"></i>
+        <span>Africa's Talking</span>
+      </div>
+      <div class="integration-pill">
+        <i class="bi bi-bootstrap-fill text-purple" aria-hidden="true"></i>
+        <span>Bootstrap 5.3</span>
+      </div>
+      <div class="integration-pill">
+        <i class="bi bi-bar-chart-fill text-danger" aria-hidden="true"></i>
+        <span>Chart.js 4</span>
+      </div>
+      <div class="integration-pill">
+        <i class="bi bi-lock-fill text-success" aria-hidden="true"></i>
+        <span>Let's Encrypt TLS</span>
+      </div>
+      <div class="integration-pill">
+        <i class="bi bi-database-fill text-orange" aria-hidden="true"></i>
+        <span>MySQL 8.0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     COMPARISON TABLE
+════════════════════════════════════════════════════════════════════════ -->
+<section id="comparison" aria-labelledby="comparison-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Why RUMS?</span>
+      <h2 id="comparison-heading" class="section-title mt-2">RUMS vs. The Old Way</h2>
+    </div>
+
+    <div class="table-responsive" data-aos="fade-up" data-aos-delay="80">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th class="comp-col-feature">Feature</th>
+            <th class="comp-col-old"><i class="bi bi-x-circle-fill text-danger me-2" aria-hidden="true"></i>Spreadsheets &amp; WhatsApp</th>
+            <th class="comp-col-new"><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>RUMS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="comp-feature">Rent collection</td>
+            <td class="comp-old">Manual bank deposits &amp; reminders</td>
+            <td class="comp-new">M-Pesa STK Push, auto-confirmed</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Invoice generation</td>
+            <td class="comp-old">Done manually each month</td>
+            <td class="comp-new">Automated every 1st, zero effort</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Tenant data management</td>
+            <td class="comp-old">Files, email attachments</td>
+            <td class="comp-new">Encrypted, searchable, GDPR-ready</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Payment reconciliation</td>
+            <td class="comp-old">Manual bank statement matching</td>
+            <td class="comp-new">Auto-matched by amount + date</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Overdue tracking</td>
+            <td class="comp-old">You have to remember</td>
+            <td class="comp-new">Auto-marked, SMS reminders sent</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Portfolio visibility</td>
+            <td class="comp-old">Check multiple spreadsheets</td>
+            <td class="comp-new">Live dashboard, always current</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Maintenance tracking</td>
+            <td class="comp-old">WhatsApp threads</td>
+            <td class="comp-new">Work orders with status &amp; cost logs</td>
+          </tr>
+          <tr>
+            <td class="comp-feature">Audit trail</td>
+            <td class="comp-old">No record</td>
+            <td class="comp-new">Every action logged, timestamped</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="roles" aria-labelledby="roles-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Role-Based Access</span>
+      <h2 id="roles-heading" class="section-title mt-2">One Platform,<br>Every Stakeholder</h2>
+      <p class="section-subtitle mt-3" style="color:rgba(255,255,255,.55)">
+        RUMS serves eight distinct roles, each with a tailored interface and
+        scope-limited API access — so everyone sees exactly what they need.
+      </p>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="role-tabs" role="tablist" aria-label="User roles">
+      <button class="role-tab active" data-role="admin" role="tab" aria-selected="true" aria-controls="role-admin">
+        <i class="bi bi-shield-fill-check" aria-hidden="true"></i> Admin
+      </button>
+      <button class="role-tab" data-role="landlord" role="tab" aria-selected="false" aria-controls="role-landlord">
+        <i class="bi bi-house-fill" aria-hidden="true"></i> Landlord
+      </button>
+      <button class="role-tab" data-role="tenant" role="tab" aria-selected="false" aria-controls="role-tenant">
+        <i class="bi bi-person-fill" aria-hidden="true"></i> Tenant
+      </button>
+      <button class="role-tab" data-role="accountant" role="tab" aria-selected="false" aria-controls="role-accountant">
+        <i class="bi bi-calculator-fill" aria-hidden="true"></i> Accountant
+      </button>
+      <button class="role-tab" data-role="maintenance" role="tab" aria-selected="false" aria-controls="role-maintenance">
+        <i class="bi bi-wrench-fill" aria-hidden="true"></i> Maintenance
+      </button>
+      <button class="role-tab" data-role="auditor" role="tab" aria-selected="false" aria-controls="role-auditor">
+        <i class="bi bi-clipboard-data-fill" aria-hidden="true"></i> Auditor
+      </button>
+    </div>
+
+    <!-- Panels -->
+    <div class="role-panel active" id="role-admin" role="tabpanel" aria-label="Admin role features">
+      <div class="role-content">
+        <div>
+          <h3>System Administrator</h3>
+          <p>Full-system control. Admins configure the platform, manage all users, properties, leases, and billing. They can broadcast messages, manage document templates, review the audit trail, and export any data.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Create and manage all properties, units, and tenants</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Manage leases, invoices, and payment records</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Generate and broadcast bulk SMS/email notifications</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View full audit trail with before/after diffs</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Configure message templates and report schedules</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Manage user accounts, roles, and API tokens</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Cancel invoices and reverse erroneous payments</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">37+</div>
+            <div class="metric-lbl">DB Tables Accessible</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">16</div>
+            <div class="metric-lbl">API Scopes Granted</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">Full</div>
+            <div class="metric-lbl">Audit Visibility</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">All</div>
+            <div class="metric-lbl">Reports Access</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="role-landlord" role="tabpanel" aria-label="Landlord role features">
+      <div class="role-content">
+        <div>
+          <h3>Property Landlord</h3>
+          <p>Landlords get a clean read-only portfolio view. They see occupancy rates, monthly income statements, net-of-commission earnings, and unit vacancy alerts — without any operational overhead.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Portfolio dashboard with occupancy &amp; revenue KPIs</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Monthly income statement with commission deducted</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View all properties, units, and current tenants</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Download income statements as PDF</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Receive monthly email digest summaries</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View lease summaries and expiry dates</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">Own</div>
+            <div class="metric-lbl">Properties Only</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">PDF</div>
+            <div class="metric-lbl">Statement Export</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">Read</div>
+            <div class="metric-lbl">Only Access</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">Monthly</div>
+            <div class="metric-lbl">Email Digest</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="role-tenant" role="tabpanel" aria-label="Tenant role features">
+      <div class="role-content">
+        <div>
+          <h3>Tenant Self-Service Portal</h3>
+          <p>Tenants manage everything independently. They view their lease, pay rent via M-Pesa directly from the portal, track invoice history, submit and monitor maintenance requests, and manage their privacy preferences.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Pay rent with one tap via M-Pesa STK Push</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View and download invoices and payment receipts</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Submit maintenance requests with priority &amp; description</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Track work order status in real time</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View lease terms, rent amount, and due dates</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Download personal data (GDPR Art. 20)</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Request account deletion (GDPR Art. 17)</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">1-tap</div>
+            <div class="metric-lbl">M-Pesa Payment</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">24/7</div>
+            <div class="metric-lbl">Portal Access</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">Own</div>
+            <div class="metric-lbl">Data Only</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">GDPR</div>
+            <div class="metric-lbl">Rights Protected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="role-accountant" role="tabpanel" aria-label="Accountant role features">
+      <div class="role-content">
+        <div>
+          <h3>Accountant</h3>
+          <p>Accountants reconcile bank statements, manage payment records, and generate financial reports. The CSV bank import tool auto-matches entries by amount and date, minimising manual work.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Import bank statements via CSV for reconciliation</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Auto-match bank entries to recorded payments</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Record cash, cheque, and bank transfer payments</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> AR aging report &amp; overdue summary</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Export financial reports as CSV</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View full payment history per tenant/unit</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">CSV</div>
+            <div class="metric-lbl">Bank Import</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">Auto</div>
+            <div class="metric-lbl">Reconciliation</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">AR</div>
+            <div class="metric-lbl">Aging Reports</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">Export</div>
+            <div class="metric-lbl">CSV / PDF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="role-maintenance" role="tabpanel" aria-label="Maintenance role features">
+      <div class="role-content">
+        <div>
+          <h3>Maintenance Technician</h3>
+          <p>Maintenance staff are notified instantly when work orders are assigned. They view unit details, tenant contact info, and priority on their mobile browser — then update status and costs as they work.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Receive in-app notifications for new assignments</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> View work order details, unit location, priority</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Update status: Open → In Progress → Completed</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Record materials cost and labour hours</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Mobile-optimised interface for on-site use</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Tenant is notified automatically on completion</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">Instant</div>
+            <div class="metric-lbl">Notifications</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">Mobile</div>
+            <div class="metric-lbl">Optimised UI</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">Cost</div>
+            <div class="metric-lbl">Tracking</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">3-step</div>
+            <div class="metric-lbl">Status Flow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-panel" id="role-auditor" role="tabpanel" aria-label="Auditor role features">
+      <div class="role-content">
+        <div>
+          <h3>External Auditor</h3>
+          <p>Auditors receive read-only access scoped to audit and financial data. They filter the immutable audit trail by date, module, user, and action — with before/after diffs for every data change. All exports include BOM for Excel compatibility.</p>
+          <ul class="role-features">
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Immutable audit trail with before/after JSON diffs</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Filter by date range, module, user, action, IP</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Read-only access — zero write permissions</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Financial reports and AR aging access</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Export audit logs as CSV (Excel-compatible)</li>
+            <li><i class="bi bi-check2" aria-hidden="true"></i> Temporary access token provisioning</li>
+          </ul>
+        </div>
+        <div class="role-visual-grid">
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#4ade80">Read</div>
+            <div class="metric-lbl">Only Scopes</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#60a5fa">Diff</div>
+            <div class="metric-lbl">Before/After</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#f59e0b">BOM</div>
+            <div class="metric-lbl">Excel Export</div>
+          </div>
+          <div class="role-metric-card">
+            <div class="metric-val" style="color:#a78bfa">Temp</div>
+            <div class="metric-lbl">Access Tokens</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     MODULES
+════════════════════════════════════════════════════════════════════════ -->
+<section id="modules" aria-labelledby="modules-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">System Modules</span>
+      <h2 id="modules-heading" class="section-title mt-2">14 Integrated Modules,<br>One Coherent Platform</h2>
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-blue" aria-hidden="true"><i class="bi bi-door-open-fill"></i></div>
+            <h5>Authentication &amp; MFA</h5>
+          </div>
+          <p class="text-muted small mb-0">Bearer token auth with TOTP MFA (RFC 6238). 10-minute challenge TTL, bcrypt cost-12 passwords, brute-force lockout after 5 failed attempts.</p>
+          <div class="module-tags"><span class="module-tag">TOTP</span><span class="module-tag">bcrypt</span><span class="module-tag">Lockout</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="60">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-green" aria-hidden="true"><i class="bi bi-buildings-fill"></i></div>
+            <h5>Property Management</h5>
+          </div>
+          <p class="text-muted small mb-0">Create multi-property portfolios with flexible unit types (bedsitter, 1BR, studio, commercial). Track vacancy, amenities, and per-unit service charges.</p>
+          <div class="module-tags"><span class="module-tag">Multi-property</span><span class="module-tag">Unit types</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="120">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-purple" aria-hidden="true"><i class="bi bi-person-vcard-fill"></i></div>
+            <h5>Tenant Management</h5>
+          </div>
+          <p class="text-muted small mb-0">Encrypted PII storage, KYC document uploads, SHA-256 ID hash for uniqueness checks, national ID and phone validation.</p>
+          <div class="module-tags"><span class="module-tag">AES-256-GCM</span><span class="module-tag">KYC</span><span class="module-tag">PII</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-teal" aria-hidden="true"><i class="bi bi-file-text-fill"></i></div>
+            <h5>Lease Management</h5>
+          </div>
+          <p class="text-muted small mb-0">Full lease lifecycle — draft, active, expired, terminated. Auto-lease numbering, prorated invoices on mid-month start, 60/30/7-day expiry reminders.</p>
+          <div class="module-tags"><span class="module-tag">Prorated</span><span class="module-tag">Auto-renew</span><span class="module-tag">Reminders</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="60">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-orange" aria-hidden="true"><i class="bi bi-receipt-cutoff"></i></div>
+            <h5>Invoice &amp; Billing</h5>
+          </div>
+          <p class="text-muted small mb-0">Cron-generated monthly invoices with line items (rent, service charges, utilities). Partial payment tracking, overdue marking, and balance carry-forward.</p>
+          <div class="module-tags"><span class="module-tag">Cron</span><span class="module-tag">Partial pay</span><span class="module-tag">Overdue</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="120">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-green" aria-hidden="true"><i class="bi bi-cash-stack"></i></div>
+            <h5>Payments</h5>
+          </div>
+          <p class="text-muted small mb-0">M-Pesa STK Push, cash, cheque, bank transfer, and card. Idempotent callback handling, instant receipt generation, and payment reversal with audit log.</p>
+          <div class="module-tags"><span class="module-tag">M-Pesa</span><span class="module-tag">Multi-method</span><span class="module-tag">Idempotent</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-red" aria-hidden="true"><i class="bi bi-tools"></i></div>
+            <h5>Maintenance</h5>
+          </div>
+          <p class="text-muted small mb-0">Work order lifecycle: Open → In Progress → Completed → Resolved. Priority tiers (Urgent/High/Medium/Low), cost recording, and tenant sign-off.</p>
+          <div class="module-tags"><span class="module-tag">Work orders</span><span class="module-tag">Cost tracking</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="60">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-indigo" aria-hidden="true"><i class="bi bi-folder-fill"></i></div>
+            <h5>Document Management</h5>
+          </div>
+          <p class="text-muted small mb-0">Role-scoped document repository for lease agreements, KYC files, and notices. Access-log auditing per download, expiry date tracking.</p>
+          <div class="module-tags"><span class="module-tag">Access logs</span><span class="module-tag">Expiry</span><span class="module-tag">Scoped</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="120">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-cyan" aria-hidden="true"><i class="bi bi-bar-chart-steps"></i></div>
+            <h5>Reports &amp; Analytics</h5>
+          </div>
+          <p class="text-muted small mb-0">Occupancy analysis, AR aging, revenue by property, maintenance cost breakdown, and audit activity reports. Scheduled CSV/PDF delivery via email.</p>
+          <div class="module-tags"><span class="module-tag">Occupancy</span><span class="module-tag">AR Aging</span><span class="module-tag">Scheduled</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-blue" aria-hidden="true"><i class="bi bi-chat-dots-fill"></i></div>
+            <h5>Communications</h5>
+          </div>
+          <p class="text-muted small mb-0">Templated SMS via Africa's Talking and HTML emails via SMTP. Broadcast to all tenants, per-property, or individual. Delivery status logged.</p>
+          <div class="module-tags"><span class="module-tag">Africa's Talking</span><span class="module-tag">SMTP</span><span class="module-tag">Broadcast</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="60">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-purple" aria-hidden="true"><i class="bi bi-bank2"></i></div>
+            <h5>Bank Reconciliation</h5>
+          </div>
+          <p class="text-muted small mb-0">CSV bank statement import with BOM/CRLF handling, auto-matching by amount ± 3 days, manual matching workflow, and full reconciliation audit trail.</p>
+          <div class="module-tags"><span class="module-tag">CSV Import</span><span class="module-tag">Auto-match</span><span class="module-tag">±3 days</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="120">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-red" aria-hidden="true"><i class="bi bi-person-fill-lock"></i></div>
+            <h5>GDPR &amp; Privacy</h5>
+          </div>
+          <p class="text-muted small mb-0">Consent tracking, data export (Art. 20), right to erasure with anonymisation (Art. 17), configurable retention periods, and deletion request workflow.</p>
+          <div class="module-tags"><span class="module-tag">Art. 17</span><span class="module-tag">Art. 20</span><span class="module-tag">Consent</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-orange" aria-hidden="true"><i class="bi bi-activity"></i></div>
+            <h5>Audit Trail</h5>
+          </div>
+          <p class="text-muted small mb-0">Append-only log of every CREATE, UPDATE, DELETE, LOGIN, and LOGOUT event. Stores before/after JSON snapshots, IP address, user agent, and role.</p>
+          <div class="module-tags"><span class="module-tag">Append-only</span><span class="module-tag">JSON diff</span><span class="module-tag">IP logging</span></div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="60">
+        <div class="module-card h-100">
+          <div class="module-header">
+            <div class="module-icon icon-teal" aria-hidden="true"><i class="bi bi-shield-fill-exclamation"></i></div>
+            <h5>Security Dashboard</h5>
+          </div>
+          <p class="text-muted small mb-0">Active session management, rate-limit monitoring, failed login tracking, MFA device management, and API token revocation for the security role.</p>
+          <div class="module-tags"><span class="module-tag">Sessions</span><span class="module-tag">Rate limits</span><span class="module-tag">Token mgmt</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECURITY
+════════════════════════════════════════════════════════════════════════ -->
+<section id="security" aria-labelledby="security-heading">
+  <div class="container position-relative">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Enterprise Security</span>
+      <h2 id="security-heading" class="section-title mt-2">Built Secure from<br>the Ground Up</h2>
+      <p class="section-subtitle mt-3" style="color:rgba(255,255,255,.5)">
+        Security is not a feature layer — it is baked into every API endpoint,
+        every database column, and every HTTP response header.
+      </p>
+    </div>
+
+    <div class="security-grid">
+      <div class="security-item" data-aos="fade-up" data-aos-delay="0">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-key-fill"></i></div>
+        <div>
+          <h6>AES-256-GCM Field Encryption</h6>
+          <p>PII fields (name, phone, email, ID number) are encrypted at rest with a per-record nonce. The <code style="font-size:.7rem;color:#93c5fd">enc1:</code> prefix format allows transparent field migration.</p>
+        </div>
+      </div>
+
+      <div class="security-item" data-aos="fade-up" data-aos-delay="60">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-phone-vibrate-fill"></i></div>
+        <div>
+          <h6>TOTP Multi-Factor Authentication</h6>
+          <p>RFC 6238 TOTP with HMAC-SHA1, 30-second period, 6-digit codes. Compatible with Google Authenticator and Authy. 10-minute MFA challenge TTL with automatic cleanup.</p>
+        </div>
+      </div>
+
+      <div class="security-item" data-aos="fade-up" data-aos-delay="120">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-shield-fill-check"></i></div>
+        <div>
+          <h6>CSRF &amp; Security Headers</h6>
+          <p>Synchronised token CSRF pattern with <code style="font-size:.7rem;color:#93c5fd">hash_equals()</code>. Full security header suite: HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy.</p>
+        </div>
+      </div>
+
+      <div class="security-item" data-aos="fade-up" data-aos-delay="180">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-speedometer2"></i></div>
+        <div>
+          <h6>Rate Limiting</h6>
+          <p>120 requests per minute per IP/token enforced at the API middleware layer. Sliding window stored in <code style="font-size:.7rem;color:#93c5fd">api_rate_limits</code> table with <code style="font-size:.7rem;color:#93c5fd">Retry-After</code> response headers.</p>
+        </div>
+      </div>
+
+      <div class="security-item" data-aos="fade-up" data-aos-delay="240">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-database-fill-lock"></i></div>
+        <div>
+          <h6>SQL Injection Prevention</h6>
+          <p>100% PDO prepared statements with bound parameters throughout. No dynamic SQL construction. Input validation at every API boundary before any database interaction.</p>
+        </div>
+      </div>
+
+      <div class="security-item" data-aos="fade-up" data-aos-delay="300">
+        <div class="sec-icon" aria-hidden="true"><i class="bi bi-file-earmark-lock2-fill"></i></div>
+        <div>
+          <h6>Immutable Audit Logs</h6>
+          <p>Append-only <code style="font-size:.7rem;color:#93c5fd">audit_logs</code> table with no UPDATE or DELETE grants for the application user. Every data change recorded with before/after JSON snapshots.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     STATS (Business outcomes)
+════════════════════════════════════════════════════════════════════════ -->
+<section id="stats" aria-labelledby="stats-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">By the Numbers</span>
+      <h2 id="stats-heading" class="section-title mt-2">Real Results for<br>Property Professionals</h2>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="0">
+        <span class="stat-value">10+&nbsp;hrs</span>
+        <span class="stat-desc">Admin saved per week</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="60">
+        <span class="stat-value">&lt;&nbsp;60&nbsp;sec</span>
+        <span class="stat-desc">M-Pesa collection</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="120">
+        <span class="stat-value">Zero</span>
+        <span class="stat-desc">Missed invoices</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="180">
+        <span class="stat-value">89%</span>
+        <span class="stat-desc">Avg occupancy</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="240">
+        <span class="stat-value">8&nbsp;roles</span>
+        <span class="stat-desc">Stakeholders served</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+        <span class="stat-value">AES-256</span>
+        <span class="stat-desc">Encryption standard</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="360">
+        <span class="stat-value">100%</span>
+        <span class="stat-desc">GDPR compliant</span>
+      </div>
+      <div class="stat-card" data-aos="zoom-in" data-aos-delay="420">
+        <span class="stat-value">24/7</span>
+        <span class="stat-desc">System uptime</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════════════════════════════════ -->
+<section id="pricing" aria-labelledby="pricing-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Pricing</span>
+      <h2 id="pricing-heading" class="section-title mt-2">Simple, Transparent Pricing</h2>
+      <p class="section-subtitle mt-3">No hidden fees. Cancel anytime. All plans include M-Pesa integration.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+      <!-- Starter -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="pricing-card h-100">
+          <div class="pricing-plan-label">Starter</div>
+          <div class="pricing-capacity">Up to 20 Units</div>
+          <div class="pricing-amount">
+            <span class="pricing-currency">KES</span>
+            <span class="pricing-number">4,999</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <ul class="pricing-features">
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Up to 20 units</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> M-Pesa STK Push</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Automated monthly invoicing</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Tenant self-service portal</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> SMS notifications (Africa's Talking)</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Email support</li>
+          </ul>
+          <a href="#contact-form" class="pricing-cta pricing-cta--outline">Get Started</a>
+        </div>
+      </div>
+
+      <!-- Professional (highlighted) -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="pricing-card pricing-card--featured h-100">
+          <div class="pricing-popular-badge">Most Popular</div>
+          <div class="pricing-plan-label">Professional</div>
+          <div class="pricing-capacity">Up to 100 Units</div>
+          <div class="pricing-amount">
+            <span class="pricing-currency">KES</span>
+            <span class="pricing-number">14,999</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <ul class="pricing-features">
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Up to 100 units</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Everything in Starter</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Multi-landlord support</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Bank statement CSV reconciliation</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Advanced analytics &amp; reports</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> GDPR compliance module</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Maintenance work orders</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> TOTP MFA for all users</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Priority support</li>
+          </ul>
+          <a href="#contact-form" class="pricing-cta pricing-cta--primary">Get Started</a>
+        </div>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="160">
+        <div class="pricing-card h-100">
+          <div class="pricing-plan-label">Enterprise</div>
+          <div class="pricing-capacity">Unlimited Units</div>
+          <div class="pricing-amount pricing-amount--custom">
+            <span class="pricing-number pricing-number--custom">Custom Pricing</span>
+          </div>
+          <ul class="pricing-features">
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Unlimited units &amp; properties</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Everything in Professional</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> On-premises deployment option</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Custom API integrations</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> Dedicated onboarding manager</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> SLA &amp; uptime guarantee</li>
+            <li><i class="bi bi-check2-circle text-success" aria-hidden="true"></i> 24/7 phone support</li>
+          </ul>
+          <a href="#contact-form" class="pricing-cta pricing-cta--outline">Contact Us</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════════════════════════════════ -->
+<section id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Common Questions</span>
+      <h2 id="faq-heading" class="section-title mt-2">Frequently Asked<br>Questions</h2>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="80">
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Does RUMS work with Safaricom M-Pesa in Kenya?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes — RUMS is natively integrated with Safaricom's <strong>Daraja API</strong> using the C2B STK Push flow. When a tenant clicks "Pay Now", an M-Pesa payment prompt is sent directly to their phone. Once they enter their PIN, Safaricom calls your secure callback endpoint and RUMS automatically marks the invoice as paid. The system supports both Sandbox (for testing) and Production environments.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What happens if M-Pesa STK Push fails?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              If the STK Push times out or is cancelled, RUMS captures the failure reason from the Daraja callback (<code>ResultCode</code>), logs it in the <code>mpesa_transactions</code> table, and notifies the tenant by SMS. The tenant can retry payment immediately. Common failure codes (<code>1032</code> = cancelled, <code>1037</code> = timeout) are handled gracefully with specific user messages.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Is tenant personal data kept secure and private?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Absolutely. All PII (names, phone numbers, email addresses, ID numbers) is encrypted at rest using <strong>AES-256-GCM</strong> with a per-record nonce. Passwords use bcrypt with cost factor 12. RUMS also implements full GDPR compliance — tenants can download all their data (Art. 20) or request permanent deletion/anonymisation (Art. 17) directly from their portal.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            How does the automated invoice generation work?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              A cron job runs at 00:05 on the 1st of every month. It queries all active leases, calculates rent + service charges + utilities for each tenant, and inserts invoices into the <code>invoices</code> table. Tenants receive an SMS and email notification the moment their invoice is generated. Partial payments, outstanding balances, and prorated amounts for mid-month lease starts are all handled automatically.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can multiple landlords share one RUMS installation?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes. RUMS is multi-landlord by design. Each landlord is assigned a user account and can only see properties they own. Admins and Managers have cross-portfolio visibility. Row-level security in the API middleware ensures that landlord-scoped API tokens only return data for their assigned properties, even on shared endpoints.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What server requirements does RUMS need?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              RUMS runs on any standard Linux server with <strong>PHP 8.1+</strong>, <strong>MySQL 8.0+</strong>, and Apache or Nginx. Minimum specs for a single-server deployment: 2 vCPU, 4 GB RAM, 20 GB SSD. For the M-Pesa callback endpoint, a public HTTPS domain is required (Let's Encrypt works perfectly). There is no cloud provider lock-in — deploy on-premises, on a VPS, or on any cloud.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Does RUMS support Multi-Factor Authentication for all users?
+            <span class="faq-icon" aria-hidden="true"><i class="bi bi-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes. RUMS implements <strong>TOTP MFA</strong> compliant with RFC 6238 (the same standard used by Google Authenticator and Authy). Users can enrol via a QR code in Account Settings, with 8 one-time backup codes generated at setup. MFA can be made mandatory for admin and manager roles. The 10-minute MFA challenge token uses a secure pending_token table with automatic cleanup via cron.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     CONTACT / DEMO FORM
+════════════════════════════════════════════════════════════════════════ -->
+<section id="contact-form" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="row gy-5 align-items-start">
+
+      <!-- Left: Form -->
+      <div class="col-lg-7" data-aos="fade-right">
+        <span class="section-eyebrow section-eyebrow--light">Book a Demo</span>
+        <h2 id="contact-heading" class="section-title text-white mt-2">See RUMS in Action</h2>
+        <p class="contact-sub">Book a free demo with our team and see how RUMS can transform your property management.</p>
+
+        <form id="demo-form" class="demo-form needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="demo-name" class="form-label demo-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" id="demo-name" name="name" class="form-control demo-input" placeholder="Alice Njoroge" required>
+              <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="demo-email" class="form-label demo-label">Email Address <span class="text-danger">*</span></label>
+              <input type="email" id="demo-email" name="email" class="form-control demo-input" placeholder="alice@example.co.ke" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="demo-phone" class="form-label demo-label">Phone Number <span class="text-danger">*</span></label>
+              <input type="tel" id="demo-phone" name="phone" class="form-control demo-input" placeholder="+254 7XX XXX XXX" required>
+              <div class="invalid-feedback">Please enter your phone number.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="demo-portfolio" class="form-label demo-label">Property Portfolio Size <span class="text-danger">*</span></label>
+              <select id="demo-portfolio" name="portfolio" class="form-select demo-input" required>
+                <option value="" disabled selected>Select range&hellip;</option>
+                <option value="1-10">1 – 10 units</option>
+                <option value="11-50">11 – 50 units</option>
+                <option value="51-100">51 – 100 units</option>
+                <option value="100+">100+ units</option>
+              </select>
+              <div class="invalid-feedback">Please select your portfolio size.</div>
+            </div>
+            <div class="col-12">
+              <label for="demo-message" class="form-label demo-label">Message <span class="text-muted demo-optional">(optional)</span></label>
+              <textarea id="demo-message" name="message" class="form-control demo-input" rows="4" placeholder="Tell us about your current setup or any specific challenges you'd like to discuss..."></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn-demo-submit">
+                Request Free Demo <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Success message (hidden initially) -->
+        <div id="demo-success" class="demo-success" role="alert" aria-live="polite" hidden>
+          <i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
+          Thanks! We'll be in touch within 24 hours.
+        </div>
+      </div>
+
+      <!-- Right: Why demo bullets -->
+      <div class="col-lg-5" data-aos="fade-left" data-aos-delay="100">
+        <div class="contact-why">
+          <h4 class="contact-why-title">Why Book a Demo?</h4>
+          <ul class="contact-why-list">
+            <li>
+              <div class="contact-why-icon" aria-hidden="true"><i class="bi bi-camera-video-fill"></i></div>
+              <div>
+                <strong>Live walkthrough</strong>
+                <p>See every feature in action — from M-Pesa STK Push to the audit trail — tailored to your portfolio size.</p>
+              </div>
+            </li>
+            <li>
+              <div class="contact-why-icon" aria-hidden="true"><i class="bi bi-chat-square-dots-fill"></i></div>
+              <div>
+                <strong>Ask any question</strong>
+                <p>Our team knows the product inside out. No sales scripts — just honest answers to your specific questions.</p>
+              </div>
+            </li>
+            <li>
+              <div class="contact-why-icon" aria-hidden="true"><i class="bi bi-gear-wide-connected"></i></div>
+              <div>
+                <strong>Custom setup plan</strong>
+                <p>We'll recommend the right plan and walk you through what onboarding would look like for your properties.</p>
+              </div>
+            </li>
+            <li>
+              <div class="contact-why-icon" aria-hidden="true"><i class="bi bi-calendar2-check-fill"></i></div>
+              <div>
+                <strong>No commitment required</strong>
+                <p>A demo is free with zero obligation. We're confident you'll see the value — so we're happy to show you first.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════════════════ -->
+<footer id="footer" role="contentinfo">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Brand col -->
+      <div class="col-lg-4">
+        <a href="#hero" class="footer-brand" aria-label="RUMS Home">
+          <div class="footer-brand-icon" aria-hidden="true">
+            <i class="bi bi-building-fill"></i>
+          </div>
+          <span>RUMS</span>
+        </a>
+        <p class="footer-desc">
+          Rental Unit Management System — a comprehensive, secure, and GDPR-compliant
+          property management platform built for the Kenyan market.
+        </p>
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <div class="footer-badge">PHP 8.1+</div>
+          <div class="footer-badge">MySQL 8</div>
+          <div class="footer-badge">Bootstrap 5</div>
+        </div>
+      </div>
+
+      <!-- Features col -->
+      <div class="col-sm-6 col-lg-2">
+        <div class="footer-heading">Features</div>
+        <a href="#features" class="footer-link">M-Pesa Payments</a>
+        <a href="#features" class="footer-link">Auto Invoicing</a>
+        <a href="#features" class="footer-link">Multi-Role Access</a>
+        <a href="#features" class="footer-link">Maintenance</a>
+        <a href="#features" class="footer-link">Analytics</a>
+        <a href="#features" class="footer-link">GDPR Compliance</a>
+      </div>
+
+      <!-- Platform col -->
+      <div class="col-sm-6 col-lg-2">
+        <div class="footer-heading">Platform</div>
+        <a href="#how-it-works" class="footer-link">How It Works</a>
+        <a href="#roles" class="footer-link">User Roles</a>
+        <a href="#modules" class="footer-link">Modules</a>
+        <a href="#security" class="footer-link">Security</a>
+        <a href="#pricing" class="footer-link">Pricing</a>
+        <a href="#faq" class="footer-link">FAQ</a>
+      </div>
+
+      <!-- Modules col -->
+      <div class="col-sm-6 col-lg-2">
+        <div class="footer-heading">Modules</div>
+        <a href="#modules" class="footer-link">Authentication</a>
+        <a href="#modules" class="footer-link">Lease Management</a>
+        <a href="#modules" class="footer-link">Bank Reconciliation</a>
+        <a href="#modules" class="footer-link">Document Store</a>
+        <a href="#modules" class="footer-link">Audit Trail</a>
+        <a href="#modules" class="footer-link">Reports</a>
+      </div>
+
+      <!-- Integrations col -->
+      <div class="col-sm-6 col-lg-2">
+        <div class="footer-heading">Integrations</div>
+        <a href="#integrations" class="footer-link">Safaricom Daraja</a>
+        <a href="#integrations" class="footer-link">Africa's Talking</a>
+        <a href="#integrations" class="footer-link">SMTP Email</a>
+        <a href="#integrations" class="footer-link">Chart.js 4</a>
+        <a href="#integrations" class="footer-link">Bootstrap Icons</a>
+      </div>
+
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 RUMS &mdash; Rental Unit Management System &middot; v1.0.0</div>
+      <div class="footer-badges">
+        <div class="footer-badge"><i class="bi bi-shield-fill-check" aria-hidden="true"></i> AES-256-GCM</div>
+        <div class="footer-badge"><i class="bi bi-person-fill-lock" aria-hidden="true"></i> GDPR</div>
+        <div class="footer-badge"><i class="bi bi-phone-fill" aria-hidden="true"></i> M-Pesa Ready</div>
+        <div class="footer-badge">Built for Kenya</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Scripts ──────────────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
