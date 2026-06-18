@@ -46,8 +46,8 @@ define('ALLOWED_IMAGE_TYPES',  ['image/jpeg','image/png','image/webp','image/gif
 define('ROWS_PER_PAGE', 20);
 
 // ── Currency ──────────────────────────────────────────────────
-define('CURRENCY_SYMBOL', env('CURRENCY_SYMBOL', 'Ksh'));
-define('CURRENCY_CODE',   env('CURRENCY_CODE',   'KES'));
+if (!defined('CURRENCY_SYMBOL')) define('CURRENCY_SYMBOL', env('CURRENCY_SYMBOL', 'Ksh'));
+if (!defined('CURRENCY_CODE'))   define('CURRENCY_CODE',   env('CURRENCY_CODE',   'KES'));
 
 // ── API ───────────────────────────────────────────────────────
 define('API_RATE_LIMIT',  (int)env('API_RATE_LIMIT',  120));
