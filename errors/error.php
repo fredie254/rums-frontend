@@ -291,14 +291,14 @@ $iconBg  = "rgba($r,$g,$b,.12)";
 
         <!-- Action buttons -->
         <div class="actions">
-            <a href="<?= $homeUrl ?>" class="btn-primary-action">
-                <i class="bi bi-speedometer2"></i>
-                Go to Dashboard
-            </a>
-            <button class="btn-secondary-action" onclick="history.length > 1 ? history.back() : window.location.href='<?= $homeUrl ?>'">
+            <button class="btn-primary-action" onclick="history.length > 1 ? history.back() : window.location.href='<?= $homeUrl ?>'">
                 <i class="bi bi-arrow-left"></i>
                 Go Back
             </button>
+            <a href="<?= $homeUrl ?>" class="btn-secondary-action">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
         </div>
 
         <!-- Reference -->

@@ -41,9 +41,14 @@ $staff = [];
 if (is_manager()) {
     $a_res = $api->get('users', ['role' => 'admin',   'status' => 'active', 'per_page' => 200]);
     $m_res = $api->get('users', ['role' => 'manager', 'status' => 'active', 'per_page' => 200]);
-    $staff = array_merge($a_res['data'] ?? [], $m_res['data'] ?? []);
+    $mnt_res = $api->get('users', ['role' => 'maintenance', 'status' => 'active', 'per_page' => 200]);
+    $staff = array_merge($a_res['data'] ?? [], $m_res['data'] ?? [], $mnt_res['data'] ?? []);
     usort($staff, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
 }
+
+// Activity log
+$logs_res = $api->get("maintenance/$id/logs");
+$logs     = $logs_res['data'] ?? [];
 
 $page_title = 'Maintenance Request';
 include BASE_PATH . '/includes/header.php';
@@ -85,9 +90,9 @@ include BASE_PATH . '/includes/header.php';
         </div>
         <?php endif; ?>
     </div>
-    <?php if (is_manager()): ?>
     <div class="col-md-8">
-        <div class="card shadow-sm">
+        <?php if (is_manager()): ?>
+        <div class="card shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold"><i class="bi bi-pencil-square me-1 text-warning"></i>Update Request</div>
             <div class="card-body">
                 <form method="POST">
@@ -96,7 +101,7 @@ include BASE_PATH . '/includes/header.php';
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">Status</label>
                             <select name="status" class="form-select">
-                                <?php foreach (['open','assigned','in_progress','completed','closed','cancelled'] as $s): ?>
+                                <?php foreach (['open','in_progress','completed','resolved','cancelled'] as $s): ?>
                                 <option value="<?= $s ?>" <?= ($req['status'] ?? '')===$s?'selected':'' ?>><?= ucfirst(str_replace('_',' ',$s)) ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -117,7 +122,69 @@ include BASE_PATH . '/includes/header.php';
                 </form>
             </div>
         </div>
+        <?php endif; ?>
+
+        <!-- ── Activity Log Timeline ── -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold d-flex align-items-center">
+                <i class="bi bi-clock-history me-2 text-primary"></i>Activity Log
+                <span class="badge bg-primary-subtle text-primary ms-auto"><?= count($logs) ?></span>
+            </div>
+            <?php if ($logs): ?>
+            <div class="card-body p-0">
+                <ul class="list-unstyled mb-0 activity-timeline">
+                <?php
+                $actionMeta = [
+                    'created'        => ['icon' => 'bi-plus-circle-fill',  'color' => 'success'],
+                    'status_changed' => ['icon' => 'bi-arrow-repeat',       'color' => 'primary'],
+                    'assigned'       => ['icon' => 'bi-person-check-fill',  'color' => 'info'],
+                    'note_added'     => ['icon' => 'bi-chat-left-text-fill','color' => 'secondary'],
+                    'completed'      => ['icon' => 'bi-check-circle-fill',  'color' => 'success'],
+                    'priority_changed'=> ['icon'=> 'bi-exclamation-circle-fill','color'=> 'warning'],
+                ];
+                foreach ($logs as $i => $log):
+                    $meta  = $actionMeta[$log['action']] ?? ['icon' => 'bi-dot', 'color' => 'secondary'];
+                    $label = ucwords(str_replace('_', ' ', $log['action']));
+                    $isLast= $i === count($logs) - 1;
+                ?>
+                <li class="d-flex gap-3 px-3 py-3 <?= !$isLast ? 'border-bottom' : '' ?>">
+                    <div class="flex-shrink-0 d-flex flex-column align-items-center" style="width:28px">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-<?= $meta['color'] ?>-subtle" style="width:28px;height:28px">
+                            <i class="bi <?= $meta['icon'] ?> text-<?= $meta['color'] ?>" style="font-size:.8rem"></i>
+                        </div>
+                        <?php if (!$isLast): ?><div class="flex-grow-1 border-start border-2 border-light mt-1" style="min-height:12px"></div><?php endif; ?>
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="d-flex align-items-baseline gap-2 flex-wrap">
+                            <span class="fw-semibold small"><?= e($label) ?></span>
+                            <?php if (!empty($log['from_value']) || !empty($log['to_value'])): ?>
+                            <span class="small text-muted">
+                                <?php if ($log['from_value']): ?><span class="badge bg-secondary-subtle text-secondary"><?= e($log['from_value']) ?></span><?php endif; ?>
+                                <?php if ($log['from_value'] && $log['to_value']): ?><i class="bi bi-arrow-right small mx-1"></i><?php endif; ?>
+                                <?php if ($log['to_value']): ?><span class="badge bg-primary-subtle text-primary"><?= e($log['to_value']) ?></span><?php endif; ?>
+                            </span>
+                            <?php endif; ?>
+                        </div>
+                        <?php if (!empty($log['note'])): ?>
+                        <div class="small text-muted mt-1"><?= e($log['note']) ?></div>
+                        <?php endif; ?>
+                        <div class="small text-muted mt-1">
+                            <i class="bi bi-person me-1"></i><?= e($log['user_name'] ?? $log['actor_name'] ?? 'System') ?>
+                            <span class="mx-1">·</span>
+                            <i class="bi bi-clock me-1"></i><?= fmt_date($log['created_at'], 'd M Y, H:i') ?>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php else: ?>
+            <div class="card-body text-center text-muted py-4">
+                <i class="bi bi-clock-history d-block fs-3 mb-2 opacity-25"></i>
+                <small>No activity recorded yet.</small>
+            </div>
+            <?php endif; ?>
+        </div>
     </div>
-    <?php endif; ?>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

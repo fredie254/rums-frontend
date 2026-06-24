@@ -81,3 +81,34 @@ if (session_status() === PHP_SESSION_NONE && PHP_SAPI !== 'cli') {
 require_once BASE_PATH . '/includes/ApiClient.php';
 require_once BASE_PATH . '/includes/functions.php';
 require_once BASE_PATH . '/includes/auth.php';
+
+// ── PHP-level error handling (catches fatal errors & exceptions) ──
+// Complements the .htaccess ErrorDocument directives for Apache;
+// ensures errors are caught on nginx / PHP-FPM too.
+if (APP_ENV !== 'development') {
+    ini_set('display_errors', '0');
+    error_reporting(E_ALL);
+
+    set_exception_handler(function (Throwable $e) {
+        if (!headers_sent()) http_response_code(500);
+        ob_get_level() && ob_end_clean();
+        $_GET['code'] = 500;
+        include BASE_PATH . '/errors/error.php';
+        exit;
+    });
+
+    set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
+        if (!($errno & error_reporting())) return false;
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }, E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+
+    register_shutdown_function(function () {
+        $e = error_get_last();
+        if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+            if (!headers_sent()) http_response_code(500);
+            ob_get_level() && ob_end_clean();
+            $_GET['code'] = 500;
+            include BASE_PATH . '/errors/error.php';
+        }
+    });
+}
