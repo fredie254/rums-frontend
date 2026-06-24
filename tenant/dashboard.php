@@ -34,6 +34,7 @@ $payments = $pay_res['data'] ?? [];
 $maint_res      = $api->get('maintenance', ['per_page' => 6]);
 $maints         = $maint_res['data'] ?? [];
 $needs_approval = array_filter($maints, fn($m) => ($m['status'] ?? '') === 'completed');
+$open_maint     = array_filter($maints, fn($m) => !in_array($m['status'] ?? '', ['completed', 'resolved', 'cancelled', 'closed'], true));
 
 $page_title = 'My Dashboard';
 include BASE_PATH . '/includes/header.php';
