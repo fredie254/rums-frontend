@@ -33,7 +33,7 @@ $all_users  = $inactive_users_res['data'] ?? [];
 $cutoff     = (new DateTime())->modify('-90 days');
 $inactive_users = array_filter($all_users, function ($u) use ($cutoff) {
     if (empty($u['last_login'])) return true;
-    return new DateTime($u['last_login']) < $cutoff;
+    try { return new DateTime($u['last_login']) < $cutoff; } catch (Throwable $e) { return false; }
 });
 
 // 4. severely_overdue — via API
@@ -41,14 +41,18 @@ $inv_res = $api->get('invoices', ['status' => 'outstanding', 'per_page' => 500])
 $all_invoices = $inv_res['data'] ?? [];
 $severely_overdue = array_filter($all_invoices, function ($i) use ($today) {
     if (empty($i['due_date'])) return false;
-    $due = new DateTime($i['due_date']);
+    try { $due = new DateTime($i['due_date']); } catch (Throwable $e) { return false; }
     if ($due > $today) return false;
     return (int)$today->diff($due)->days > 60;
 });
 $severely_overdue = array_map(function ($i) use ($today) {
-    $due  = new DateTime($i['due_date']);
-    $i['days_overdue'] = (int)$today->diff($due)->days;
-    $i['balance']      = (float)$i['total_amount'] - (float)$i['amount_paid'];
+    try {
+        $due = new DateTime($i['due_date']);
+        $i['days_overdue'] = (int)$today->diff($due)->days;
+    } catch (Throwable $e) {
+        $i['days_overdue'] = 0;
+    }
+    $i['balance'] = (float)$i['total_amount'] - (float)$i['amount_paid'];
     return $i;
 }, $severely_overdue);
 
@@ -58,7 +62,7 @@ $all_expenses = $exp_res['data'] ?? [];
 $cutoff30 = (new DateTime())->modify('-30 days');
 $stale_expenses = array_filter($all_expenses, function ($e) use ($cutoff30) {
     if (empty($e['created_at'])) return false;
-    return new DateTime($e['created_at']) < $cutoff30;
+    try { return new DateTime($e['created_at']) < $cutoff30; } catch (Throwable $e) { return false; }
 });
 
 // 6. stale_maintenance — via API
@@ -67,10 +71,14 @@ $all_maint = $maint_res['data'] ?? [];
 $cutoff14  = (new DateTime())->modify('-14 days');
 $stale_maintenance = array_filter($all_maint, function ($m) use ($cutoff14) {
     if (empty($m['created_at'])) return false;
-    return new DateTime($m['created_at']) < $cutoff14;
+    try { return new DateTime($m['created_at']) < $cutoff14; } catch (Throwable $e) { return false; }
 });
 $stale_maintenance = array_map(function ($m) use ($today) {
-    $m['days_open'] = (int)$today->diff(new DateTime($m['created_at']))->days;
+    try {
+        $m['days_open'] = (int)$today->diff(new DateTime($m['created_at']))->days;
+    } catch (Throwable $e) {
+        $m['days_open'] = 0;
+    }
     return $m;
 }, $stale_maintenance);
 

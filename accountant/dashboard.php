@@ -57,7 +57,7 @@ $today = new DateTime();
 foreach ($aging_rows as $inv) {
     $bal  = (float)$inv['balance'] ?? ((float)$inv['total_amount'] - (float)$inv['amount_paid']);
     if ($bal <= 0) continue;
-    $due  = new DateTime($inv['due_date'] ?? date('Y-m-d'));
+    try { $due = new DateTime($inv['due_date'] ?? date('Y-m-d')); } catch (Throwable $e) { continue; }
     $days = (int)$today->diff($due)->format('%r%a'); // negative = overdue
     if ($days >= 0)         $aging['current_amt'] += $bal;
     elseif ($days >= -30)   $aging['aged_30']     += $bal;

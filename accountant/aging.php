@@ -26,10 +26,14 @@ $rows = array_filter($all_inv, fn($inv) => ($inv['due_date'] ?? '9999-12-31') <=
 $rows = array_values($rows);
 
 // Compute days_overdue relative to as_of
-$as_of_dt = new DateTime($as_of);
+try { $as_of_dt = new DateTime($as_of); } catch (Throwable $e) { $as_of_dt = new DateTime(); }
 foreach ($rows as &$r) {
-    $due = new DateTime($r['due_date']);
-    $diff = (int)$as_of_dt->diff($due)->format('%r%a');
+    try {
+        $due  = new DateTime($r['due_date'] ?? 'today');
+        $diff = (int)$as_of_dt->diff($due)->format('%r%a');
+    } catch (Throwable $e) {
+        $diff = 0;
+    }
     $r['days_overdue'] = -$diff; // positive = overdue
     $r['balance']      = (float)$r['balance'] ?? ((float)$r['total_amount'] - (float)$r['amount_paid']);
 }

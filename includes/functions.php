@@ -197,9 +197,14 @@ function month_name(int $month): string {
 }
 
 function days_overdue(string $due_date): int {
-    $due = new DateTime($due_date);
-    $now = new DateTime('today');
-    return max(0, (int)$now->diff($due)->days * ($now > $due ? 1 : -1));
+    if (empty($due_date)) return 0;
+    try {
+        $due = new DateTime($due_date);
+        $now = new DateTime('today');
+        return max(0, (int)$now->diff($due)->days * ($now > $due ? 1 : -1));
+    } catch (Throwable $e) {
+        return 0;
+    }
 }
 
 // ─── Reference Generators ─────────────────────────────────────

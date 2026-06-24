@@ -26,7 +26,7 @@ $limit_dt   = (new DateTime())->modify('+30 days');
 
 $expiring_30 = array_filter($all_leases, function ($l) use ($today, $limit_dt) {
     if (empty($l['end_date'])) return false;
-    $end = new DateTime($l['end_date']);
+    try { $end = new DateTime($l['end_date']); } catch (Throwable $e) { return false; }
     return $end >= $today && $end <= $limit_dt;
 });
 usort($expiring_30, fn($a, $b) => strcmp($a['end_date'], $b['end_date']));
@@ -103,8 +103,7 @@ include BASE_PATH . '/includes/header.php';
             <thead class="table-light"><tr><th>Tenant</th><th>Property/Unit</th><th>End Date</th><th>Days Left</th><th></th></tr></thead>
             <tbody>
             <?php if ($expiring_30): foreach ($expiring_30 as $l):
-                $end_dt = new DateTime($l['end_date']);
-                $days   = (int)$today->diff($end_dt)->days;
+                try { $end_dt = new DateTime($l['end_date']); $days = (int)$today->diff($end_dt)->days; } catch (Throwable $e) { $days = 0; }
             ?>
                 <tr>
                     <td><?= e($l['tenant_name'] ?? '—') ?></td>
