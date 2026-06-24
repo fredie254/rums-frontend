@@ -117,6 +117,21 @@ jobs:
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote_port: ${{ secrets.SERVER_PORT || 22 }}
 
+      - name: Write .env on server
+        uses: appleboy/ssh-action@v1
+        env:
+          ENV_CONTENT: ${{ secrets.APP_ENV_FILE }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          envs: ENV_CONTENT
+          script: |
+            printf '%s' "$ENV_CONTENT" > "${{ secrets.DEPLOY_PATH }}/.env"
+            chmod 640 "${{ secrets.DEPLOY_PATH }}/.env"
+            echo "✔ .env written"
+
       - name: Reload web server
         uses: appleboy/ssh-action@v1
         with:
