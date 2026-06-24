@@ -8,7 +8,9 @@ $s   = $res['data'] ?? [];
 
 // Currency defaults
 $cur_code     = ($s['currency_code']         ?? '') ?: 'KES';
-$cur_symbol   = ($s['currency_symbol']       ?? '') ?: 'Ksh';
+$_raw_sym     = trim($s['currency_symbol'] ?? '');
+$cur_symbol   = ($s['currency_symbol'] ?? '' ) ?: 'Ksh';
+if ($_raw_sym !== '' && (is_numeric($_raw_sym) || strlen($_raw_sym) > 15)) $cur_symbol = 'Ksh';
 $cur_position = ($s['currency_position']     ?? '') ?: 'before';
 $cur_decimals = ($s['currency_decimals']     ?? '') ?: '2';
 $cur_dec_sep  = ($s['currency_decimal_sep']  ?? '') ?: '.';

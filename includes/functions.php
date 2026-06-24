@@ -70,11 +70,23 @@ function redirect_back(string $fallback = '/'): void {
  * @param float $amount      The amount to format.
  * @param bool  $accounting  If true, negatives are shown as (1,234.56) instead of -1,234.56
  */
+/**
+ * Return a validated currency symbol: falls back to the compile-time
+ * constant if the DB value is blank, purely numeric, or suspiciously long.
+ */
+function _validated_currency_symbol(string $raw): string {
+    $raw = trim($raw);
+    if ($raw === '' || is_numeric($raw) || strlen($raw) > 15) {
+        return CURRENCY_SYMBOL;
+    }
+    return $raw;
+}
+
 function money(float $amount, bool $accounting = false): string {
     static $cfg = null;
     if ($cfg === null) {
         $cfg = [
-            'symbol'   => get_setting('currency_symbol',       CURRENCY_SYMBOL),
+            'symbol'   => _validated_currency_symbol(get_setting('currency_symbol', CURRENCY_SYMBOL)),
             'position' => get_setting('currency_position',     'before'),
             'decimals' => (int)get_setting('currency_decimals', '2'),
             'dec_sep'  => get_setting('currency_decimal_sep',  '.'),
@@ -106,7 +118,8 @@ function money(float $amount, bool $accounting = false): string {
  * E.g.  KES 45,000.00
  */
 function money_formal(float $amount): string {
-    $code = get_setting('currency_code', CURRENCY_CODE);
+    $raw  = get_setting('currency_code', CURRENCY_CODE);
+    $code = (trim($raw) === '' || is_numeric($raw) || strlen($raw) > 10) ? CURRENCY_CODE : trim($raw);
     // Strip symbol from money() output and prepend ISO code
     static $cfg = null;
     if ($cfg === null) {
