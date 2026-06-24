@@ -26,11 +26,16 @@ function current_user(): ?array
 {
     if (!is_logged_in()) return null;
 
-    if (!empty($_SESSION['user_data'])) {
-        return $_SESSION['user_data'];
+    // Validate cached user_data has a proper user structure (id + role).
+    // Old sessions stored the full API envelope {user:{...},token:{...}} by mistake.
+    $cached = $_SESSION['user_data'] ?? null;
+    if (!empty($cached['id']) && !empty($cached['role'])) {
+        return $cached;
     }
 
-    // Refresh from API — /auth/me returns { data: { user:{...}, token:{...} } }
+    // Cache is missing or has wrong structure — re-fetch and store correctly.
+    unset($_SESSION['user_data']);
+
     $res = (new ApiClient())->get('auth/me');
     if (empty($res['success'])) return null;
 
