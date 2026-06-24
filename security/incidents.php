@@ -8,44 +8,49 @@ $me = current_user();
 
 /* ══ POST handler ══════════════════════════════════════════════ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
-    $action = post_param('action');
+    $action = post('action');
 
     if ($action === 'add') {
-        $incident_date = post_param('incident_date') ?: date('Y-m-d H:i:s');
+        $incident_date = post('incident_date') ?: date('Y-m-d H:i:s');
         // Convert datetime-local (YYYY-MM-DDTHH:MM) to full datetime if needed
         $incident_date = date('Y-m-d H:i:s', strtotime($incident_date));
 
         $body = [
-            'property_id'      => int_param('property_id') ?: null,
-            'incident_type'    => post_param('incident_type'),
-            'severity'         => post_param('severity'),
+            'property_id'      => int_param('property_id', 0, 'post') ?: null,
+            'incident_type'    => post('incident_type'),
+            'severity'         => post('severity'),
             'incident_date'    => $incident_date,
-            'description'      => post_param('description'),
-            'persons_involved' => post_param('persons_involved') ?: null,
-            'action_taken'     => post_param('action_taken') ?: null,
-            'police_ref'       => post_param('police_ref') ?: null,
+            'description'      => post('description'),
+            'persons_involved' => post('persons_involved') ?: null,
+            'action_taken'     => post('action_taken') ?: null,
+            'police_ref'       => post('police_ref') ?: null,
         ];
 
         $res    = $api->post('security-incidents', $body);
         $new_id = (int)($res['data']['id'] ?? 0);
-        audit_log('CREATE', 'security_incidents', $new_id, 'Incident reported: ' . post_param('incident_type'));
-        set_flash('success', 'Incident reported.');
+        audit_log('CREATE', 'security_incidents', $new_id, 'Incident reported: ' . post('incident_type'));
+        if (!empty($res['success'])) {
+            set_flash('success', 'Incident reported.');
+        } else {
+            set_flash('error', $res['message'] ?? 'Failed to report incident.');
+        }
         redirect(BASE_URL . '/security/incidents');
     }
 
     if ($action === 'resolve') {
-        $id = int_param('id');
-        $api->post("security-incidents/$id/resolve", ['resolution_notes' => post_param('resolution_notes')]);
+        $id = int_param('id', 0, 'post');
+        $res = $api->post("security-incidents/$id/resolve", ['resolution_notes' => post('resolution_notes')]);
         audit_log('UPDATE', 'security_incidents', $id, 'Incident resolved');
-        set_flash('success', 'Incident marked as resolved.');
+        set_flash(!empty($res['success']) ? 'success' : 'error',
+                  !empty($res['success']) ? 'Incident marked as resolved.' : ($res['message'] ?? 'Failed to resolve incident.'));
         redirect(BASE_URL . '/security/incidents');
     }
 
     if ($action === 'update_notes') {
-        $id = int_param('id');
+        $id = int_param('id', 0, 'post');
         $api->patch("security-incidents/$id", [
-            'action_taken' => post_param('action_taken'),
-            'police_ref'   => post_param('police_ref') ?: null,
+            'action_taken' => post('action_taken'),
+            'police_ref'   => post('police_ref') ?: null,
         ]);
         set_flash('success', 'Incident updated.');
         redirect(BASE_URL . '/security/incidents?id=' . $id);
@@ -116,11 +121,11 @@ include BASE_PATH . '/includes/header.php';
                     <dt class="col-sm-3">Type</dt>
                     <dd class="col-sm-9"><?= ucfirst(str_replace('_',' ',$incident['incident_type'])) ?></dd>
                     <dt class="col-sm-3">Date/Time</dt>
-                    <dd class="col-sm-9"><?= fmt_date($incident['incident_date'], true) ?></dd>
+                    <dd class="col-sm-9"><?= fmt_date($incident['incident_date'], 'd M Y, H:i') ?></dd>
                     <dt class="col-sm-3">Property</dt>
                     <dd class="col-sm-9"><?= e($incident['property_name'] ?? '&mdash;') ?><?= !empty($incident['unit_number']) ? ' / Unit '.$incident['unit_number'] : '' ?></dd>
                     <dt class="col-sm-3">Logged By</dt>
-                    <dd class="col-sm-9"><?= e($incident['logged_by_name'] ?? '&mdash;') ?> &middot; <?= fmt_date($incident['created_at'], true) ?></dd>
+                    <dd class="col-sm-9"><?= e($incident['logged_by_name'] ?? '&mdash;') ?> &middot; <?= fmt_date($incident['created_at'], 'd M Y, H:i') ?></dd>
                     <?php if ($incident['police_ref']): ?>
                     <dt class="col-sm-3">Police Ref</dt>
                     <dd class="col-sm-9"><span class="font-monospace"><?= e($incident['police_ref']) ?></span></dd>
@@ -182,7 +187,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="alert alert-success">
             <i class="bi bi-check-circle-fill me-2"></i>
             <strong>Resolved</strong><br>
-            <small><?= fmt_date($incident['resolved_at'], true) ?></small>
+            <small><?= fmt_date($incident['resolved_at'], 'd M Y, H:i') ?></small>
         </div>
         <?php endif; ?>
     </div>
@@ -257,7 +262,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php else: ?>
                     <?php foreach ($incidents as $inc): ?>
                     <tr class="<?= !$inc['resolved'] && $inc['severity']==='critical' ? 'table-danger' : '' ?>">
-                        <td class="text-nowrap small"><?= fmt_date($inc['incident_date'], true) ?></td>
+                        <td class="text-nowrap small"><?= fmt_date($inc['incident_date'], 'd M Y, H:i') ?></td>
                         <td><?= ucfirst(str_replace('_',' ',$inc['incident_type'])) ?></td>
                         <td><?= e($inc['property_name'] ?? '&mdash;') ?><?= !empty($inc['unit_number']) ? ' / '.$inc['unit_number'] : '' ?></td>
                         <td><span class="badge bg-<?= $sev_colors[$inc['severity']] ?>"><?= ucfirst($inc['severity']) ?></span></td>
