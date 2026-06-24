@@ -27,10 +27,17 @@ include BASE_PATH . '/includes/header.php';
     <a href="<?= BASE_URL ?>/tenants/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Tenant</a>
     <?php endif; ?>
 </div>
+
+<?php if ($flash = get_flash()): ?>
+<div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show">
+    <?= e($flash['message']) ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
+
 <div class="card shadow-sm mb-3">
     <div class="card-body py-2">
         <form method="GET" class="row g-2">
-            <div class="col-md-5"><input type="text" name="search" class="form-control form-control-sm" placeholder="Search by name, email, phone, ID..." value="<?= e($search) ?>"></div>
+            <div class="col-md-5"><input type="text" name="search" class="form-control form-control-sm" placeholder="Search by name or email..." value="<?= e($search) ?>"></div>
             <div class="col-auto">
                 <button class="btn btn-sm btn-outline-primary">Search</button>
                 <a href="<?= BASE_URL ?>/tenants/index" class="btn btn-sm btn-outline-secondary">Reset</a>
@@ -46,24 +53,31 @@ include BASE_PATH . '/includes/header.php';
             </thead>
             <tbody>
             <?php if ($tenants): $sn = $pg['offset'] + 1; foreach ($tenants as $t): ?>
-                <tr>
+                <tr id="tenant-row-<?= $t['id'] ?>">
                     <td><?= $sn++ ?></td>
                     <td>
-                        <div class="fw-semibold"><?= e($t['full_name'] ?? ($t['first_name'] . ' ' . $t['last_name'])) ?></div>
+                        <div class="fw-semibold"><?= e($t['full_name'] ?? (($t['first_name'] ?? '') . ' ' . ($t['last_name'] ?? ''))) ?></div>
                         <small class="text-muted"><?= e($t['occupation'] ?? '') ?></small>
                     </td>
                     <td>
-                        <div><?= e($t['email']) ?></div>
-                        <small><?= e($t['phone']) ?></small>
+                        <div><?= e($t['email'] ?? '') ?></div>
+                        <small class="text-muted"><?= e($t['phone'] ?? '') ?></small>
                     </td>
-                    <td><code><?= e($t['id_number']) ?></code></td>
+                    <td><code><?= e($t['id_number'] ?? '') ?></code></td>
                     <td><?= !empty($t['unit_number']) ? e($t['property_name'] ?? '') . ' / ' . e($t['unit_number']) : '<span class="text-muted small">—</span>' ?></td>
                     <td><?= !empty($t['lease_status']) ? lease_badge($t['lease_status']) : '<span class="text-muted small">No lease</span>' ?></td>
                     <td><?= ($t['status'] ?? '') === 'active' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-secondary">Inactive</span>' ?></td>
-                    <td>
-                        <a href="<?= BASE_URL ?>/tenants/view?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                    <td class="text-nowrap">
+                        <a href="<?= BASE_URL ?>/tenants/view?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1" title="View"><i class="bi bi-eye"></i></a>
                         <?php if (is_manager()): ?>
-                        <a href="<?= BASE_URL ?>/tenants/edit?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
+                        <a href="<?= BASE_URL ?>/tenants/edit?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <?php endif; ?>
+                        <?php if (current_user()['role'] === 'admin'): ?>
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-1"
+                                title="Delete"
+                                onclick="deleteTenant(<?= $t['id'] ?>, '<?= e(addslashes($t['full_name'] ?? ($t['first_name'] . ' ' . $t['last_name']))) ?>')">
+                            <i class="bi bi-trash"></i>
+                        </button>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -78,4 +92,25 @@ include BASE_PATH . '/includes/header.php';
         <?= pagination_links($pg, BASE_URL . '/tenants/index?search=' . urlencode($search)) ?>
     </div>
 </div>
+
+<script>
+function deleteTenant(id, name) {
+    if (!confirm('Delete tenant "' + name + '"?\n\nThis removes the tenant record permanently. Their login account will be deactivated.')) return;
+    fetch('<?= BASE_URL ?>/tenants/delete.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>'},
+        body: JSON.stringify({id: id})
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            document.getElementById('tenant-row-' + id)?.remove();
+        } else {
+            alert(res.message || 'Failed to delete tenant.');
+        }
+    })
+    .catch(() => alert('Network error. Please try again.'));
+}
+</script>
+
 <?php include BASE_PATH . '/includes/footer.php'; ?>
