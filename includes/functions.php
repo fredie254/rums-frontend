@@ -71,15 +71,21 @@ function redirect_back(string $fallback = '/'): void {
  * @param bool  $accounting  If true, negatives are shown as (1,234.56) instead of -1,234.56
  */
 /**
- * Return a validated currency symbol: falls back to the compile-time
- * constant if the DB value is blank, purely numeric, or suspiciously long.
+ * Return a validated currency symbol.
+ * Tries (in order): DB value → CURRENCY_SYMBOL constant → hardcoded 'Ksh'.
+ * Rejects any value that is blank, purely numeric, or longer than 15 chars
+ * (catches corrupted values like '262145' stored in the DB or .env).
  */
 function _validated_currency_symbol(string $raw): string {
-    $raw = trim($raw);
-    if ($raw === '' || is_numeric($raw) || strlen($raw) > 15) {
-        return CURRENCY_SYMBOL;
-    }
-    return $raw;
+    $isValid = fn(string $v): bool => $v !== '' && !is_numeric($v) && strlen($v) <= 15;
+
+    if ($isValid(trim($raw))) return trim($raw);
+
+    // Constant may also be corrupted (e.g. .env has CURRENCY_SYMBOL=262145)
+    $const = defined('CURRENCY_SYMBOL') ? trim((string)CURRENCY_SYMBOL) : '';
+    if ($isValid($const)) return $const;
+
+    return 'Ksh'; // hardcoded last resort
 }
 
 function money(float $amount, bool $accounting = false): string {
@@ -118,8 +124,11 @@ function money(float $amount, bool $accounting = false): string {
  * E.g.  KES 45,000.00
  */
 function money_formal(float $amount): string {
-    $raw  = get_setting('currency_code', CURRENCY_CODE);
-    $code = (trim($raw) === '' || is_numeric($raw) || strlen($raw) > 10) ? CURRENCY_CODE : trim($raw);
+    $raw  = trim(get_setting('currency_code', ''));
+    $isValidCode = $raw !== '' && !is_numeric($raw) && strlen($raw) <= 10;
+    $constCode   = defined('CURRENCY_CODE') ? trim((string)CURRENCY_CODE) : '';
+    $code = $isValidCode ? $raw
+          : (($constCode !== '' && !is_numeric($constCode) && strlen($constCode) <= 10) ? $constCode : 'KES');
     // Strip symbol from money() output and prepend ISO code
     static $cfg = null;
     if ($cfg === null) {
