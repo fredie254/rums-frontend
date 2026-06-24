@@ -7,7 +7,8 @@ $page_title = 'Visitor Log';
 $me  = current_user();
 
 /* ══ Handle POST actions ══════════════════════════════════════════ */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
     $action = post('action');
 
     /* ── Check In ── */

@@ -90,8 +90,10 @@ if (APP_ENV !== 'development') {
     error_reporting(E_ALL);
 
     set_exception_handler(function (Throwable $e) {
+        error_log('[RUMS] Uncaught ' . get_class($e) . ': ' . $e->getMessage()
+            . ' in ' . $e->getFile() . ':' . $e->getLine());
         if (!headers_sent()) http_response_code(500);
-        ob_get_level() && ob_end_clean();
+        while (ob_get_level()) ob_end_clean();
         $_GET['code'] = 500;
         include BASE_PATH . '/errors/error.php';
         exit;
@@ -105,8 +107,10 @@ if (APP_ENV !== 'development') {
     register_shutdown_function(function () {
         $e = error_get_last();
         if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+            error_log('[RUMS] Fatal ' . $e['type'] . ': ' . $e['message']
+                . ' in ' . $e['file'] . ':' . $e['line']);
             if (!headers_sent()) http_response_code(500);
-            ob_get_level() && ob_end_clean();
+            while (ob_get_level()) ob_end_clean();
             $_GET['code'] = 500;
             include BASE_PATH . '/errors/error.php';
         }

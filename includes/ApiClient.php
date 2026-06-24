@@ -153,36 +153,31 @@ class ApiClient
 
         if ($error) {
             error_log("[ApiClient] cURL error on $method $url: $error");
-            return [
-                'success' => false,
-                'message' => 'Could not connect to the API server.',
-                'code'    => 0,
-            ];
+            // API server is unreachable — show 503 immediately rather than a broken page
+            if (function_exists('abort')) abort(503);
+            return ['success' => false, 'message' => 'Service temporarily unavailable.', 'code' => 0];
         }
 
         if ($body === false || $body === '') {
             error_log("[ApiClient] Empty response ($status) on $method $url");
-            return [
-                'success' => false,
-                'message' => 'Empty response from API.',
-                'code'    => $status,
-            ];
+            if (in_array($status, [502, 503, 504], true) && function_exists('abort')) abort($status);
+            return ['success' => false, 'message' => 'Empty response from API.', 'code' => $status];
         }
 
         $decoded = json_decode($body, true);
         if (!is_array($decoded)) {
             error_log("[ApiClient] Non-JSON response ($status) on $method $url: " . substr($body, 0, 200));
-            return [
-                'success' => false,
-                'message' => 'Invalid API response.',
-                'code'    => $status,
-            ];
+            return ['success' => false, 'message' => 'Invalid API response.', 'code' => $status];
         }
 
-        // If the API returned a 401, clear session so the login page is shown
+        // 401 — token expired or revoked: clear session and redirect to login
         if ($status === 401) {
             $_SESSION = [];
-            session_destroy();
+            if (session_status() === PHP_SESSION_ACTIVE) session_destroy();
+            if (!headers_sent()) {
+                header('Location: ' . (defined('BASE_URL') ? BASE_URL . '/index' : '/'));
+                exit;
+            }
         }
 
         return $decoded;

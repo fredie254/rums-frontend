@@ -7,7 +7,8 @@ $page_title = 'Security Incidents';
 $me = current_user();
 
 /* ══ POST handler ══════════════════════════════════════════════ */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
     $action = post('action');
 
     if ($action === 'add') {

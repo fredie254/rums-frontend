@@ -63,8 +63,7 @@ function require_role(string ...$roles): void
     require_login();
     $user = current_user();
     if (!in_array($user['role'], $roles, true)) {
-        set_flash('error', 'Access denied. Insufficient permissions.');
-        redirect(BASE_URL . '/dashboard/index');
+        abort(403);
     }
 }
 

@@ -58,6 +58,39 @@ function redirect_back(string $fallback = '/'): void {
     redirect($_SERVER['HTTP_REFERER'] ?? $fallback);
 }
 
+// ─── Error pages ──────────────────────────────────────────────
+
+/**
+ * Render the unified error page and halt execution.
+ *
+ * Usage:  abort(403);   abort(404);   abort(503);
+ *
+ * Works even if output has already started — cleans the buffer first.
+ * Can be called from any page after config is loaded.
+ */
+function abort(int $code = 500): never
+{
+    if (!headers_sent()) http_response_code($code);
+    while (ob_get_level()) ob_end_clean();
+    $_GET['code'] = $code;
+    include BASE_PATH . '/errors/error.php';
+    exit;
+}
+
+/**
+ * Verify the CSRF token on the current POST request.
+ * Renders the 419 (session expired / invalid token) error page on failure.
+ *
+ * Call at the top of every POST handler:
+ *   csrf_check();
+ */
+function csrf_check(): void
+{
+    if (!verify_csrf()) {
+        abort(419);
+    }
+}
+
 // ─── Number / Currency ────────────────────────────────────────
 
 /**

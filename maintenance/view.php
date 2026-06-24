@@ -18,7 +18,7 @@ $status = $req['status'] ?? 'open';
 
 // ── POST handler ─────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/maintenance/view?id=' . $id); }
+    csrf_check();
     $action = post('action');
 
     // Admin / manager: full update form
