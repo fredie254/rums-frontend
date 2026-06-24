@@ -40,7 +40,11 @@
                 <li><h6 class="dropdown-header">Notifications</h6></li>
                 <?php
                 if (is_logged_in()) {
-                    $notifs = (new ApiClient())->get('notifications', ['per_page' => 5])['data'] ?? [];
+                    try {
+                        $notifs = (new ApiClient())->get('notifications', ['per_page' => 5])['data'] ?? [];
+                    } catch (Throwable $e) {
+                        $notifs = [];
+                    }
                     if ($notifs):
                         foreach ($notifs as $n): ?>
                         <li>

@@ -78,7 +78,8 @@ if ($app_debug) {
     error_reporting(E_ALL);
     ini_set('display_errors', '1');
 } else {
-    error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+    // E_STRICT was removed in PHP 8.0 — omit it to avoid undefined-constant warnings
+    error_reporting(E_ALL & ~E_DEPRECATED);
     ini_set('display_errors', '0');
 }
 

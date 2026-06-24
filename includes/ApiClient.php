@@ -153,14 +153,11 @@ class ApiClient
 
         if ($error) {
             error_log("[ApiClient] cURL error on $method $url: $error");
-            // API server is unreachable — show 503 immediately rather than a broken page
-            if (function_exists('abort')) abort(503);
             return ['success' => false, 'message' => 'Service temporarily unavailable.', 'code' => 0];
         }
 
         if ($body === false || $body === '') {
             error_log("[ApiClient] Empty response ($status) on $method $url");
-            if (in_array($status, [502, 503, 504], true) && function_exists('abort')) abort($status);
             return ['success' => false, 'message' => 'Empty response from API.', 'code' => $status];
         }
 

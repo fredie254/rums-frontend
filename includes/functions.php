@@ -185,7 +185,11 @@ function pct(float $part, float $total): string {
 // ─── Dates ───────────────────────────────────────────────────
 function fmt_date(?string $date, string $format = 'd M Y'): string {
     if (empty($date)) return '—';
-    return (new DateTime($date))->format($format);
+    try {
+        return (new DateTime($date))->format($format);
+    } catch (Throwable $e) {
+        return '—';
+    }
 }
 
 function month_name(int $month): string {
@@ -304,8 +308,12 @@ function push_notification(int $user_id, string $title, string $message, string 
 }
 
 function unread_notification_count(int $user_id): int {
-    $res = (new ApiClient())->get('notifications/unread-count');
-    return (int)($res['data']['count'] ?? 0);
+    try {
+        $res = (new ApiClient())->get('notifications/unread-count');
+        return (int)($res['data']['count'] ?? 0);
+    } catch (Throwable $e) {
+        return 0;
+    }
 }
 
 // ─── File Upload ──────────────────────────────────────────────
