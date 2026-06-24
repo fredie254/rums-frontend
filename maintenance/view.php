@@ -53,10 +53,26 @@ $logs     = $logs_res['data'] ?? [];
 $page_title = 'Maintenance Request';
 include BASE_PATH . '/includes/header.php';
 ?>
+<?php if ($flash = get_flash()): ?>
+<div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show mb-3">
+    <?= e($flash['message']) ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
 <div class="d-flex align-items-center mb-3 gap-2">
     <a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1"><?= e($req['issue_title'] ?? '') ?></h5>
     <?= priority_badge($req['priority'] ?? 'low') ?> <?= maintenance_badge($req['status'] ?? 'open') ?>
+    <?php if (is_manager()): ?>
+    <a href="<?= BASE_URL ?>/maintenance/edit?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary ms-1" title="Edit">
+        <i class="bi bi-pencil"></i>
+    </a>
+    <?php endif; ?>
+    <?php if (is_manager() && !in_array($req['status'] ?? '', ['in_progress'])): ?>
+    <button type="button" class="btn btn-sm btn-outline-danger" title="Delete"
+            onclick="deleteMaintenance(<?= $id ?>, '<?= e($req['request_number'] ?? '') ?>')">
+        <i class="bi bi-trash"></i>
+    </button>
+    <?php endif; ?>
 </div>
 <div class="row g-3">
     <div class="col-md-4">
@@ -187,4 +203,25 @@ include BASE_PATH . '/includes/header.php';
         </div>
     </div>
 </div>
+<?php if (is_manager()): ?>
+<script>
+function deleteMaintenance(id, ref) {
+    if (!confirm('Delete work order ' + ref + '?\n\nThis action cannot be undone.')) return;
+    fetch('<?= BASE_URL ?>/maintenance/delete', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>'},
+        body: JSON.stringify({id: id})
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            window.location.href = '<?= BASE_URL ?>/maintenance/index';
+        } else {
+            alert(res.message || 'Failed to delete work order.');
+        }
+    })
+    .catch(() => alert('Network error. Please try again.'));
+}
+</script>
+<?php endif; ?>
 <?php include BASE_PATH . '/includes/footer.php'; ?>
