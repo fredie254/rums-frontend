@@ -30,10 +30,10 @@ foreach ($invoices as $inv) {
 $pay_res  = $api->get('payments', ['per_page' => 5]);
 $payments = $pay_res['data'] ?? [];
 
-// Open maintenance requests
-$maint_res  = $api->get('maintenance', ['per_page' => 5]);
-$maints     = $maint_res['data'] ?? [];
-$open_maint = array_filter($maints, fn($m) => in_array($m['status'] ?? '', ['open','in_progress']));
+// Maintenance requests — fetch recent ones; highlight any needing tenant approval
+$maint_res      = $api->get('maintenance', ['per_page' => 6]);
+$maints         = $maint_res['data'] ?? [];
+$needs_approval = array_filter($maints, fn($m) => ($m['status'] ?? '') === 'completed');
 
 $page_title = 'My Dashboard';
 include BASE_PATH . '/includes/header.php';
@@ -195,29 +195,46 @@ include BASE_PATH . '/includes/header.php';
         </div>
         <?php endif; ?>
 
-        <!-- Open maintenance requests -->
+        <!-- Maintenance requests -->
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold"><i class="bi bi-wrench me-2 text-warning"></i>Maintenance</span>
+                <span class="fw-semibold">
+                    <i class="bi bi-wrench me-2 text-warning"></i>Maintenance
+                    <?php if ($needs_approval): ?>
+                    <span class="badge bg-warning text-dark ms-1"><?= count($needs_approval) ?> need<?= count($needs_approval) === 1 ? 's' : '' ?> approval</span>
+                    <?php endif; ?>
+                </span>
                 <a href="<?= BASE_URL ?>/tenant/maintenance" class="btn btn-sm btn-outline-secondary">View All</a>
             </div>
             <?php if ($maints): ?>
             <ul class="list-group list-group-flush">
-                <?php foreach (array_slice($maints, 0, 4) as $m):
-                    $sc = ['open'=>'danger','in_progress'=>'warning','completed'=>'success','closed'=>'secondary'][$m['status']] ?? 'secondary';
+                <?php
+                $statusColors = ['open'=>'danger','in_progress'=>'warning','completed'=>'info','resolved'=>'success','cancelled'=>'secondary'];
+                foreach (array_slice($maints, 0, 5) as $m):
+                    $mSt = $m['status'] ?? 'open';
+                    $sc  = $statusColors[$mSt] ?? 'secondary';
+                    $needsAct = $mSt === 'completed';
                 ?>
-                <li class="list-group-item d-flex justify-content-between align-items-start py-2">
-                    <div>
-                        <div class="small fw-semibold"><?= e($m['title'] ?? $m['description'] ?? 'Maintenance request') ?></div>
-                        <div class="small text-muted"><?= fmt_date($m['created_at']) ?></div>
-                    </div>
-                    <span class="badge bg-<?= $sc ?> flex-shrink-0"><?= ucfirst(str_replace('_',' ',$m['status'])) ?></span>
+                <li class="list-group-item py-2 <?= $needsAct ? 'border-start border-3 border-info' : '' ?>">
+                    <a href="<?= BASE_URL ?>/maintenance/view?id=<?= $m['id'] ?>"
+                       class="d-flex justify-content-between align-items-start text-decoration-none text-dark">
+                        <div class="me-2 min-w-0">
+                            <div class="small fw-semibold text-truncate"><?= e($m['issue_title'] ?? 'Maintenance Request') ?></div>
+                            <div class="small text-muted">
+                                <?= fmt_date($m['created_at']) ?>
+                                <?php if ($needsAct): ?>
+                                <span class="text-info fw-semibold ms-1">· Awaiting your approval</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <span class="badge bg-<?= $sc ?> flex-shrink-0"><?= ucfirst(str_replace('_',' ',$mSt)) ?></span>
+                    </a>
                 </li>
                 <?php endforeach; ?>
             </ul>
             <?php else: ?>
             <div class="card-body text-center text-muted py-3 small">
-                <i class="bi bi-check-circle text-success me-1"></i>No open maintenance requests.
+                <i class="bi bi-check-circle text-success me-1"></i>No maintenance requests yet.
             </div>
             <?php endif; ?>
             <div class="card-footer bg-white py-2">
