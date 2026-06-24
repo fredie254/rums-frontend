@@ -188,14 +188,15 @@ include BASE_PATH . '/includes/header.php';
                     <?php if ($status === 'completed'): ?>
                     <dt class="col-5 text-muted">Approval</dt>
                     <dd class="col-7">
-                        <span class="badge bg-warning-subtle text-warning">
-                            <i class="bi bi-hourglass-split me-1"></i>Pending tenant approval
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-hourglass-split me-1"></i>Pending approval by tenant or manager
                         </span>
                     </dd>
-                    <?php elseif ($status === 'resolved' && $approvedByName): ?>
+                    <?php elseif ($status === 'resolved'): ?>
                     <dt class="col-5 text-muted">Approved by</dt>
                     <dd class="col-7">
-                        <span class="text-success fw-semibold"><?= e($approvedByName) ?></span>
+                        <i class="bi bi-patch-check-fill text-success me-1"></i>
+                        <span class="fw-semibold text-success"><?= e($approvedByName ?: 'Tenant') ?></span>
                         <?php if ($approvedAt): ?>
                         <div class="text-muted" style="font-size:.75rem"><?= fmt_date($approvedAt, 'd M Y, H:i') ?></div>
                         <?php endif; ?>
