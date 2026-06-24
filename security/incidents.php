@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $new_id = (int)($res['data']['id'] ?? 0);
         audit_log('CREATE', 'security_incidents', $new_id, 'Incident reported: ' . post_param('incident_type'));
         set_flash('success', 'Incident reported.');
-        redirect(BASE_URL . '/security/incidents.php');
+        redirect(BASE_URL . '/security/incidents');
     }
 
     if ($action === 'resolve') {
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $api->post("security-incidents/$id/resolve", ['resolution_notes' => post_param('resolution_notes')]);
         audit_log('UPDATE', 'security_incidents', $id, 'Incident resolved');
         set_flash('success', 'Incident marked as resolved.');
-        redirect(BASE_URL . '/security/incidents.php');
+        redirect(BASE_URL . '/security/incidents');
     }
 
     if ($action === 'update_notes') {
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
             'police_ref'   => post_param('police_ref') ?: null,
         ]);
         set_flash('success', 'Incident updated.');
-        redirect(BASE_URL . '/security/incidents.php?id=' . $id);
+        redirect(BASE_URL . '/security/incidents?id=' . $id);
     }
 }
 
@@ -98,7 +98,7 @@ include BASE_PATH . '/includes/header.php';
     <h5 class="fw-bold mb-0"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>
         Incident #<?= $incident['id'] ?> &mdash; <?= ucfirst(str_replace('_',' ',$incident['incident_type'])) ?>
     </h5>
-    <a href="incidents.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>All Incidents</a>
+    <a href="incidents" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>All Incidents</a>
 </div>
 
 <div class="row g-4">
@@ -238,7 +238,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="incidents.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="incidents" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

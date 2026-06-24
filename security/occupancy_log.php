@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $new_id = (int)($res['data']['id'] ?? 0);
         audit_log('CREATE', 'occupancy', $new_id, 'Occupancy event: ' . post_param('event_type'));
         set_flash('success', 'Occupancy event logged.');
-        redirect(BASE_URL . '/security/occupancy_log.php');
+        redirect(BASE_URL . '/security/occupancy_log');
     }
 }
 
@@ -126,7 +126,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="occupancy_log.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="occupancy_log" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

@@ -6,15 +6,15 @@ $api      = new ApiClient();
 $lease_id = int_param('lease_id');
 $errors   = [];
 
-if (!$lease_id) { redirect(BASE_URL . '/leases/index.php'); }
+if (!$lease_id) { redirect(BASE_URL . '/leases/index'); }
 
 $res   = $api->get("leases/$lease_id");
 $lease = $res['data'] ?? null;
-if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index.php'); }
+if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index'); }
 
 // ── Delete ───────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('_action') === 'delete') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/documents.php?lease_id=' . $lease_id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/documents?lease_id=' . $lease_id); }
     $doc_id = int_param('doc_id', 0, 'post');
     if ($doc_id) {
         $del = $api->delete("leases/$lease_id/documents/$doc_id");
@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('_action') === 'delete') {
             set_flash('error', $del['message'] ?? 'Failed to remove document.');
         }
     }
-    redirect(BASE_URL . '/leases/documents.php?lease_id=' . $lease_id);
+    redirect(BASE_URL . '/leases/documents?lease_id=' . $lease_id);
 }
 
 // ── Upload ───────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('_action') === 'upload') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/documents.php?lease_id=' . $lease_id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/documents?lease_id=' . $lease_id); }
 
     $doc_type = post('document_type') ?: 'contract';
     $notes    = post('notes');
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('_action') === 'upload') {
             ]);
             if (!empty($res2['success'])) {
                 set_flash('success', 'Document uploaded.');
-                redirect(BASE_URL . '/leases/documents.php?lease_id=' . $lease_id);
+                redirect(BASE_URL . '/leases/documents?lease_id=' . $lease_id);
             }
             // Cleanup orphaned file
             @unlink(UPLOAD_PATH . $path);
@@ -83,7 +83,7 @@ $page_title = 'Lease Documents';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $lease_id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/view?id=<?= $lease_id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Documents — <code><?= e($lease['lease_number']) ?></code></h5>
     <span class="ms-2"><?= lease_badge($lease['status']) ?></span>
 </div>

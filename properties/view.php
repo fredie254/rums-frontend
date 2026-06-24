@@ -4,11 +4,11 @@ require_role('admin', 'manager', 'landlord');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/properties/index.php'); }
+if (!$id) { redirect(BASE_URL . '/properties/index'); }
 
 $res  = $api->get("properties/$id");
 $prop = $res['data'] ?? null;
-if (!$prop) { set_flash('error', 'Property not found.'); redirect(BASE_URL . '/properties/index.php'); }
+if (!$prop) { set_flash('error', 'Property not found.'); redirect(BASE_URL . '/properties/index'); }
 
 $units      = $prop['units'] ?? [];
 $stats_res  = $api->get("properties/$id/stats");
@@ -18,13 +18,13 @@ $page_title = 'Property — ' . $prop['name'];
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/properties/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1"><?= e($prop['name']) ?></h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/properties/edit.php?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-warning">
+    <a href="<?= BASE_URL ?>/properties/edit?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-warning">
         <i class="bi bi-pencil me-1"></i>Edit
     </a>
-    <a href="<?= BASE_URL ?>/units/add.php?property_id=<?= $prop['id'] ?>" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/units/add?property_id=<?= $prop['id'] ?>" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-circle me-1"></i>Add Unit
     </a>
     <?php endif; ?>
@@ -100,8 +100,8 @@ include BASE_PATH . '/includes/header.php';
                             <td><?= money($unit['deposit_amount'] ?? 0) ?></td>
                             <td><?= unit_badge($unit['status']) ?></td>
                             <td>
-                                <a href="<?= BASE_URL ?>/units/view.php?id=<?= $unit['id'] ?>" class="btn btn-xs btn-outline-primary btn-sm py-0 px-1"><i class="bi bi-eye"></i></a>
-                                <a href="<?= BASE_URL ?>/units/edit.php?id=<?= $unit['id'] ?>" class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1"><i class="bi bi-pencil"></i></a>
+                                <a href="<?= BASE_URL ?>/units/view?id=<?= $unit['id'] ?>" class="btn btn-xs btn-outline-primary btn-sm py-0 px-1"><i class="bi bi-eye"></i></a>
+                                <a href="<?= BASE_URL ?>/units/edit?id=<?= $unit['id'] ?>" class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1"><i class="bi bi-pencil"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; else: ?>

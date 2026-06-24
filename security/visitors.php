@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $new_id = (int)($res['data']['id'] ?? 0);
         audit_log('CREATE', 'visitors', $new_id, 'Visitor checked in: ' . post_param('visitor_name'));
         set_flash('success', 'Visitor ' . post_param('visitor_name') . ' checked in successfully.');
-        redirect(BASE_URL . '/security/visitors.php');
+        redirect(BASE_URL . '/security/visitors');
     }
 
     /* ── Check Out ── */
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $api->patch("visitors/$id/checkout", []);
         audit_log('UPDATE', 'visitors', $id, 'Visitor checked out');
         set_flash('success', 'Visitor checked out.');
-        redirect(BASE_URL . '/security/visitors.php');
+        redirect(BASE_URL . '/security/visitors');
     }
 
     /* ── Mark overstay ── */
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         $id = int_param('id');
         $api->patch("visitors/$id/overstay", []);
         set_flash('warning', 'Visitor flagged as overstay.');
-        redirect(BASE_URL . '/security/visitors.php');
+        redirect(BASE_URL . '/security/visitors');
     }
 }
 
@@ -123,7 +123,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="visitors.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="visitors" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

@@ -53,7 +53,7 @@ include BASE_PATH . '/includes/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="fw-bold mb-0"><i class="bi bi-tools me-2 text-warning"></i>Maintenance Dashboard</h5>
-    <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-warning btn-sm">
+    <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-warning btn-sm">
         <i class="bi bi-plus-lg me-1"></i>New Work Order
     </a>
 </div>
@@ -131,7 +131,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm border-warning mb-4">
     <div class="card-header bg-warning-subtle py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold text-warning-emphasis"><i class="bi bi-person-check me-1"></i>My Assigned Tasks (<?= count($my_tasks) ?>)</span>
-        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders.php" class="btn btn-sm btn-outline-warning">View All</a>
+        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders" class="btn btn-sm btn-outline-warning">View All</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -149,7 +149,7 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= priority_badge($t['priority']) ?></td>
                     <td><?= maintenance_badge($t['status']) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders.php?id=<?= $t['id'] ?>" class="btn btn-xs btn-primary">
+                        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders?id=<?= $t['id'] ?>" class="btn btn-xs btn-primary">
                             <i class="bi bi-pencil me-1"></i>Update
                         </a>
                     </td>
@@ -166,7 +166,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm">
     <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold">Active Work Orders</span>
-        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders.php" class="btn btn-sm btn-outline-primary">View All</a>
+        <a href="<?= BASE_URL ?>/maintenance_staff/work_orders" class="btn btn-sm btn-outline-primary">View All</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -191,7 +191,7 @@ include BASE_PATH . '/includes/header.php';
                         <td><?= e($r['assigned_to_name'] ?? '—') ?></td>
                         <td><?= maintenance_badge($r['status']) ?></td>
                         <td>
-                            <a href="<?= BASE_URL ?>/maintenance_staff/work_orders.php?id=<?= $r['id'] ?>" class="btn btn-xs btn-outline-primary">
+                            <a href="<?= BASE_URL ?>/maintenance_staff/work_orders?id=<?= $r['id'] ?>" class="btn btn-xs btn-outline-primary">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </td>

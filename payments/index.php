@@ -61,10 +61,10 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-cash-coin me-2 text-success"></i>Payments</h5>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/payments/reconcile.php" class="btn btn-sm btn-outline-primary"><i class="bi bi-bank me-1"></i>Reconcile</a>
-        <a href="<?= BASE_URL ?>/payments/mpesa_transactions.php" class="btn btn-sm btn-outline-success"><i class="bi bi-phone me-1"></i>M-Pesa Log</a>
+        <a href="<?= BASE_URL ?>/payments/reconcile" class="btn btn-sm btn-outline-primary"><i class="bi bi-bank me-1"></i>Reconcile</a>
+        <a href="<?= BASE_URL ?>/payments/mpesa_transactions" class="btn btn-sm btn-outline-success"><i class="bi bi-phone me-1"></i>M-Pesa Log</a>
         <?php if (is_manager()): ?>
-        <a href="<?= BASE_URL ?>/payments/add.php" class="btn btn-sm btn-success"><i class="bi bi-plus-circle me-1"></i>Record Payment</a>
+        <a href="<?= BASE_URL ?>/payments/add" class="btn btn-sm btn-success"><i class="bi bi-plus-circle me-1"></i>Record Payment</a>
         <?php endif; ?>
     </div>
 </div>
@@ -150,7 +150,7 @@ include BASE_PATH . '/includes/header.php';
             <?php endif; ?>
             <div class="col-auto d-flex gap-1">
                 <button class="btn btn-sm btn-primary"><i class="bi bi-funnel me-1"></i>Filter</button>
-                <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary">Reset</a>
                 <a href="<?= $exportUrl ?>" class="btn btn-sm btn-outline-success" target="_blank"><i class="bi bi-download me-1"></i>CSV</a>
             </div>
         </form>
@@ -192,11 +192,11 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= payment_badge($p['status'] ?? 'completed') ?></td>
                 <td class="small">
                     <?php if (!empty($p['invoice_number'])): ?>
-                    <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $p['invoice_id'] ?>" class="text-decoration-none"><code><?= e($p['invoice_number']) ?></code></a>
+                    <a href="<?= BASE_URL ?>/invoices/view?id=<?= $p['invoice_id'] ?>" class="text-decoration-none"><code><?= e($p['invoice_number']) ?></code></a>
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </td>
                 <td>
-                    <a href="<?= BASE_URL ?>/payments/view.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1" title="Receipt"><i class="bi bi-receipt"></i></a>
+                    <a href="<?= BASE_URL ?>/payments/view?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1" title="Receipt"><i class="bi bi-receipt"></i></a>
                 </td>
             </tr>
             <?php endforeach; else: ?>
@@ -207,7 +207,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted"><?= count($payments) ?> of <?= $total ?> total</small>
-        <?= pagination_links($pg, BASE_URL . '/payments/index.php?' . $baseQuery) ?>
+        <?= pagination_links($pg, BASE_URL . '/payments/index?' . $baseQuery) ?>
     </div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

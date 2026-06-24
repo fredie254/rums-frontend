@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res  = $api->post('auth/mfa/confirm', ['code' => $code]);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Two-factor authentication enabled.');
-                redirect(BASE_URL . '/profile/security.php?tab=mfa');
+                redirect(BASE_URL . '/profile/security?tab=mfa');
             } else {
                 $errors[] = $res['message'] ?? 'Invalid code.';
                 // Re-show setup data from session
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = $api->post('auth/mfa/disable', ['password' => $pw]);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Two-factor authentication disabled.');
-                redirect(BASE_URL . '/profile/security.php?tab=mfa');
+                redirect(BASE_URL . '/profile/security?tab=mfa');
             } else {
                 $errors[] = $res['message'] ?? 'Failed to disable MFA.';
             }
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
                 if ($res['success'] ?? false) {
                     set_flash('success', 'Password changed successfully.');
-                    redirect(BASE_URL . '/profile/security.php?tab=password');
+                    redirect(BASE_URL . '/profile/security?tab=password');
                 } else {
                     $errors[] = $res['message'] ?? 'Password change failed.';
                 }
@@ -111,7 +111,7 @@ $page_title = 'Security Settings';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/dashboard/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/dashboard/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-shield-lock me-2 text-primary"></i>Security Settings</h5>
@@ -421,7 +421,7 @@ include BASE_PATH . '/includes/header.php';
         <?php endif; ?>
     </div>
     <div class="card-footer bg-transparent">
-        <form method="post" action="<?= BASE_URL ?>/auth/logout.php">
+        <form method="post" action="<?= BASE_URL ?>/auth/logout">
             <?= csrf_field() ?>
             <button type="submit" class="btn btn-sm btn-outline-danger">
                 <i class="bi bi-box-arrow-right me-1"></i>Log Out All Sessions

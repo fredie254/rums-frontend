@@ -17,7 +17,7 @@ $all_roles = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/users/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/users/add'); }
 
     $name      = post('name');
     $email     = post('email');
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($res['success'])) {
             set_flash('success', "User \"$name\" created successfully.");
-            redirect(BASE_URL . '/users/index.php');
+            redirect(BASE_URL . '/users/index');
         }
         $errors[] = $res['message'] ?? 'Failed to create user.';
     }
@@ -60,7 +60,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-4">
-    <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-sm btn-outline-secondary me-3">
+    <a href="<?= BASE_URL ?>/users/index" class="btn btn-sm btn-outline-secondary me-3">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div>
@@ -150,7 +150,7 @@ include BASE_PATH . '/includes/header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle me-1"></i>Create User
                             </button>
-                            <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="<?= BASE_URL ?>/users/index" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>

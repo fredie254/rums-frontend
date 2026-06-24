@@ -16,7 +16,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/reports/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        <a href="<?= BASE_URL ?>/reports/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
         <h5 class="fw-bold mb-0"><i class="bi bi-layers me-2 text-warning"></i>Accounts Receivable Aging</h5>
     </div>
     <button onclick="window.print()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-printer me-1"></i>Print</button>
@@ -114,7 +114,7 @@ $bgColors  = ['current'=>'#d1fae5','1_30'=>'#fef9c3','31_60'=>'#ffedd5','61_90'=
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a>
+                    <a href="<?= BASE_URL ?>/invoices/view?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>
             <?php endforeach; ?>

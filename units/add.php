@@ -9,7 +9,7 @@ $prop_id    = int_param('property_id');
 $errors     = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/units/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/units/add'); }
 
     $data = [
         'property_id'           => int_param('property_id', 0, 'post'),
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = $api->post('units', $data);
         if (!empty($res['success'])) {
             set_flash('success', "Unit {$data['unit_number']} added successfully.");
-            redirect(BASE_URL . '/units/index.php?property_id=' . $data['property_id']);
+            redirect(BASE_URL . '/units/index?property_id=' . $data['property_id']);
         }
         $errors[] = $res['message'] ?? 'Failed to create unit.';
         foreach ($res['errors'] ?? [] as $e) $errors[] = $e;
@@ -50,7 +50,7 @@ $page_title = 'Add Unit';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/units/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Add New Unit</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -115,7 +115,7 @@ include BASE_PATH . '/includes/header.php';
                 <div class="col-12"><label class="form-label fw-semibold">Description</label><textarea name="description" class="form-control" rows="2"><?= e(post('description')) ?></textarea></div>
                 <div class="col-12 d-flex gap-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Save Unit</button>
-                    <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="<?= BASE_URL ?>/units/index" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </div>
         </form>

@@ -7,17 +7,17 @@ $user = current_user();
 // Role-based dashboard redirects
 $role = $user['role'] ?? 'tenant';
 if ($role === 'landlord') {
-    redirect(BASE_URL . '/landlord/dashboard.php');
+    redirect(BASE_URL . '/landlord/dashboard');
 } elseif ($role === 'accountant') {
-    redirect(BASE_URL . '/accountant/dashboard.php');
+    redirect(BASE_URL . '/accountant/dashboard');
 } elseif ($role === 'maintenance') {
-    redirect(BASE_URL . '/maintenance_staff/dashboard.php');
+    redirect(BASE_URL . '/maintenance_staff/dashboard');
 } elseif ($role === 'auditor') {
-    redirect(BASE_URL . '/auditor/dashboard.php');
+    redirect(BASE_URL . '/auditor/dashboard');
 } elseif ($role === 'security') {
-    redirect(BASE_URL . '/security/dashboard.php');
+    redirect(BASE_URL . '/security/dashboard');
 } elseif ($role === 'tenant') {
-    redirect(BASE_URL . '/tenant/dashboard.php');
+    redirect(BASE_URL . '/tenant/dashboard');
 }
 
 $api = new ApiClient();
@@ -80,10 +80,10 @@ include BASE_PATH . '/includes/header.php';
         <small class="text-muted">Welcome back, <?= e($user['name']) ?> &mdash; <?= date('l, d F Y') ?></small>
     </div>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/invoices/generate.php" class="btn btn-sm btn-outline-primary">
+        <a href="<?= BASE_URL ?>/invoices/generate" class="btn btn-sm btn-outline-primary">
             <i class="bi bi-receipt me-1"></i>Generate Invoices
         </a>
-        <a href="<?= BASE_URL ?>/payments/add.php" class="btn btn-sm btn-warning">
+        <a href="<?= BASE_URL ?>/payments/add" class="btn btn-sm btn-warning">
             <i class="bi bi-plus-circle me-1"></i>Record Payment
         </a>
     </div>
@@ -198,7 +198,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold"><i class="bi bi-clock-history text-success me-2"></i>Recent Payments</h6>
-                <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary">View All</a>
+                <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary">View All</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0">
@@ -231,7 +231,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Overdue Invoices</h6>
-                <a href="<?= BASE_URL ?>/invoices/index.php?status=overdue" class="btn btn-sm btn-outline-danger">View All</a>
+                <a href="<?= BASE_URL ?>/invoices/index?status=overdue" class="btn btn-sm btn-outline-danger">View All</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0">
@@ -263,7 +263,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm border-warning">
             <div class="card-header bg-warning bg-opacity-10 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold text-warning"><i class="bi bi-hourglass-split me-2"></i>Leases Expiring Within 30 Days (<?= count($expiring_leases) ?>)</h6>
-                <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-sm btn-outline-warning">All Leases</a>
+                <a href="<?= BASE_URL ?>/leases/index" class="btn btn-sm btn-outline-warning">All Leases</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0">
@@ -276,7 +276,7 @@ include BASE_PATH . '/includes/header.php';
                             <td><?= money($el['monthly_rent'] ?? 0) ?></td>
                             <td><?= fmt_date($el['end_date']) ?></td>
                             <td><span class="badge <?= ($el['days_remaining'] ?? 99) <= 7 ? 'bg-danger' : 'bg-warning text-dark' ?>"><?= $el['days_remaining'] ?? '?' ?> days</span></td>
-                            <td><a href="<?= BASE_URL ?>/leases/view.php?id=<?= $el['id'] ?>" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
+                            <td><a href="<?= BASE_URL ?>/leases/view?id=<?= $el['id'] ?>" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

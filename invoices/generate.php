@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/generate.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/generate'); }
 
     $month    = (int)post('period_month');
     $year     = (int)post('period_year');
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = $api->post('invoices/bulk', $payload);
         if (!empty($res['success'])) {
             set_flash('success', $res['message'] ?? 'Invoices generated.');
-            redirect(BASE_URL . '/invoices/index.php?month=' . $month . '&year=' . $year);
+            redirect(BASE_URL . '/invoices/index?month=' . $month . '&year=' . $year);
         }
         $errors[] = $res['message'] ?? 'Failed to generate invoices.';
     }
@@ -34,7 +34,7 @@ $page_title   = 'Generate Invoices';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/invoices/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/invoices/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Generate Monthly Invoices</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -76,7 +76,7 @@ include BASE_PATH . '/includes/header.php';
                 </div>
                 <div class="col-12 d-flex gap-2 align-items-center">
                     <button type="submit" class="btn btn-info text-white"><i class="bi bi-receipt me-1"></i>Generate Invoices</button>
-                    <a href="<?= BASE_URL ?>/invoices/mark-overdue.php" class="btn btn-outline-warning"><i class="bi bi-clock-history me-1"></i>Mark Overdue</a>
+                    <a href="<?= BASE_URL ?>/invoices/mark-overdue" class="btn btn-outline-warning"><i class="bi bi-clock-history me-1"></i>Mark Overdue</a>
                 </div>
             </div>
         </form>

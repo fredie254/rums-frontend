@@ -4,10 +4,10 @@ require_role('admin', 'manager');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { set_flash('error', 'Invalid template.'); redirect(BASE_URL . '/notifications/templates.php'); }
+if (!$id) { set_flash('error', 'Invalid template.'); redirect(BASE_URL . '/notifications/templates'); }
 
 $res = $api->get("message-templates/$id");
-if (empty($res['data'])) { set_flash('error', 'Template not found.'); redirect(BASE_URL . '/notifications/templates.php'); }
+if (empty($res['data'])) { set_flash('error', 'Template not found.'); redirect(BASE_URL . '/notifications/templates'); }
 
 $tpl    = $res['data'];
 $errors = [];
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res2 = $api->put("message-templates/$id", $payload);
         if ($res2['success'] ?? false) {
             set_flash('success', 'Template updated.');
-            redirect(BASE_URL . '/notifications/templates.php');
+            redirect(BASE_URL . '/notifications/templates');
         } else {
             $errors[] = $res2['message'] ?? 'Update failed.';
             $tpl = array_merge($tpl, $payload); // keep user input
@@ -40,7 +40,7 @@ $page_title = 'Edit Template — ' . e($tpl['name']);
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/notifications/templates.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/notifications/templates" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-pencil-square me-2 text-primary"></i>Edit Template</h5>
@@ -106,7 +106,7 @@ include BASE_PATH . '/includes/header.php';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-lg me-1"></i>Save Changes
                         </button>
-                        <a href="<?= BASE_URL ?>/notifications/templates.php" class="btn btn-outline-secondary">Cancel</a>
+                        <a href="<?= BASE_URL ?>/notifications/templates" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

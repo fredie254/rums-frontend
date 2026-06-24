@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/add'); }
 
     $first_name = trim(post('first_name'));
     $last_name  = trim(post('last_name'));
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($res['success'])) {
             $pwd = $res['data']['default_password'] ?? ('Tenant@' . substr(preg_replace('/\D/', '', $id_number), -4));
             set_flash('success', "Tenant \"$first_name $last_name\" added. Login: $email — Default password: $pwd");
-            redirect(BASE_URL . '/tenants/index.php');
+            redirect(BASE_URL . '/tenants/index');
         }
         $errors[] = $res['message'] ?? 'Failed to save tenant.';
     }
@@ -61,7 +61,7 @@ $page_title = 'Add Tenant';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/tenants/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/tenants/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Add New Tenant</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -107,7 +107,7 @@ include BASE_PATH . '/includes/header.php';
                 <div class="col-12"><label class="form-label fw-semibold">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e(post('notes')) ?></textarea></div>
                 <div class="col-12 d-flex gap-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Save Tenant</button>
-                    <a href="<?= BASE_URL ?>/tenants/index.php" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="<?= BASE_URL ?>/tenants/index" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </div>
         </form>

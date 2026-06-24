@@ -4,18 +4,18 @@ require_role('admin', 'manager');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/units/index.php'); }
+if (!$id) { redirect(BASE_URL . '/units/index'); }
 
 $res  = $api->get("units/$id");
 $unit = $res['data'] ?? null;
-if (!$unit) { set_flash('error', 'Unit not found.'); redirect(BASE_URL . '/units/index.php'); }
+if (!$unit) { set_flash('error', 'Unit not found.'); redirect(BASE_URL . '/units/index'); }
 
 $propRes    = $api->get('properties', ['per_page' => 200]);
 $properties = $propRes['data'] ?? [];
 $errors     = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/units/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/units/edit?id=' . $id); }
 
     $data = [
         'unit_number'           => post('unit_number'),
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upd = $api->put("units/$id", $data);
         if (!empty($upd['success'])) {
             set_flash('success', 'Unit updated successfully.');
-            redirect(BASE_URL . '/units/index.php?property_id=' . $unit['property_id']);
+            redirect(BASE_URL . '/units/index?property_id=' . $unit['property_id']);
         }
         $errors[] = $upd['message'] ?? 'Failed to update unit.';
     }
@@ -54,7 +54,7 @@ $page_title = 'Edit Unit ' . $unit['unit_number'];
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/units/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Edit Unit — <?= e($unit['unit_number']) ?></h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -105,7 +105,7 @@ include BASE_PATH . '/includes/header.php';
                 <div class="col-12"><label class="form-label fw-semibold">Description</label><textarea name="description" class="form-control" rows="2"><?= e($unit['description']) ?></textarea></div>
                 <div class="col-12 d-flex gap-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Update Unit</button>
-                    <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="<?= BASE_URL ?>/units/index" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </div>
         </form>

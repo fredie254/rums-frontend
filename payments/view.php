@@ -4,19 +4,19 @@ require_login();
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/payments/index.php'); }
+if (!$id) { redirect(BASE_URL . '/payments/index'); }
 
 // Handle reverse action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'reverse') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/payments/view.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/payments/view?id=' . $id); }
     $res = $api->post("payments/$id/reverse", []);
     set_flash(!empty($res['success']) ? 'success' : 'error', $res['message'] ?? 'Action failed.');
-    redirect(BASE_URL . '/payments/view.php?id=' . $id);
+    redirect(BASE_URL . '/payments/view?id=' . $id);
 }
 
 $res = $api->get("payments/$id");
 $pay = $res['data'] ?? null;
-if (!$pay) { set_flash('error', 'Payment not found.'); redirect(BASE_URL . '/payments/index.php'); }
+if (!$pay) { set_flash('error', 'Payment not found.'); redirect(BASE_URL . '/payments/index'); }
 
 // Decrypt phone if set
 if (!empty($pay['tenant_phone'])) {
@@ -27,7 +27,7 @@ $page_title = 'Receipt — ' . ($pay['payment_ref'] ?? $id);
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1">Payment Receipt</h5>
     <?= payment_badge($pay['status'] ?? 'completed') ?>
     <button onclick="window.print()" class="btn btn-sm btn-outline-secondary d-print-none"><i class="bi bi-printer me-1"></i>Print</button>
@@ -113,7 +113,7 @@ include BASE_PATH . '/includes/header.php';
             <?php if (!empty($pay['invoice_number'])): ?>
             <dt class="col-5 text-muted">Invoice</dt>
             <dd class="col-7">
-                <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $pay['invoice_id'] ?>" class="text-decoration-none d-print-none">
+                <a href="<?= BASE_URL ?>/invoices/view?id=<?= $pay['invoice_id'] ?>" class="text-decoration-none d-print-none">
                     <code><?= e($pay['invoice_number']) ?></code>
                 </a>
                 <span class="d-none d-print-inline"><code><?= e($pay['invoice_number']) ?></code></span>

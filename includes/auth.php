@@ -44,12 +44,12 @@ function require_login(): void
 {
     if (!is_logged_in()) {
         set_flash('error', 'Please login to continue.');
-        redirect(BASE_URL . '/index.php');
+        redirect(BASE_URL . '/index');
     }
     $user = current_user();
     if (!$user || ($user['status'] ?? '') !== 'active') {
         session_destroy();
-        redirect(BASE_URL . '/index.php?err=suspended');
+        redirect(BASE_URL . '/index?err=suspended');
     }
 }
 
@@ -59,7 +59,7 @@ function require_role(string ...$roles): void
     $user = current_user();
     if (!in_array($user['role'], $roles, true)) {
         set_flash('error', 'Access denied. Insufficient permissions.');
-        redirect(BASE_URL . '/dashboard/index.php');
+        redirect(BASE_URL . '/dashboard/index');
     }
 }
 
@@ -139,7 +139,7 @@ function login_user(string $email, string $password): bool
     if ($res['data']['mfa_required'] ?? false) {
         $_SESSION['mfa_pending_token'] = $res['data']['pending_token'] ?? '';
         $_SESSION['mfa_pending_email'] = strtolower(trim($email));
-        redirect(BASE_URL . '/auth/mfa_verify.php');
+        redirect(BASE_URL . '/auth/mfa_verify');
         return false; // unreachable
     }
     // ─────────────────────────────────────────────────────────

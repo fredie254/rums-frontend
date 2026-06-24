@@ -12,10 +12,10 @@ $token   = $_SESSION['api_token'] ?? '';
     <h5 class="fw-bold mb-0"><i class="bi bi-bar-chart-line me-2 text-primary"></i>Reports &amp; Analytics</h5>
     <?php if (is_manager()): ?>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/reports/scheduled.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/reports/scheduled" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-calendar-check me-1"></i>Scheduled Reports
         </a>
-        <a href="<?= BASE_URL ?>/reports/dashboard.php" class="btn btn-sm btn-primary">
+        <a href="<?= BASE_URL ?>/reports/dashboard" class="btn btn-sm btn-primary">
             <i class="bi bi-speedometer2 me-1"></i>Executive Dashboard
         </a>
     </div>
@@ -26,7 +26,7 @@ $token   = $_SESSION['api_token'] ?? '';
 <h6 class="text-uppercase text-muted small fw-bold mb-2 mt-1">BI Dashboards</h6>
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <a href="<?= BASE_URL ?>/reports/dashboard.php" class="text-decoration-none">
+        <a href="<?= BASE_URL ?>/reports/dashboard" class="text-decoration-none">
             <div class="card shadow-sm card-hover border-primary border-2 h-100">
                 <div class="card-body d-flex align-items-center gap-3 py-3">
                     <div class="report-icon bg-primary-soft"><i class="bi bi-speedometer2 text-primary fs-3"></i></div>
@@ -40,7 +40,7 @@ $token   = $_SESSION['api_token'] ?? '';
         </a>
     </div>
     <div class="col-md-4">
-        <a href="<?= BASE_URL ?>/reports/unit_performance.php" class="text-decoration-none">
+        <a href="<?= BASE_URL ?>/reports/unit_performance" class="text-decoration-none">
             <div class="card shadow-sm card-hover h-100">
                 <div class="card-body d-flex align-items-center gap-3 py-3">
                     <div class="report-icon bg-primary-soft"><i class="bi bi-graph-up-arrow text-primary fs-3"></i></div>
@@ -54,7 +54,7 @@ $token   = $_SESSION['api_token'] ?? '';
         </a>
     </div>
     <div class="col-md-4">
-        <a href="<?= BASE_URL ?>/reports/arrears.php" class="text-decoration-none">
+        <a href="<?= BASE_URL ?>/reports/arrears" class="text-decoration-none">
             <div class="card shadow-sm card-hover h-100">
                 <div class="card-body d-flex align-items-center gap-3 py-3">
                     <div class="report-icon bg-danger-soft"><i class="bi bi-graph-down-arrow text-danger fs-3"></i></div>
@@ -113,7 +113,7 @@ $token   = $_SESSION['api_token'] ?? '';
 <h6 class="text-uppercase text-muted small fw-bold mb-2">Automation</h6>
 <div class="row g-3">
     <div class="col-md-4">
-        <a href="<?= BASE_URL ?>/reports/scheduled.php" class="text-decoration-none">
+        <a href="<?= BASE_URL ?>/reports/scheduled" class="text-decoration-none">
             <div class="card shadow-sm card-hover h-100">
                 <div class="card-body d-flex align-items-center gap-3 py-3">
                     <div class="report-icon bg-success-soft"><i class="bi bi-calendar-check text-success fs-3"></i></div>

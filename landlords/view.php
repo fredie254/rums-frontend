@@ -6,7 +6,7 @@ $api = new ApiClient();
 $id  = int_param('id');
 $res = $api->get("landlords/$id");
 $ll  = $res['data'] ?? null;
-if (!$ll) { set_flash('error', 'Landlord not found.'); redirect(BASE_URL . '/landlords/index.php'); }
+if (!$ll) { set_flash('error', 'Landlord not found.'); redirect(BASE_URL . '/landlords/index'); }
 
 $props = $ll['properties'] ?? [];
 
@@ -14,9 +14,9 @@ $page_title = 'Landlord — ' . $ll['name'];
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/landlords/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/landlords/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1"><?= e($ll['name']) ?></h5>
-    <a href="<?= BASE_URL ?>/landlords/edit.php?id=<?= $id ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
+    <a href="<?= BASE_URL ?>/landlords/edit?id=<?= $id ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
 </div>
 <div class="row g-3">
     <div class="col-md-4">
@@ -53,7 +53,7 @@ include BASE_PATH . '/includes/header.php';
                             <td><?= ucfirst($p['property_type'] ?? '') ?></td>
                             <td><?= $p['total_units'] ?? 0 ?></td>
                             <td><?= $p['occupied_units'] ?? 0 ?></td>
-                            <td><a href="<?= BASE_URL ?>/properties/view.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
+                            <td><a href="<?= BASE_URL ?>/properties/view?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="5" class="text-center text-muted py-3">No properties.</td></tr>

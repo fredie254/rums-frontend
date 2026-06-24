@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
         set_flash('success', 'Work order assigned.');
     }
 
-    redirect(BASE_URL . '/maintenance_staff/work_orders.php' . ($_GET ? '?'.http_build_query($_GET) : ''));
+    redirect(BASE_URL . '/maintenance_staff/work_orders' . ($_GET ? '?'.http_build_query($_GET) : ''));
 }
 
 /* ── View single work order ── */
@@ -92,7 +92,7 @@ include BASE_PATH . '/includes/header.php';
 <!-- ── Single Work Order Detail ── -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-clipboard-check me-2 text-warning"></i>Work Order #<?= e($work_order['request_number'] ?? $work_order['id']) ?></h5>
-    <a href="work_orders.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>All Orders</a>
+    <a href="work_orders" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>All Orders</a>
 </div>
 
 <div class="row g-4">
@@ -175,7 +175,7 @@ include BASE_PATH . '/includes/header.php';
                 </button>
                 <?php endif; ?>
 
-                <a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $work_order['id'] ?>" class="btn btn-outline-secondary w-100">
+                <a href="<?= BASE_URL ?>/maintenance/view?id=<?= $work_order['id'] ?>" class="btn btn-outline-secondary w-100">
                     <i class="bi bi-eye me-1"></i>Full Details
                 </a>
             </div>
@@ -264,7 +264,7 @@ include BASE_PATH . '/includes/header.php';
 <!-- ── Work Orders List ── -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="fw-bold mb-0"><i class="bi bi-clipboard-list me-2 text-warning"></i>Work Orders</h5>
-    <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-warning btn-sm">
+    <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-warning btn-sm">
         <i class="bi bi-plus-lg me-1"></i>New Request
     </a>
 </div>
@@ -315,7 +315,7 @@ include BASE_PATH . '/includes/header.php';
             <?php endif; ?>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="work_orders.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="work_orders" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

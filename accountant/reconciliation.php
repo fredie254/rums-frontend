@@ -59,7 +59,7 @@ include BASE_PATH . '/includes/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="fw-bold mb-0"><i class="bi bi-arrow-left-right me-2 text-primary"></i>Payment Reconciliation</h5>
-    <a href="<?= BASE_URL ?>/accountant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/accountant/dashboard" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left me-1"></i>Back
     </a>
 </div>
@@ -92,7 +92,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="reconciliation.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="reconciliation" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>
@@ -142,7 +142,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm mb-4">
     <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold">Payments — <?= date('F Y', strtotime($date_from)) ?></span>
-        <a href="<?= BASE_URL ?>/reports/financial.php" class="btn btn-outline-primary btn-sm">
+        <a href="<?= BASE_URL ?>/reports/financial" class="btn btn-outline-primary btn-sm">
             <i class="bi bi-download me-1"></i>Export
         </a>
     </div>
@@ -166,7 +166,7 @@ include BASE_PATH . '/includes/header.php';
                         $var_class = $variance === null ? '' : ($variance < 0 ? 'text-danger' : ($variance > 0 ? 'text-warning' : 'text-success'));
                     ?>
                     <tr>
-                        <td><a href="<?= BASE_URL ?>/payments/view.php?id=<?= $row['id'] ?>" class="text-decoration-none fw-semibold"><?= e($row['payment_ref'] ?? '—') ?></a></td>
+                        <td><a href="<?= BASE_URL ?>/payments/view?id=<?= $row['id'] ?>" class="text-decoration-none fw-semibold"><?= e($row['payment_ref'] ?? '—') ?></a></td>
                         <td><?= fmt_date($row['payment_date']) ?></td>
                         <td><?= e($row['tenant_name'] ?? '—') ?></td>
                         <td><?= e(!empty($row['unit_number']) ? ($row['property_name'] . ' / ' . $row['unit_number']) : '—') ?></td>
@@ -174,7 +174,7 @@ include BASE_PATH . '/includes/header.php';
                         <td class="text-end fw-semibold"><?= money($row['amount']) ?></td>
                         <td>
                             <?php if (!empty($row['invoice_number'])): ?>
-                            <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $row['invoice_id'] ?>"><?= e($row['invoice_number']) ?></a>
+                            <a href="<?= BASE_URL ?>/invoices/view?id=<?= $row['invoice_id'] ?>"><?= e($row['invoice_number']) ?></a>
                             <?php else: ?>
                             <span class="text-danger small"><i class="bi bi-exclamation-circle"></i> Unlinked</span>
                             <?php endif; ?>
@@ -221,7 +221,7 @@ include BASE_PATH . '/includes/header.php';
                     <td class="text-end fw-semibold"><?= money($m['amount']) ?></td>
                     <td><?= fmt_date($m['created_at'], true) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/payments/add.php?mpesa_id=<?= $m['id'] ?>" class="btn btn-xs btn-warning">
+                        <a href="<?= BASE_URL ?>/payments/add?mpesa_id=<?= $m['id'] ?>" class="btn btn-xs btn-warning">
                             <i class="bi bi-link-45deg me-1"></i>Link
                         </a>
                     </td>

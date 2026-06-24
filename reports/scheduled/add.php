@@ -11,7 +11,7 @@ $sched  = [];
 if ($isEdit) {
     $res   = $api->get("report-schedules/$editId");
     $sched = $res['data'] ?? [];
-    if (!$sched) { set_flash('error', 'Schedule not found.'); redirect(BASE_URL . '/reports/scheduled.php'); }
+    if (!$sched) { set_flash('error', 'Schedule not found.'); redirect(BASE_URL . '/reports/scheduled'); }
     $sched['recipients_raw'] = implode(', ', json_decode($sched['recipients'] ?? '[]', true) ?? []);
 }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($res['success'] ?? false) {
                 set_flash('success', $isEdit ? 'Schedule updated.' : 'Schedule created.');
-                redirect(BASE_URL . '/reports/scheduled.php');
+                redirect(BASE_URL . '/reports/scheduled');
             } else {
                 $errors[] = $res['message'] ?? 'Save failed.';
             }
@@ -75,7 +75,7 @@ $page_title = $isEdit ? 'Edit Report Schedule' : 'New Report Schedule';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/reports/scheduled.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/reports/scheduled" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0">
@@ -164,7 +164,7 @@ include BASE_PATH . '/includes/header.php';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-lg me-1"></i><?= $isEdit ? 'Save Changes' : 'Create Schedule' ?>
                         </button>
-                        <a href="<?= BASE_URL ?>/reports/scheduled.php" class="btn btn-outline-secondary">Cancel</a>
+                        <a href="<?= BASE_URL ?>/reports/scheduled" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

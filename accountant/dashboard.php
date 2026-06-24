@@ -87,7 +87,7 @@ include BASE_PATH . '/includes/header.php';
             <input type="number" name="year" class="form-control form-control-sm" value="<?= $year ?>" style="width:85px">
             <button class="btn btn-sm btn-outline-primary">Apply</button>
         </form>
-        <a href="<?= BASE_URL ?>/accountant/reconciliation.php" class="btn btn-sm btn-outline-success">
+        <a href="<?= BASE_URL ?>/accountant/reconciliation" class="btn btn-sm btn-outline-success">
             <i class="bi bi-check2-all me-1"></i>Reconcile
         </a>
     </div>
@@ -168,7 +168,7 @@ include BASE_PATH . '/includes/header.php';
             <?php endforeach; ?>
         </div>
         <div class="text-end mt-2">
-            <a href="<?= BASE_URL ?>/accountant/aging.php" class="btn btn-sm btn-outline-warning">
+            <a href="<?= BASE_URL ?>/accountant/aging" class="btn btn-sm btn-outline-warning">
                 <i class="bi bi-table me-1"></i>Full Aging Report
             </a>
         </div>
@@ -221,12 +221,12 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white fw-semibold">Quick Actions</div>
             <div class="card-body d-flex flex-wrap gap-2">
-                <a href="<?= BASE_URL ?>/accountant/reconciliation.php" class="btn btn-outline-success btn-sm"><i class="bi bi-check2-all me-1"></i>Payment Reconciliation</a>
-                <a href="<?= BASE_URL ?>/accountant/aging.php" class="btn btn-outline-warning btn-sm"><i class="bi bi-hourglass me-1"></i>AR Aging Report</a>
-                <a href="<?= BASE_URL ?>/accountant/expenses.php" class="btn btn-outline-danger btn-sm"><i class="bi bi-receipt-cutoff me-1"></i>Manage Expenses</a>
-                <a href="<?= BASE_URL ?>/accountant/statements.php" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-bar-graph me-1"></i>Income Statement</a>
-                <a href="<?= BASE_URL ?>/invoices/index.php?status=overdue" class="btn btn-outline-dark btn-sm"><i class="bi bi-exclamation-triangle me-1"></i>Overdue Invoices</a>
-                <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-outline-secondary btn-sm"><i class="bi bi-cash-coin me-1"></i>All Payments</a>
+                <a href="<?= BASE_URL ?>/accountant/reconciliation" class="btn btn-outline-success btn-sm"><i class="bi bi-check2-all me-1"></i>Payment Reconciliation</a>
+                <a href="<?= BASE_URL ?>/accountant/aging" class="btn btn-outline-warning btn-sm"><i class="bi bi-hourglass me-1"></i>AR Aging Report</a>
+                <a href="<?= BASE_URL ?>/accountant/expenses" class="btn btn-outline-danger btn-sm"><i class="bi bi-receipt-cutoff me-1"></i>Manage Expenses</a>
+                <a href="<?= BASE_URL ?>/accountant/statements" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-bar-graph me-1"></i>Income Statement</a>
+                <a href="<?= BASE_URL ?>/invoices/index?status=overdue" class="btn btn-outline-dark btn-sm"><i class="bi bi-exclamation-triangle me-1"></i>Overdue Invoices</a>
+                <a href="<?= BASE_URL ?>/payments/index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-cash-coin me-1"></i>All Payments</a>
             </div>
         </div>
     </div>
@@ -241,7 +241,7 @@ include BASE_PATH . '/includes/header.php';
             <tbody>
             <?php foreach ($recent_tx as $tx): ?>
             <tr>
-                <td><a href="<?= BASE_URL ?>/payments/view.php?id=<?= $tx['id'] ?>"><code class="small"><?= e($tx['payment_ref'] ?? '—') ?></code></a></td>
+                <td><a href="<?= BASE_URL ?>/payments/view?id=<?= $tx['id'] ?>"><code class="small"><?= e($tx['payment_ref'] ?? '—') ?></code></a></td>
                 <td><?= e($tx['tenant_name'] ?? '—') ?></td>
                 <td><?= e($tx['unit_number'] ?? '—') ?></td>
                 <td class="fw-semibold <?= ($tx['status']??'') === 'completed' ? 'text-success' : '' ?>"><?= money($tx['amount']) ?></td>

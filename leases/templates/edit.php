@@ -6,14 +6,14 @@ $api    = new ApiClient();
 $id     = int_param('id');
 $errors = [];
 
-if (!$id) { redirect(BASE_URL . '/leases/templates/index.php'); }
+if (!$id) { redirect(BASE_URL . '/leases/templates/index'); }
 
 $res = $api->get("lease-templates/$id");
 $tpl = $res['data'] ?? null;
-if (!$tpl) { set_flash('error', 'Template not found.'); redirect(BASE_URL . '/leases/templates/index.php'); }
+if (!$tpl) { set_flash('error', 'Template not found.'); redirect(BASE_URL . '/leases/templates/index'); }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/templates/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/templates/edit?id=' . $id); }
 
     $name       = trim(post('name'));
     $lease_type = post('lease_type') ?: 'fixed-term';
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         if (!empty($res2['success'])) {
             set_flash('success', 'Template updated.');
-            redirect(BASE_URL . '/leases/templates/index.php');
+            redirect(BASE_URL . '/leases/templates/index');
         }
         $errors[] = $res2['message'] ?? 'Failed to update template.';
     }
@@ -48,7 +48,7 @@ $page_title = 'Edit Template';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/leases/templates/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/templates/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Edit Template — <em><?= e($tpl['name']) ?></em></h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger small"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -96,7 +96,7 @@ include BASE_PATH . '/includes/header.php';
 
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Update Template</button>
-                <a href="<?= BASE_URL ?>/leases/templates/index.php" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= BASE_URL ?>/leases/templates/index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
     </div>

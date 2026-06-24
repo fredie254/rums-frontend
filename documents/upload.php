@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUuid = $res['data']['uuid'] ?? null;
             set_flash('success', 'Document uploaded successfully.');
             redirect($newUuid
-                ? BASE_URL . '/documents/view.php?uuid=' . urlencode($newUuid)
-                : BASE_URL . '/documents/index.php'
+                ? BASE_URL . '/documents/view?uuid=' . urlencode($newUuid)
+                : BASE_URL . '/documents/index'
             );
         } else {
             $errors[] = $res['message'] ?? 'Upload failed. Please try again.';
@@ -59,7 +59,7 @@ $page_title = 'Upload Document';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/documents/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/documents/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-upload me-2 text-primary"></i>Upload Document</h5>
@@ -160,7 +160,7 @@ include BASE_PATH . '/includes/header.php';
                         <button type="submit" class="btn btn-primary" id="submitBtn">
                             <i class="bi bi-upload me-1"></i>Upload
                         </button>
-                        <a href="<?= BASE_URL ?>/documents/index.php" class="btn btn-outline-secondary">Cancel</a>
+                        <a href="<?= BASE_URL ?>/documents/index" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

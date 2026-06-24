@@ -7,7 +7,7 @@ $user   = current_user();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error','Invalid request.'); redirect(BASE_URL.'/users/profile.php'); }
+    if (!verify_csrf()) { set_flash('error','Invalid request.'); redirect(BASE_URL.'/users/profile'); }
     $name  = post('name');
     $phone = post('phone');
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($res['success'])) {
             $_SESSION['user_name'] = $name;
             set_flash('success','Profile updated.');
-            redirect(BASE_URL.'/users/profile.php');
+            redirect(BASE_URL.'/users/profile');
         }
         $errors[] = $res['message'] ?? 'Failed to update profile.';
     }

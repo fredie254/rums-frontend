@@ -4,11 +4,11 @@ require_login();
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/units/index.php'); }
+if (!$id) { redirect(BASE_URL . '/units/index'); }
 
 $res  = $api->get("units/$id");
 $unit = $res['data'] ?? null;
-if (!$unit) { set_flash('error', 'Unit not found.'); redirect(BASE_URL . '/units/index.php'); }
+if (!$unit) { set_flash('error', 'Unit not found.'); redirect(BASE_URL . '/units/index'); }
 
 // Active lease
 $leaseRes = $api->get('leases', ['unit_id' => $id, 'status' => 'active', 'per_page' => 1]);
@@ -29,13 +29,13 @@ $page_title = 'Unit ' . $unit['unit_number'];
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/units/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1">Unit <?= e($unit['unit_number']) ?> — <?= e($unit['property_name'] ?? '') ?></h5>
     <?= unit_badge($unit['status']) ?>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/units/edit.php?id=<?= $unit['id'] ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
+    <a href="<?= BASE_URL ?>/units/edit?id=<?= $unit['id'] ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
     <?php if ($unit['status'] === 'available'): ?>
-    <a href="<?= BASE_URL ?>/leases/add.php?unit_id=<?= $unit['id'] ?>" class="btn btn-sm btn-success"><i class="bi bi-person-check me-1"></i>Assign Tenant</a>
+    <a href="<?= BASE_URL ?>/leases/add?unit_id=<?= $unit['id'] ?>" class="btn btn-sm btn-success"><i class="bi bi-person-check me-1"></i>Assign Tenant</a>
     <?php endif; ?>
     <?php endif; ?>
 </div>
@@ -67,7 +67,7 @@ include BASE_PATH . '/includes/header.php';
                 <p class="text-muted mb-1"><i class="bi bi-phone me-1"></i><?= e($lease['tenant_phone'] ?? '') ?></p>
                 <p class="mb-1">Lease: <?= fmt_date($lease['start_date']) ?> → <?= fmt_date($lease['end_date']) ?></p>
                 <p class="mb-2"><?= lease_badge($lease['status']) ?></p>
-                <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $lease['id'] ?>" class="btn btn-sm btn-outline-primary w-100">View Lease</a>
+                <a href="<?= BASE_URL ?>/leases/view?id=<?= $lease['id'] ?>" class="btn btn-sm btn-outline-primary w-100">View Lease</a>
             </div>
         </div>
         <?php endif; ?>
@@ -78,7 +78,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold"><i class="bi bi-cash-coin me-1 text-success"></i>Recent Payments</h6>
                 <?php if ($lease): ?>
-                <a href="<?= BASE_URL ?>/payments/index.php?lease_id=<?= $lease['id'] ?>" class="btn btn-sm btn-outline-secondary btn-xs">All</a>
+                <a href="<?= BASE_URL ?>/payments/index?lease_id=<?= $lease['id'] ?>" class="btn btn-sm btn-outline-secondary btn-xs">All</a>
                 <?php endif; ?>
             </div>
             <div class="table-responsive">
@@ -104,7 +104,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold"><i class="bi bi-wrench me-1 text-warning"></i>Maintenance Requests</h6>
-                <a href="<?= BASE_URL ?>/maintenance/add.php?unit_id=<?= $unit['id'] ?>" class="btn btn-sm btn-outline-warning btn-xs">+ New</a>
+                <a href="<?= BASE_URL ?>/maintenance/add?unit_id=<?= $unit['id'] ?>" class="btn btn-sm btn-outline-warning btn-xs">+ New</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm mb-0">
@@ -112,7 +112,7 @@ include BASE_PATH . '/includes/header.php';
                     <tbody>
                     <?php if ($maintenances): foreach ($maintenances as $m): ?>
                         <tr>
-                            <td><a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $m['id'] ?>"><?= e($m['issue_title']) ?></a></td>
+                            <td><a href="<?= BASE_URL ?>/maintenance/view?id=<?= $m['id'] ?>"><?= e($m['issue_title']) ?></a></td>
                             <td><?= ucfirst($m['category'] ?? '') ?></td>
                             <td><?= priority_badge($m['priority']) ?></td>
                             <td><?= maintenance_badge($m['status']) ?></td>

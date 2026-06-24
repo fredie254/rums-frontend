@@ -59,7 +59,7 @@ function mime_icon(string $mime): string {
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <h5 class="fw-bold mb-0"><i class="bi bi-folder2-open me-2 text-primary"></i>Document Repository</h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/documents/upload.php" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/documents/upload" class="btn btn-sm btn-primary">
         <i class="bi bi-upload me-1"></i>Upload Document
     </a>
     <?php endif; ?>
@@ -146,7 +146,7 @@ function mime_icon(string $mime): string {
                 <div class="d-flex align-items-start gap-2 mb-2">
                     <i class="bi <?= mime_icon($doc['mime_type']) ?> fs-3 flex-shrink-0"></i>
                     <div class="flex-grow-1 min-w-0">
-                        <a href="<?= BASE_URL ?>/documents/view.php?uuid=<?= urlencode($doc['uuid']) ?>"
+                        <a href="<?= BASE_URL ?>/documents/view?uuid=<?= urlencode($doc['uuid']) ?>"
                            class="fw-semibold text-body text-decoration-none d-block text-truncate" title="<?= e($doc['title']) ?>">
                             <?= e($doc['title']) ?>
                         </a>
@@ -173,7 +173,7 @@ function mime_icon(string $mime): string {
             <div class="card-footer py-1 bg-transparent d-flex justify-content-between align-items-center">
                 <small class="text-muted"><?= e($doc['uploaded_by_name'] ?? '—') ?></small>
                 <div class="d-flex gap-1">
-                    <a href="<?= BASE_URL ?>/documents/view.php?uuid=<?= urlencode($doc['uuid']) ?>"
+                    <a href="<?= BASE_URL ?>/documents/view?uuid=<?= urlencode($doc['uuid']) ?>"
                        class="btn btn-xs btn-sm btn-outline-primary py-0 px-1" title="View">
                         <i class="bi bi-eye"></i>
                     </a>
@@ -194,7 +194,7 @@ function mime_icon(string $mime): string {
         No documents found.
         <?php if (is_manager()): ?>
         <div class="mt-2">
-            <a href="<?= BASE_URL ?>/documents/upload.php" class="btn btn-sm btn-primary">Upload First Document</a>
+            <a href="<?= BASE_URL ?>/documents/upload" class="btn btn-sm btn-primary">Upload First Document</a>
         </div>
         <?php endif; ?>
     </div>
@@ -203,7 +203,7 @@ function mime_icon(string $mime): string {
 
 <?php if ($total > $pg['per_page']): ?>
 <div class="d-flex justify-content-end">
-    <?= pagination_links($pg, BASE_URL . '/documents/index.php?' . $baseQ) ?>
+    <?= pagination_links($pg, BASE_URL . '/documents/index?' . $baseQ) ?>
 </div>
 <?php endif; ?>
 

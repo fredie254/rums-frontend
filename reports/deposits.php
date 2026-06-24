@@ -16,7 +16,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/reports/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        <a href="<?= BASE_URL ?>/reports/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
         <h5 class="fw-bold mb-0"><i class="bi bi-safe me-2 text-primary"></i>Deposit Management</h5>
     </div>
     <button onclick="window.print()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-printer me-1"></i>Print</button>
@@ -121,10 +121,10 @@ include BASE_PATH . '/includes/header.php';
                 </td>
                 <td>
                     <div class="d-flex gap-1">
-                        <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $row['lease_id'] ?>"
+                        <a href="<?= BASE_URL ?>/leases/view?id=<?= $row['lease_id'] ?>"
                            class="btn btn-sm btn-outline-secondary py-0 px-1" title="View Lease"><i class="bi bi-eye"></i></a>
                         <?php if ($row['deposit_balance'] > 0 && $row['lease_status'] === 'terminated'): ?>
-                        <a href="<?= BASE_URL ?>/payments/add.php?lease_id=<?= $row['lease_id'] ?>&payment_type=deposit_refund"
+                        <a href="<?= BASE_URL ?>/payments/add?lease_id=<?= $row['lease_id'] ?>&payment_type=deposit_refund"
                            class="btn btn-sm btn-outline-warning py-0 px-1" title="Record Refund"><i class="bi bi-arrow-return-left"></i></a>
                         <?php endif; ?>
                     </div>

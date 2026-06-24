@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error','Invalid request.'); redirect(BASE_URL.'/users/change_password.php'); }
+    if (!verify_csrf()) { set_flash('error','Invalid request.'); redirect(BASE_URL.'/users/change_password'); }
     $current = $_POST['current_password'] ?? '';
     $new     = $_POST['new_password']     ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($res['success'])) {
             set_flash('success','Password changed successfully.');
-            redirect(BASE_URL.'/dashboard/index.php');
+            redirect(BASE_URL.'/dashboard/index');
         }
         $errors[] = $res['message'] ?? 'Failed to change password.';
     }

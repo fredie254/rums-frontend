@@ -24,7 +24,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-people me-2 text-primary"></i>Tenants</h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/tenants/add.php" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Tenant</a>
+    <a href="<?= BASE_URL ?>/tenants/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Tenant</a>
     <?php endif; ?>
 </div>
 <div class="card shadow-sm mb-3">
@@ -33,7 +33,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="col-md-5"><input type="text" name="search" class="form-control form-control-sm" placeholder="Search by name, email, phone, ID..." value="<?= e($search) ?>"></div>
             <div class="col-auto">
                 <button class="btn btn-sm btn-outline-primary">Search</button>
-                <a href="<?= BASE_URL ?>/tenants/index.php" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="<?= BASE_URL ?>/tenants/index" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </form>
     </div>
@@ -61,9 +61,9 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= !empty($t['lease_status']) ? lease_badge($t['lease_status']) : '<span class="text-muted small">No lease</span>' ?></td>
                     <td><?= ($t['status'] ?? '') === 'active' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-secondary">Inactive</span>' ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/tenants/view?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
                         <?php if (is_manager()): ?>
-                        <a href="<?= BASE_URL ?>/tenants/edit.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
+                        <a href="<?= BASE_URL ?>/tenants/edit?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -75,7 +75,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="card-footer d-flex justify-content-between">
         <small class="text-muted">Showing <?= count($tenants) ?> of <?= $total ?></small>
-        <?= pagination_links($pg, BASE_URL . '/tenants/index.php?search=' . urlencode($search)) ?>
+        <?= pagination_links($pg, BASE_URL . '/tenants/index?search=' . urlencode($search)) ?>
     </div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

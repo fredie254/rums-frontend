@@ -75,7 +75,7 @@ $pg = [
 
 /* ── URL for pagination (no page= in it) ── */
 $filter_qs  = !empty($q) ? '?' . http_build_query($q) : '';
-$paginate_url = BASE_URL . '/auditor/audit_trail.php' . $filter_qs;
+$paginate_url = BASE_URL . '/auditor/audit_trail' . $filter_qs;
 
 include BASE_PATH . '/includes/header.php';
 ?>
@@ -132,7 +132,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="audit_trail.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="audit_trail" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

@@ -30,7 +30,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-door-open me-2 text-primary"></i>Units</h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/units/add.php" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Unit</a>
+    <a href="<?= BASE_URL ?>/units/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Unit</a>
     <?php endif; ?>
 </div>
 
@@ -56,7 +56,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-sm btn-outline-primary">Filter</button>
-                <a href="<?= BASE_URL ?>/units/index.php" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="<?= BASE_URL ?>/units/index" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </form>
     </div>
@@ -80,9 +80,9 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= !empty($u['tenant_name']) ? e($u['tenant_name']) : '<span class="text-muted small">—</span>' ?></td>
                     <td><?= unit_badge($u['status']) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/units/view.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/units/view?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
                         <?php if (is_manager()): ?>
-                        <a href="<?= BASE_URL ?>/units/edit.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
+                        <a href="<?= BASE_URL ?>/units/edit?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -94,7 +94,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted">Showing <?= count($units) ?> of <?= $total ?></small>
-        <?= pagination_links($pg, BASE_URL . '/units/index.php?search=' . urlencode($search) . '&status=' . urlencode($status)) ?>
+        <?= pagination_links($pg, BASE_URL . '/units/index?search=' . urlencode($search) . '&status=' . urlencode($status)) ?>
     </div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

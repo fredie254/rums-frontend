@@ -23,28 +23,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
             'notes'        => post_param('notes') ?: null,
         ]);
         set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error saving expense.');
-        redirect(BASE_URL . '/accountant/expenses.php');
+        redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'approve' && is_admin()) {
         $id  = int_param('id');
         $res = $api->patch("expenses/$id/approve", []);
         set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
-        redirect(BASE_URL . '/accountant/expenses.php');
+        redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'reject' && is_admin()) {
         $id  = int_param('id');
         $res = $api->patch("expenses/$id/reject", []);
         set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
-        redirect(BASE_URL . '/accountant/expenses.php');
+        redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'mark_paid') {
         $id  = int_param('id');
         $res = $api->patch("expenses/$id/mark-paid", []);
         set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
-        redirect(BASE_URL . '/accountant/expenses.php');
+        redirect(BASE_URL . '/accountant/expenses');
     }
 }
 
@@ -138,7 +138,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="expenses.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="expenses" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>

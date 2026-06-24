@@ -4,11 +4,11 @@ require_login();
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/leases/index.php'); }
+if (!$id) { redirect(BASE_URL . '/leases/index'); }
 
 $res   = $api->get("leases/$id");
 $lease = $res['data'] ?? null;
-if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index.php'); }
+if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index'); }
 
 $invoices   = $lease['invoices']  ?? [];
 $payments   = $lease['payments']  ?? [];
@@ -24,7 +24,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <!-- ── Header ─────────────────────────────────────────────── -->
 <div class="d-flex align-items-center mb-3 gap-2 flex-wrap">
-    <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1">Lease — <code><?= e($lease['lease_number']) ?></code></h5>
     <?= lease_badge($lease['status']) ?>
     <?php if ($is_signed): ?>
@@ -34,14 +34,14 @@ include BASE_PATH . '/includes/header.php';
     <?php endif; ?>
 
     <?php if ($is_active && is_manager()): ?>
-    <a href="<?= BASE_URL ?>/payments/add.php?lease_id=<?= $id ?>" class="btn btn-sm btn-success"><i class="bi bi-cash me-1"></i>Payment</a>
-    <a href="<?= BASE_URL ?>/invoices/generate.php?lease_id=<?= $id ?>" class="btn btn-sm btn-outline-info"><i class="bi bi-receipt me-1"></i>Invoice</a>
-    <a href="<?= BASE_URL ?>/leases/renew.php?id=<?= $id ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-clockwise me-1"></i>Renew</a>
-    <a href="<?= BASE_URL ?>/leases/documents.php?lease_id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-paperclip me-1"></i>Docs</a>
+    <a href="<?= BASE_URL ?>/payments/add?lease_id=<?= $id ?>" class="btn btn-sm btn-success"><i class="bi bi-cash me-1"></i>Payment</a>
+    <a href="<?= BASE_URL ?>/invoices/generate?lease_id=<?= $id ?>" class="btn btn-sm btn-outline-info"><i class="bi bi-receipt me-1"></i>Invoice</a>
+    <a href="<?= BASE_URL ?>/leases/renew?id=<?= $id ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-clockwise me-1"></i>Renew</a>
+    <a href="<?= BASE_URL ?>/leases/documents?lease_id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-paperclip me-1"></i>Docs</a>
     <?php if (!$is_signed): ?>
     <button class="btn btn-sm btn-outline-success" onclick="markSigned(<?= $id ?>)"><i class="bi bi-patch-check me-1"></i>Mark Signed</button>
     <?php endif; ?>
-    <a href="<?= BASE_URL ?>/leases/terminate.php?id=<?= $id ?>" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle me-1"></i>Terminate</a>
+    <a href="<?= BASE_URL ?>/leases/terminate?id=<?= $id ?>" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle me-1"></i>Terminate</a>
     <?php endif; ?>
 </div>
 
@@ -117,7 +117,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php if (!empty($lease['tenant_email'])): ?><p class="mb-1"><i class="bi bi-envelope me-1 text-muted"></i><?= e($lease['tenant_email']) ?></p><?php endif; ?>
                 <?php if (!empty($lease['tenant_phone'])): ?><p class="mb-1"><i class="bi bi-phone me-1 text-muted"></i><?= e($lease['tenant_phone']) ?></p><?php endif; ?>
                 <?php if (!empty($lease['tenant_id'])): ?>
-                <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $lease['tenant_id'] ?>" class="btn btn-sm btn-outline-primary w-100">View Profile</a>
+                <a href="<?= BASE_URL ?>/tenants/view?id=<?= $lease['tenant_id'] ?>" class="btn btn-sm btn-outline-primary w-100">View Profile</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -138,7 +138,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <span class="fw-semibold small"><i class="bi bi-paperclip me-1 text-secondary"></i>Documents</span>
                 <?php if (is_manager()): ?>
-                <a href="<?= BASE_URL ?>/leases/documents.php?lease_id=<?= $id ?>" class="btn btn-xs btn-sm btn-outline-secondary">Manage</a>
+                <a href="<?= BASE_URL ?>/leases/documents?lease_id=<?= $id ?>" class="btn btn-xs btn-sm btn-outline-secondary">Manage</a>
                 <?php endif; ?>
             </div>
             <?php if ($documents): ?>
@@ -198,7 +198,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm mb-3">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold small"><i class="bi bi-receipt me-1 text-info"></i>Invoices</h6>
-                <a href="<?= BASE_URL ?>/invoices/index.php?lease_id=<?= $id ?>" class="btn btn-xs btn-sm btn-outline-secondary">All</a>
+                <a href="<?= BASE_URL ?>/invoices/index?lease_id=<?= $id ?>" class="btn btn-xs btn-sm btn-outline-secondary">All</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm mb-0">
@@ -211,7 +211,7 @@ include BASE_PATH . '/includes/header.php';
                             <td><?= money($inv['total_amount']) ?></td>
                             <td><?= money($inv['amount_paid']) ?></td>
                             <td><?= invoice_badge($inv['status']) ?></td>
-                            <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td>
+                            <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td>
                         </tr>
                     <?php endforeach; else: ?><tr><td colspan="6" class="text-center text-muted py-2">No invoices.</td></tr><?php endif; ?>
                     </tbody>

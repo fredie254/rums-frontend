@@ -4,11 +4,11 @@ require_role('admin', 'manager');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/tenants/index.php'); }
+if (!$id) { redirect(BASE_URL . '/tenants/index'); }
 
 $res    = $api->get("tenants/$id");
 $tenant = $res['data'] ?? null;
-if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index.php'); }
+if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index'); }
 
 $active_lease = $tenant['active_lease'] ?? null;
 
@@ -26,7 +26,7 @@ $errors = [];
 
 // ── Handle profile update ──────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'profile') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/edit?id=' . $id); }
 
     $first_name = trim(post('first_name'));
     $last_name  = trim(post('last_name'));
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'profile') {
         ]);
         if (!empty($upd['success'])) {
             set_flash('success', 'Tenant profile updated.');
-            redirect(BASE_URL . '/tenants/view.php?id=' . $id);
+            redirect(BASE_URL . '/tenants/view?id=' . $id);
         }
         $errors[] = $upd['message'] ?? 'Failed to update tenant.';
     }
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'profile') {
 
 // ── Handle unit assignment (create lease) ──────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'assign_unit') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/edit?id=' . $id); }
 
     $unit_id      = (int)post('unit_id');
     $start_date   = post('start_date');
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'assign_unit') {
 
         if (!empty($lease_res['success'])) {
             set_flash('success', 'Unit assigned and lease created successfully.');
-            redirect(BASE_URL . '/tenants/view.php?id=' . $id);
+            redirect(BASE_URL . '/tenants/view?id=' . $id);
         }
         $errors[] = $lease_res['message'] ?? 'Failed to create lease.';
     }
@@ -103,7 +103,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-4">
-    <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3">
+    <a href="<?= BASE_URL ?>/tenants/view?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div>
@@ -220,7 +220,7 @@ include BASE_PATH . '/includes/header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle me-1"></i>Save Profile
                             </button>
-                            <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="<?= BASE_URL ?>/tenants/view?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -250,7 +250,7 @@ include BASE_PATH . '/includes/header.php';
                 </table>
             </div>
             <div class="card-footer bg-white py-2">
-                <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $active_lease['id'] ?>" class="btn btn-sm btn-outline-primary w-100">
+                <a href="<?= BASE_URL ?>/leases/view?id=<?= $active_lease['id'] ?>" class="btn btn-sm btn-outline-primary w-100">
                     <i class="bi bi-file-earmark-text me-1"></i>View Lease
                 </a>
             </div>
@@ -324,7 +324,7 @@ include BASE_PATH . '/includes/header.php';
                 <div class="text-center text-muted py-2 small">
                     <i class="bi bi-door-closed d-block fs-3 mb-2 opacity-25"></i>
                     No vacant units available.<br>
-                    <a href="<?= BASE_URL ?>/units/add.php" class="btn btn-sm btn-outline-primary mt-2">Add a Unit</a>
+                    <a href="<?= BASE_URL ?>/units/add" class="btn btn-sm btn-outline-primary mt-2">Add a Unit</a>
                 </div>
                 <?php endif; ?>
             </div>
@@ -339,7 +339,7 @@ include BASE_PATH . '/includes/header.php';
                 <div class="small text-muted mb-1">User ID #<?= $tenant['user_id'] ?></div>
                 <div class="small"><?= e($tenant['email']) ?></div>
                 <div class="mt-2">
-                    <a href="<?= BASE_URL ?>/users/edit.php?id=<?= $tenant['user_id'] ?>" class="btn btn-sm btn-outline-secondary">
+                    <a href="<?= BASE_URL ?>/users/edit?id=<?= $tenant['user_id'] ?>" class="btn btn-sm btn-outline-secondary">
                         <i class="bi bi-person-gear me-1"></i>Manage Login
                     </a>
                 </div>

@@ -22,7 +22,7 @@ if (!$landlord_id) {
 
 if (!$landlord_id) {
     set_flash('error', 'No landlord profile linked to your account.');
-    redirect(BASE_URL . '/landlord/dashboard.php');
+    redirect(BASE_URL . '/landlord/dashboard');
 }
 
 /* ── Load landlord (includes properties array) ── */
@@ -31,7 +31,7 @@ $landlord = $ll['data'] ?? null;
 
 if (!$landlord) {
     set_flash('error', 'Landlord not found.');
-    redirect(BASE_URL . '/landlord/dashboard.php');
+    redirect(BASE_URL . '/landlord/dashboard');
 }
 
 $properties = $landlord['properties'] ?? [];

@@ -5,14 +5,14 @@ require_login();
 $lease_id   = int_param('lease_id');
 $invoice_id = int_param('invoice_id');
 
-if (!$lease_id) { set_flash('error', 'Lease not specified.'); redirect(BASE_URL . '/leases/index.php'); }
+if (!$lease_id) { set_flash('error', 'Lease not specified.'); redirect(BASE_URL . '/leases/index'); }
 
 $api       = new ApiClient();
 $lease_res = $api->get("leases/$lease_id");
 $lease     = $lease_res['data'] ?? null;
 if (!$lease || $lease['status'] !== 'active') {
     set_flash('error', 'Active lease not found.');
-    redirect(BASE_URL . '/leases/index.php');
+    redirect(BASE_URL . '/leases/index');
 }
 // Map tenant_phone to 'phone' for template compatibility
 $lease['phone'] = $lease['tenant_phone'] ?? '';
@@ -21,7 +21,7 @@ $page_title = 'Pay via M-Pesa';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $lease_id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/view?id=<?= $lease_id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Pay via M-Pesa &mdash; <?= e($lease['unit_number']) ?></h5>
 </div>
 <div class="card shadow-sm" style="max-width:480px;margin:auto">
@@ -106,7 +106,7 @@ async function initiateSTK() {
     fd.append('account', 'RENT-' + LEASE_ID);
 
     try {
-        const res  = await fetch(BASE_URL + '/api/mpesa_stk.php', { method: 'POST', body: fd });
+        const res  = await fetch(BASE_URL + '/api/mpesa_stk', { method: 'POST', body: fd });
         const data = await res.json();
         if (data.success) {
             checkoutId = data.checkout_request_id;
@@ -157,8 +157,8 @@ function scheduleNextPoll(delaySecs) {
                 document.getElementById('pollCountdown').textContent = 'Redirecting…';
                 setTimeout(() => {
                     window.location.href = paymentId
-                        ? BASE_URL + '/payments/view.php?id=' + paymentId
-                        : BASE_URL + '/payments/index.php';
+                        ? BASE_URL + '/payments/view?id=' + paymentId
+                        : BASE_URL + '/payments/index';
                 }, 1500);
                 return;
             }

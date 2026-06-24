@@ -4,15 +4,15 @@ require_login();
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/maintenance/index.php'); }
+if (!$id) { redirect(BASE_URL . '/maintenance/index'); }
 
 $res = $api->get("maintenance/$id");
 $req = $res['data'] ?? null;
-if (!$req) { set_flash('error', 'Request not found.'); redirect(BASE_URL . '/maintenance/index.php'); }
+if (!$req) { set_flash('error', 'Request not found.'); redirect(BASE_URL . '/maintenance/index'); }
 
 // Status update (managers only)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_manager()) {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/maintenance/view.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/maintenance/view?id=' . $id); }
     $new_status  = post('status');
     $assigned_to = int_param('assigned_to', 0, 'post') ?: null;
     $actual_cost = post('actual_cost') !== '' ? (float)post('actual_cost') : null;
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_manager()) {
 
     $upd = $api->patch("maintenance/$id", $payload);
     set_flash(!empty($upd['success']) ? 'success' : 'error', $upd['message'] ?? 'Request updated.');
-    redirect(BASE_URL . '/maintenance/view.php?id=' . $id);
+    redirect(BASE_URL . '/maintenance/view?id=' . $id);
 }
 
 // Staff dropdown for manager update form
@@ -49,7 +49,7 @@ $page_title = 'Maintenance Request';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/maintenance/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1"><?= e($req['issue_title'] ?? '') ?></h5>
     <?= priority_badge($req['priority'] ?? 'low') ?> <?= maintenance_badge($req['status'] ?? 'open') ?>
 </div>

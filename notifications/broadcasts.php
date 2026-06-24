@@ -16,12 +16,12 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/notifications/index.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/notifications/index" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i>
         </a>
         <h5 class="fw-bold mb-0"><i class="bi bi-broadcast me-2 text-primary"></i>Broadcast Messages</h5>
     </div>
-    <a href="<?= BASE_URL ?>/notifications/broadcasts/add.php" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/notifications/broadcasts/add" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-lg me-1"></i>New Broadcast
     </a>
 </div>
@@ -67,7 +67,7 @@ include BASE_PATH . '/includes/header.php';
                             <i class="bi bi-x"></i>
                         </button>
                         <?php elseif ($b['status'] === 'sent'): ?>
-                        <a href="<?= BASE_URL ?>/notifications/logs.php?<?= http_build_query(['date_from' => date('Y-m-d', strtotime($b['created_at'])), 'date_to' => date('Y-m-d', strtotime($b['completed_at'] ?? $b['created_at']))]) ?>" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-2">
+                        <a href="<?= BASE_URL ?>/notifications/logs?<?= http_build_query(['date_from' => date('Y-m-d', strtotime($b['created_at'])), 'date_to' => date('Y-m-d', strtotime($b['completed_at'] ?? $b['created_at']))]) ?>" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-2">
                             <i class="bi bi-journal me-1"></i>Logs
                         </a>
                         <?php endif; ?>
@@ -76,7 +76,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php endforeach; else: ?>
                 <tr><td colspan="9" class="text-center text-muted py-5">
                     <i class="bi bi-broadcast fs-2 d-block mb-2"></i>No broadcasts yet.
-                    <a href="<?= BASE_URL ?>/notifications/broadcasts/add.php" class="btn btn-sm btn-primary mt-2">Create First Broadcast</a>
+                    <a href="<?= BASE_URL ?>/notifications/broadcasts/add" class="btn btn-sm btn-primary mt-2">Create First Broadcast</a>
                 </td></tr>
                 <?php endif; ?>
             </tbody>
@@ -84,7 +84,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <?php if ($total > $pg['per_page']): ?>
     <div class="card-footer d-flex justify-content-end">
-        <?= pagination_links($pg, BASE_URL . '/notifications/broadcasts.php') ?>
+        <?= pagination_links($pg, BASE_URL . '/notifications/broadcasts') ?>
     </div>
     <?php endif; ?>
 </div>

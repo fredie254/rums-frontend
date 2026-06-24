@@ -6,7 +6,7 @@ $api = new ApiClient();
 
 // Handle delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/notifications/templates.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/notifications/templates'); }
     $id  = int_param('id', 0, $_POST);
     $res = $api->delete("message-templates/$id");
     if ($res['success'] ?? false) {
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     } else {
         set_flash('error', $res['message'] ?? 'Delete failed.');
     }
-    redirect(BASE_URL . '/notifications/templates.php');
+    redirect(BASE_URL . '/notifications/templates');
 }
 
 $category = get_param('category');
@@ -29,12 +29,12 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/notifications/index.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/notifications/index" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i>
         </a>
         <h5 class="fw-bold mb-0"><i class="bi bi-file-text me-2 text-primary"></i>Message Templates</h5>
     </div>
-    <a href="<?= BASE_URL ?>/notifications/templates/add.php" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/notifications/templates/add" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-lg me-1"></i>New Template
     </a>
 </div>
@@ -118,7 +118,7 @@ include BASE_PATH . '/includes/header.php';
                                 onclick="showPreview(<?= htmlspecialchars(json_encode($tpl), ENT_QUOTES) ?>)">
                             <i class="bi bi-eye"></i>
                         </button>
-                        <a href="<?= BASE_URL ?>/notifications/templates/edit.php?id=<?= $tpl['id'] ?>"
+                        <a href="<?= BASE_URL ?>/notifications/templates/edit?id=<?= $tpl['id'] ?>"
                            class="btn btn-xs btn-sm btn-outline-primary py-0 px-1" title="Edit">
                             <i class="bi bi-pencil"></i>
                         </a>
@@ -137,7 +137,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php endforeach; else: ?>
                 <tr><td colspan="7" class="text-center text-muted py-5">
                     <i class="bi bi-file-text fs-2 d-block mb-2"></i>No templates found.
-                    <a href="<?= BASE_URL ?>/notifications/templates/add.php" class="btn btn-sm btn-primary mt-2">Create Template</a>
+                    <a href="<?= BASE_URL ?>/notifications/templates/add" class="btn btn-sm btn-primary mt-2">Create Template</a>
                 </td></tr>
                 <?php endif; ?>
             </tbody>

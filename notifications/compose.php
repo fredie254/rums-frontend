@@ -12,7 +12,7 @@ $page_title = 'Compose Message';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/notifications/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/notifications/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-send me-2 text-primary"></i>Compose Message</h5>

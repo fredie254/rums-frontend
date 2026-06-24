@@ -11,10 +11,10 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        <a href="<?= BASE_URL ?>/leases/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
         <h5 class="fw-bold mb-0"><i class="bi bi-layout-text-window me-2 text-primary"></i>Lease Templates</h5>
     </div>
-    <a href="<?= BASE_URL ?>/leases/templates/add.php" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/leases/templates/add" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-circle me-1"></i>New Template
     </a>
 </div>
@@ -46,7 +46,7 @@ include BASE_PATH . '/includes/header.php';
                 </td>
                 <td class="small text-muted"><?= fmt_date($t['updated_at'] ?? $t['created_at']) ?></td>
                 <td>
-                    <a href="<?= BASE_URL ?>/leases/templates/edit.php?id=<?= $t['id'] ?>"
+                    <a href="<?= BASE_URL ?>/leases/templates/edit?id=<?= $t['id'] ?>"
                        class="btn btn-sm btn-outline-primary py-0 px-2"><i class="bi bi-pencil"></i> Edit</a>
                     <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="deleteTemplate(<?= $t['id'] ?>, '<?= e(addslashes($t['name'])) ?>')">
                         <i class="bi bi-trash"></i>
@@ -54,7 +54,7 @@ include BASE_PATH . '/includes/header.php';
                 </td>
             </tr>
             <?php endforeach; else: ?>
-            <tr><td colspan="6" class="text-center text-muted py-4">No templates yet. <a href="<?= BASE_URL ?>/leases/templates/add.php">Create one</a>.</td></tr>
+            <tr><td colspan="6" class="text-center text-muted py-4">No templates yet. <a href="<?= BASE_URL ?>/leases/templates/add">Create one</a>.</td></tr>
             <?php endif; ?>
             </tbody>
         </table>

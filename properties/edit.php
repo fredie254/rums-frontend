@@ -4,11 +4,11 @@ require_role('admin', 'manager');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { set_flash('error', 'Invalid property.'); redirect(BASE_URL . '/properties/index.php'); }
+if (!$id) { set_flash('error', 'Invalid property.'); redirect(BASE_URL . '/properties/index'); }
 
 $res  = $api->get("properties/$id");
 $prop = $res['data'] ?? null;
-if (!$prop) { set_flash('error', 'Property not found.'); redirect(BASE_URL . '/properties/index.php'); }
+if (!$prop) { set_flash('error', 'Property not found.'); redirect(BASE_URL . '/properties/index'); }
 
 // Fetch landlords and managers for dropdowns
 $ll_res    = $api->get('landlords', ['per_page' => 200]);
@@ -20,7 +20,7 @@ $managers  = array_merge($usr_res['data'] ?? [], $mgr_res['data'] ?? []);
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/properties/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/properties/edit?id=' . $id); }
 
     $name        = post('name');
     $address     = post('address');
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upd = $api->put("properties/$id", $payload);
         if (!empty($upd['success'])) {
             set_flash('success', 'Property updated successfully.');
-            redirect(BASE_URL . '/properties/index.php');
+            redirect(BASE_URL . '/properties/index');
         }
         $errors[] = $upd['message'] ?? 'Failed to update property.';
     }
@@ -74,7 +74,7 @@ $page_title = 'Edit Property';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/properties/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Edit Property — <?= e($prop['name']) ?></h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -144,7 +144,7 @@ include BASE_PATH . '/includes/header.php';
                 </div>
                 <div class="col-12 d-flex gap-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Update Property</button>
-                    <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="<?= BASE_URL ?>/properties/index" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </div>
         </form>

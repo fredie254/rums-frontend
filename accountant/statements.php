@@ -61,7 +61,7 @@ include BASE_PATH . '/includes/header.php';
         <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-printer me-1"></i>Print
         </button>
-        <a href="<?= BASE_URL ?>/accountant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/accountant/dashboard" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i>Back
         </a>
     </div>

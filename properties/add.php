@@ -13,7 +13,7 @@ $mgr_res   = $api->get('users', ['role' => 'manager', 'status' => 'all', 'per_pa
 $managers  = array_merge($usr_res['data'] ?? [], $mgr_res['data'] ?? []);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/properties/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/properties/add'); }
 
     $name        = post('name');
     $address     = post('address');
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = $api->post('properties', $payload);
         if (!empty($res['success'])) {
             set_flash('success', "Property \"$name\" added successfully.");
-            redirect(BASE_URL . '/properties/index.php');
+            redirect(BASE_URL . '/properties/index');
         }
         $errors[] = $res['message'] ?? 'Failed to add property.';
     }
@@ -60,7 +60,7 @@ $page_title = 'Add Property';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/properties/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Add New Property</h5>
 </div>
 
@@ -126,7 +126,7 @@ include BASE_PATH . '/includes/header.php';
                 </div>
                 <div class="col-12 mt-3 d-flex gap-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Save Property</button>
-                    <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="<?= BASE_URL ?>/properties/index" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </div>
         </form>

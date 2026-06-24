@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             set_flash('success', 'Consent preferences updated.');
-            redirect(BASE_URL . '/gdpr/index.php');
+            redirect(BASE_URL . '/gdpr/index');
 
         // ── Request data export ───────────────────────────────
         } elseif ($action === 'export_request') {
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res    = $api->post('gdpr/deletion/request', ['reason' => $reason]);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Deletion request submitted. An administrator will review it within 30 days.');
-                redirect(BASE_URL . '/gdpr/index.php');
+                redirect(BASE_URL . '/gdpr/index');
             } else {
                 $errors[] = $res['message'] ?? 'Could not submit request.';
             }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             if ($res['success'] ?? false) {
                 set_flash('success', $act === 'approve' ? 'User data anonymized.' : 'Request rejected.');
-                redirect(BASE_URL . '/gdpr/index.php');
+                redirect(BASE_URL . '/gdpr/index');
             } else {
                 $errors[] = $res['message'] ?? 'Processing failed.';
             }
@@ -96,7 +96,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/dashboard/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/dashboard/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-person-lock me-2 text-primary"></i>Privacy &amp; Data Management</h5>
@@ -263,7 +263,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="card-body">
                 <div class="fw-semibold mb-1"><i class="bi bi-shield-lock me-1 text-primary"></i>Account Security</div>
                 <p class="text-muted small mb-2">Manage two-factor authentication and change your password.</p>
-                <a href="<?= BASE_URL ?>/profile/security.php" class="btn btn-sm btn-outline-primary w-100">
+                <a href="<?= BASE_URL ?>/profile/security" class="btn btn-sm btn-outline-primary w-100">
                     <i class="bi bi-gear me-1"></i>Security Settings
                 </a>
             </div>

@@ -83,7 +83,7 @@ include BASE_PATH . '/includes/header.php';
         <tbody>
         <?php foreach ($recent as $r): ?>
             <tr>
-                <td><a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $r['id'] ?>"><code><?= e($r['request_number'] ?? '') ?></code></a></td>
+                <td><a href="<?= BASE_URL ?>/maintenance/view?id=<?= $r['id'] ?>"><code><?= e($r['request_number'] ?? '') ?></code></a></td>
                 <td><?= e(substr($r['issue_title'] ?? '', 0, 40)) ?></td>
                 <td><?= e($r['property_name'] ?? '') ?>/<?= e($r['unit_number'] ?? '') ?></td>
                 <td><?= priority_badge($r['priority'] ?? 'low') ?></td>

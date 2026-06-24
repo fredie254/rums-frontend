@@ -17,7 +17,7 @@ $tpl_res   = $api->get('lease-templates');
 $templates = $tpl_res['data'] ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/add'); }
 
     $unit_id       = int_param('unit_id', 0, 'post');
     $tenant_id     = int_param('tenant_id', 0, 'post');
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
             }
             set_flash('success', 'Lease ' . ($res['data']['lease_number'] ?? '') . ' created.');
-            redirect(BASE_URL . '/leases/view.php?id=' . $lease_id);
+            redirect(BASE_URL . '/leases/view?id=' . $lease_id);
         }
         $errors[] = $res['message'] ?? 'Failed to create lease.';
     }
@@ -90,7 +90,7 @@ $page_title = 'New Lease';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Create New Lease</h5>
     <?php if ($templates): ?>
     <div class="ms-auto">
@@ -255,7 +255,7 @@ include BASE_PATH . '/includes/header.php';
 
 <div class="d-flex gap-2 mb-4">
     <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Create Lease</button>
-    <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-outline-secondary">Cancel</a>
+    <a href="<?= BASE_URL ?>/leases/index" class="btn btn-outline-secondary">Cancel</a>
 </div>
 </form>
 

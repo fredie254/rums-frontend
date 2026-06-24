@@ -96,7 +96,7 @@ include BASE_PATH . '/includes/header.php';
         <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-printer me-1"></i>Print
         </button>
-        <a href="<?= BASE_URL ?>/reports/index.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/reports/index" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-grid me-1"></i>All Reports
         </a>
     </div>
@@ -157,7 +157,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm h-100">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-bar-chart me-1 text-primary"></i>Monthly Revenue (12 months)</span>
-                <a href="<?= BASE_URL ?>/reports/financial.php" class="small text-primary">Details &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/financial" class="small text-primary">Details &rarr;</a>
             </div>
             <div class="card-body">
                 <canvas id="chartRevenue" height="80"></canvas>
@@ -169,7 +169,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm h-100">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-pie-chart me-1 text-success"></i>Occupancy Status</span>
-                <a href="<?= BASE_URL ?>/reports/occupancy.php" class="small text-primary">Details &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/occupancy" class="small text-primary">Details &rarr;</a>
             </div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <canvas id="chartOccupancy" style="max-height:180px"></canvas>
@@ -190,7 +190,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm h-100">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-graph-down-arrow me-1 text-danger"></i>Billed vs Collected (6 months)</span>
-                <a href="<?= BASE_URL ?>/reports/arrears.php" class="small text-primary">Arrears Analysis &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/arrears" class="small text-primary">Arrears Analysis &rarr;</a>
             </div>
             <div class="card-body">
                 <canvas id="chartArrears" height="100"></canvas>
@@ -202,7 +202,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm h-100">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-wrench me-1 text-warning"></i>Maintenance</span>
-                <a href="<?= BASE_URL ?>/reports/maintenance.php" class="small text-primary">Details &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/maintenance" class="small text-primary">Details &rarr;</a>
             </div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <canvas id="chartMaint" style="max-height:160px"></canvas>
@@ -238,7 +238,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-exclamation-triangle me-1 text-danger"></i>Top Arrears Offenders</span>
-                <a href="<?= BASE_URL ?>/reports/arrears.php" class="small text-primary">Full list &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/arrears" class="small text-primary">Full list &rarr;</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm mb-0 align-middle">
@@ -271,7 +271,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-calendar-x me-1 text-warning"></i>Leases Expiring (90 days)</span>
-                <a href="<?= BASE_URL ?>/reports/occupancy.php" class="small text-primary">Full list &rarr;</a>
+                <a href="<?= BASE_URL ?>/reports/occupancy" class="small text-primary">Full list &rarr;</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm mb-0 align-middle">

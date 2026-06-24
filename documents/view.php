@@ -9,14 +9,14 @@ $errors = [];
 
 if (!$uuid) {
     set_flash('error', 'No document specified.');
-    redirect(BASE_URL . '/documents/index.php');
+    redirect(BASE_URL . '/documents/index');
 }
 
 // ── Load document ─────────────────────────────────────────────
 $docRes = $api->get('documents/' . urlencode($uuid));
 if (!($docRes['success'] ?? false)) {
     set_flash('error', $docRes['message'] ?? 'Document not found.');
-    redirect(BASE_URL . '/documents/index.php');
+    redirect(BASE_URL . '/documents/index');
 }
 $doc = $docRes['data'];
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = $api->patch('documents/' . urlencode($uuid), $payload);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Document updated.');
-                redirect(BASE_URL . '/documents/view.php?uuid=' . urlencode($uuid) . '&tab=overview');
+                redirect(BASE_URL . '/documents/view?uuid=' . urlencode($uuid) . '&tab=overview');
             } else {
                 $errors[] = $res['message'] ?? 'Update failed.';
             }
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($res['success'] ?? false) {
                     $newUuid = $res['data']['uuid'] ?? $uuid;
                     set_flash('success', 'Version ' . ($res['data']['version'] ?? '') . ' uploaded.');
-                    redirect(BASE_URL . '/documents/view.php?uuid=' . urlencode($newUuid) . '&tab=versions');
+                    redirect(BASE_URL . '/documents/view?uuid=' . urlencode($newUuid) . '&tab=versions');
                 } else {
                     $errors[] = $res['message'] ?? 'Version upload failed.';
                     $activeTab = 'version';
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = $api->delete('documents/' . urlencode($uuid));
             if ($res['success'] ?? false) {
                 set_flash('success', 'Document deleted.');
-                redirect(BASE_URL . '/documents/index.php');
+                redirect(BASE_URL . '/documents/index');
             } else {
                 $errors[] = $res['message'] ?? 'Delete failed.';
             }
@@ -125,7 +125,7 @@ include BASE_PATH . '/includes/header.php';
 
 <!-- Breadcrumb / header row -->
 <div class="d-flex align-items-center mb-3 gap-2 flex-wrap">
-    <a href="<?= BASE_URL ?>/documents/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/documents/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div class="flex-grow-1 min-w-0">

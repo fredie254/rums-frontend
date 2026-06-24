@@ -6,11 +6,11 @@ $api = new ApiClient();
 $id  = int_param('id');
 $res = $api->get("landlords/$id");
 $ll  = $res['data'] ?? null;
-if (!$ll) { set_flash('error', 'Not found.'); redirect(BASE_URL . '/landlords/index.php'); }
+if (!$ll) { set_flash('error', 'Not found.'); redirect(BASE_URL . '/landlords/index'); }
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/landlords/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/landlords/edit?id=' . $id); }
 
     $data = [
         'name'            => post('name'),
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upd = $api->put("landlords/$id", $data);
         if (!empty($upd['success'])) {
             set_flash('success', 'Landlord updated.');
-            redirect(BASE_URL . '/landlords/view.php?id=' . $id);
+            redirect(BASE_URL . '/landlords/view?id=' . $id);
         }
         $errors[] = $upd['message'] ?? 'Failed to update landlord.';
     }
@@ -44,7 +44,7 @@ $page_title = 'Edit Landlord';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/landlords/view.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/landlords/view?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Edit Landlord — <?= e($ll['name']) ?></h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -70,7 +70,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="col-12"><label class="form-label fw-semibold">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e($ll['notes']) ?></textarea></div>
             <div class="col-12 d-flex gap-2">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Update</button>
-                <a href="<?= BASE_URL ?>/landlords/view.php?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= BASE_URL ?>/landlords/view?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </div>
     </form>

@@ -42,7 +42,7 @@ $pg = [
 ];
 
 // ── Build URL base for pagination (preserve filters) ─────────
-$url_base = BASE_URL . '/reports/tenants.php?'
+$url_base = BASE_URL . '/reports/tenants?'
     . http_build_query(array_filter([
         'search' => $search,
         'status' => $status,
@@ -113,7 +113,7 @@ include BASE_PATH . '/includes/header.php';
                 <button class="btn btn-sm btn-outline-primary">
                     <i class="bi bi-funnel me-1"></i>Filter
                 </button>
-                <a href="<?= BASE_URL ?>/reports/tenants.php" class="btn btn-sm btn-outline-secondary">
+                <a href="<?= BASE_URL ?>/reports/tenants" class="btn btn-sm btn-outline-secondary">
                     Reset
                 </a>
             </div>
@@ -161,7 +161,7 @@ include BASE_PATH . '/includes/header.php';
                     </td>
                     <td><?= fmt_date($t['created_at'] ?? null) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= (int)$t['id'] ?>"
+                        <a href="<?= BASE_URL ?>/tenants/view?id=<?= (int)$t['id'] ?>"
                            class="btn btn-sm btn-outline-primary py-0 px-1"
                            title="View tenant">
                             <i class="bi bi-eye"></i>

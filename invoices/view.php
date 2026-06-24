@@ -7,23 +7,23 @@ $id  = int_param('id');
 
 // Handle void action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'void') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/view.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/view?id=' . $id); }
     $res = $api->post("invoices/$id/void", []);
     set_flash(!empty($res['success']) ? 'success' : 'error', $res['message'] ?? 'Action failed.');
-    redirect(BASE_URL . '/invoices/view.php?id=' . $id);
+    redirect(BASE_URL . '/invoices/view?id=' . $id);
 }
 
 // Handle apply-penalty action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'apply_penalty') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/view.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/view?id=' . $id); }
     $res = $api->post("invoices/$id/apply-penalty", []);
     set_flash(!empty($res['success']) ? 'success' : 'error', $res['message'] ?? 'Action failed.');
-    redirect(BASE_URL . '/invoices/view.php?id=' . $id);
+    redirect(BASE_URL . '/invoices/view?id=' . $id);
 }
 
 $res = $api->get("invoices/$id");
 $inv = $res['data'] ?? null;
-if (!$inv) { set_flash('error', 'Invoice not found.'); redirect(BASE_URL . '/invoices/index.php'); }
+if (!$inv) { set_flash('error', 'Invoice not found.'); redirect(BASE_URL . '/invoices/index'); }
 
 $payments = $inv['payments'] ?? [];
 $balance  = $inv['total_amount'] - $inv['amount_paid'];
@@ -32,12 +32,12 @@ $page_title = 'Invoice ' . $inv['invoice_number'];
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/invoices/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/invoices/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1">Invoice <?= e($inv['invoice_number']) ?></h5>
     <?= invoice_badge($inv['status']) ?>
     <button onclick="window.print()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-printer me-1"></i>Print</button>
     <?php if (in_array($inv['status'],['sent','partial','overdue']) && is_manager()): ?>
-    <a href="<?= BASE_URL ?>/payments/add.php?lease_id=<?= $inv['lease_id'] ?>&invoice_id=<?= $id ?>" class="btn btn-sm btn-success"><i class="bi bi-cash me-1"></i>Record Payment</a>
+    <a href="<?= BASE_URL ?>/payments/add?lease_id=<?= $inv['lease_id'] ?>&invoice_id=<?= $id ?>" class="btn btn-sm btn-success"><i class="bi bi-cash me-1"></i>Record Payment</a>
     <?php endif; ?>
     <?php if (!in_array($inv['status'], ['paid','cancelled','voided']) && is_manager()): ?>
     <form method="POST" style="display:inline" onsubmit="return confirm('Void this invoice? This cannot be undone.')">

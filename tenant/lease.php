@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_login();
 $user = current_user();
-if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index.php'); }
+if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index'); }
 
 $api = new ApiClient();
 
@@ -23,7 +23,7 @@ include BASE_PATH . '/includes/header.php';
         <h5 class="fw-bold mb-1"><i class="bi bi-file-earmark-text me-2 text-primary"></i>My Lease</h5>
         <small class="text-muted">Your current tenancy agreement and unit details</small>
     </div>
-    <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left me-1"></i>Dashboard
     </a>
 </div>
@@ -91,10 +91,10 @@ include BASE_PATH . '/includes/header.php';
                 <?php endif; ?>
             </div>
             <div class="card-footer bg-white d-flex gap-2">
-                <a href="<?= BASE_URL ?>/payments/mpesa_pay.php?lease_id=<?= $lease['id'] ?>" class="btn btn-success">
+                <a href="<?= BASE_URL ?>/payments/mpesa_pay?lease_id=<?= $lease['id'] ?>" class="btn btn-success">
                     <i class="bi bi-phone me-1"></i>Pay via M-Pesa
                 </a>
-                <a href="<?= BASE_URL ?>/tenant/invoices.php" class="btn btn-outline-primary">
+                <a href="<?= BASE_URL ?>/tenant/invoices" class="btn btn-outline-primary">
                     <i class="bi bi-receipt me-1"></i>View Invoices
                 </a>
             </div>
@@ -134,10 +134,10 @@ include BASE_PATH . '/includes/header.php';
             <div class="card-header bg-white fw-semibold small text-uppercase text-muted">Need Help?</div>
             <div class="card-body">
                 <p class="text-muted small mb-3">If you have questions about your lease or need to discuss renewal, contact management.</p>
-                <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-outline-warning btn-sm w-100 mb-2">
+                <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-outline-warning btn-sm w-100 mb-2">
                     <i class="bi bi-tools me-1"></i>Report a Maintenance Issue
                 </a>
-                <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-outline-secondary btn-sm w-100">
+                <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-outline-secondary btn-sm w-100">
                     <i class="bi bi-house me-1"></i>Back to Dashboard
                 </a>
             </div>
@@ -175,7 +175,7 @@ include BASE_PATH . '/includes/header.php';
         <i class="bi bi-file-earmark-x fs-1 text-muted opacity-25 d-block mb-3"></i>
         <h5 class="text-muted">No Active Lease Found</h5>
         <p class="text-muted small">You don't have an active lease at the moment. Contact management for assistance.</p>
-        <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-outline-primary btn-sm mt-2">
+        <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-outline-primary btn-sm mt-2">
             <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
         </a>
     </div>

@@ -40,7 +40,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/reports/index.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/reports/index" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i>
         </a>
         <h5 class="fw-bold mb-0"><i class="bi bi-graph-down-arrow me-2 text-danger"></i>Arrears Analysis</h5>
@@ -158,7 +158,7 @@ include BASE_PATH . '/includes/header.php';
                     </td>
                     <td class="small text-muted"><?= e($w['email'] ?? '—') ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/reports/ledger.php?tenant_name=<?= urlencode($w['tenant_name']) ?>" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1">
+                        <a href="<?= BASE_URL ?>/reports/ledger?tenant_name=<?= urlencode($w['tenant_name']) ?>" class="btn btn-xs btn-sm btn-outline-primary py-0 px-1">
                             <i class="bi bi-journal-text"></i> Ledger
                         </a>
                     </td>

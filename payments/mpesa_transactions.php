@@ -40,7 +40,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
         <h5 class="fw-bold mb-0"><i class="bi bi-phone me-2 text-success"></i>M-Pesa Transactions</h5>
     </div>
 </div>
@@ -68,7 +68,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto d-flex gap-1">
                 <button class="btn btn-sm btn-primary"><i class="bi bi-funnel me-1"></i>Filter</button>
-                <a href="<?= BASE_URL ?>/payments/mpesa_transactions.php" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="<?= BASE_URL ?>/payments/mpesa_transactions" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </form>
     </div>
@@ -103,7 +103,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= !empty($tx['mpesa_receipt']) ? '<code class="small text-success">' . e($tx['mpesa_receipt']) . '</code>' : '<span class="text-muted small">—</span>' ?></td>
                 <td>
                     <?php if (!empty($tx['payment_id'])): ?>
-                    <a href="<?= BASE_URL ?>/payments/view.php?id=<?= $tx['payment_id'] ?>" class="small text-decoration-none">
+                    <a href="<?= BASE_URL ?>/payments/view?id=<?= $tx['payment_id'] ?>" class="small text-decoration-none">
                         <i class="bi bi-receipt me-1"></i>View
                     </a>
                     <?php else: ?><span class="text-muted small">—</span><?php endif; ?>
@@ -131,7 +131,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted"><?= count($txns) ?> of <?= $total ?></small>
-        <?= pagination_links($pg, BASE_URL . '/payments/mpesa_transactions.php?' . http_build_query(['date_from'=>$dateFrom,'date_to'=>$dateTo,'status'=>$status])) ?>
+        <?= pagination_links($pg, BASE_URL . '/payments/mpesa_transactions?' . http_build_query(['date_from'=>$dateFrom,'date_to'=>$dateTo,'status'=>$status])) ?>
     </div>
 </div>
 

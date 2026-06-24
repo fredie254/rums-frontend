@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/landlords/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/landlords/add'); }
 
     $data = [
         'name'            => post('name'),
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = $api->post('landlords', $data);
         if (!empty($res['success'])) {
             set_flash('success', $res['message'] ?? 'Landlord added successfully.');
-            redirect(BASE_URL . '/landlords/index.php');
+            redirect(BASE_URL . '/landlords/index');
         }
         $errors[] = $res['message'] ?? 'Failed to save landlord.';
     }
@@ -41,7 +41,7 @@ $page_title = 'Add Landlord';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/landlords/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/landlords/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Add New Landlord</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -64,7 +64,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="col-12"><label class="form-label fw-semibold">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e(post('notes')) ?></textarea></div>
             <div class="col-12 d-flex gap-2">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Save Landlord</button>
-                <a href="<?= BASE_URL ?>/landlords/index.php" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= BASE_URL ?>/landlords/index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </div>
     </form>

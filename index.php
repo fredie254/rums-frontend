@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config/config.php';
 
 if (is_logged_in()) {
-    redirect(BASE_URL . '/dashboard/index.php');
+    redirect(BASE_URL . '/dashboard/index');
 }
 
 $error = '';
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($email) || empty($password)) {
             $error = 'Email and password are required.';
         } elseif (login_user($email, $password)) {
-            redirect(BASE_URL . '/dashboard/index.php');
+            redirect(BASE_URL . '/dashboard/index');
         } else {
             $error = 'Invalid email or password.';
         }

@@ -34,7 +34,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-buildings me-2 text-primary"></i>Properties</h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/properties/add.php" class="btn btn-primary btn-sm">
+    <a href="<?= BASE_URL ?>/properties/add" class="btn btn-primary btn-sm">
         <i class="bi bi-plus-circle me-1"></i>Add Property
     </a>
     <?php endif; ?>
@@ -56,7 +56,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-md-auto">
                 <button class="btn btn-sm btn-outline-primary">Filter</button>
-                <a href="<?= BASE_URL ?>/properties/index.php" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="<?= BASE_URL ?>/properties/index" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </form>
     </div>
@@ -98,11 +98,11 @@ include BASE_PATH . '/includes/header.php';
                 <small class="text-muted"><i class="bi bi-person me-1"></i><?= e($prop['landlord_name'] ?? '—') ?></small>
             </div>
             <div class="card-footer bg-white border-top-0 d-flex gap-2">
-                <a href="<?= BASE_URL ?>/properties/view.php?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-primary flex-fill">
+                <a href="<?= BASE_URL ?>/properties/view?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-primary flex-fill">
                     <i class="bi bi-eye me-1"></i>View
                 </a>
                 <?php if (is_manager()): ?>
-                <a href="<?= BASE_URL ?>/properties/edit.php?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-secondary flex-fill">
+                <a href="<?= BASE_URL ?>/properties/edit?id=<?= $prop['id'] ?>" class="btn btn-sm btn-outline-secondary flex-fill">
                     <i class="bi bi-pencil me-1"></i>Edit
                 </a>
                 <?php endif; ?>
@@ -116,7 +116,7 @@ include BASE_PATH . '/includes/header.php';
 
 <div class="mt-3 d-flex justify-content-between align-items-center">
     <small class="text-muted">Showing <?= count($properties) ?> of <?= $total ?> properties</small>
-    <?= pagination_links($pg, BASE_URL . '/properties/index.php?search=' . urlencode($search) . '&type=' . urlencode($type)) ?>
+    <?= pagination_links($pg, BASE_URL . '/properties/index?search=' . urlencode($search) . '&type=' . urlencode($type)) ?>
 </div>
 
 <?php include BASE_PATH . '/includes/footer.php'; ?>

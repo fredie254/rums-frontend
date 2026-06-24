@@ -650,7 +650,7 @@ function saveTab(tabName, fields) {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Saving…';
 
-    fetch('<?= BASE_URL ?>/settings/save.php', {
+    fetch('<?= BASE_URL ?>/settings/save', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>'},
         body: JSON.stringify(payload)

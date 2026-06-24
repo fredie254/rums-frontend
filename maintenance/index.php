@@ -25,7 +25,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-wrench me-2 text-warning"></i>Maintenance Requests</h5>
-    <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-warning btn-sm"><i class="bi bi-plus-circle me-1"></i>New Request</a>
+    <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-warning btn-sm"><i class="bi bi-plus-circle me-1"></i>New Request</a>
 </div>
 <div class="card shadow-sm mb-3"><div class="card-body py-2">
     <form method="GET" class="row g-2">
@@ -41,7 +41,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php foreach (['urgent','high','medium','low'] as $p): ?><option value="<?= $p ?>" <?= $priority===$p?'selected':'' ?>><?= ucfirst($p) ?></option><?php endforeach; ?>
             </select>
         </div>
-        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Filter</button><a href="<?= BASE_URL ?>/maintenance/index.php" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
+        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Filter</button><a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
     </form>
 </div></div>
 <div class="card shadow-sm">
@@ -53,7 +53,7 @@ include BASE_PATH . '/includes/header.php';
                 <tr>
                     <td><?= $sn++ ?></td>
                     <td><code class="small"><?= e($r['request_number'] ?? '') ?></code></td>
-                    <td><a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $r['id'] ?>"><?= e(mb_substr($r['issue_title'] ?? '', 0, 40)) ?><?= mb_strlen($r['issue_title'] ?? '') > 40 ? '…' : '' ?></a></td>
+                    <td><a href="<?= BASE_URL ?>/maintenance/view?id=<?= $r['id'] ?>"><?= e(mb_substr($r['issue_title'] ?? '', 0, 40)) ?><?= mb_strlen($r['issue_title'] ?? '') > 40 ? '…' : '' ?></a></td>
                     <td><?= e($r['property_name'] ?? '') ?>/<?= e($r['unit_number'] ?? '') ?></td>
                     <td><?= !empty($r['tenant_name']) ? e($r['tenant_name']) : '<span class="text-muted small">—</span>' ?></td>
                     <td><?= ucfirst(str_replace('_',' ',$r['category'] ?? '')) ?></td>
@@ -62,7 +62,7 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= maintenance_badge($r['status'] ?? 'open') ?></td>
                     <td><?= fmt_date($r['created_at']) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $r['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/maintenance/view?id=<?= $r['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
                     </td>
                 </tr>
             <?php endforeach; else: ?>
@@ -71,6 +71,6 @@ include BASE_PATH . '/includes/header.php';
             </tbody>
         </table>
     </div>
-    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($requests) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/maintenance/index.php?' . http_build_query(['status'=>$status,'priority'=>$priority])) ?></div>
+    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($requests) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/maintenance/index?' . http_build_query(['status'=>$status,'priority'=>$priority])) ?></div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

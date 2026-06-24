@@ -3,13 +3,13 @@ require_once __DIR__ . '/../config/config.php';
 
 // Already logged in
 if (is_logged_in()) {
-    redirect(BASE_URL . '/dashboard/index.php');
+    redirect(BASE_URL . '/dashboard/index');
 }
 
 // No pending MFA session
 if (empty($_SESSION['mfa_pending_token'])) {
     set_flash('error', 'No MFA session found. Please log in.');
-    redirect(BASE_URL . '/index.php');
+    redirect(BASE_URL . '/index');
 }
 
 $error        = '';
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $code   = trim(preg_replace('/\s+/', '', $_POST['code'] ?? ''));
         $result = mfa_login($pendingToken, $code);
         if ($result === true) {
-            redirect(BASE_URL . '/dashboard/index.php');
+            redirect(BASE_URL . '/dashboard/index');
         } else {
             $error = is_string($result) ? $result : 'Invalid code. Please try again.';
         }
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </details>
 
         <div class="text-center mt-3">
-            <a href="<?= BASE_URL ?>/index.php" class="text-muted small">
+            <a href="<?= BASE_URL ?>/index" class="text-muted small">
                 <i class="bi bi-arrow-left me-1"></i>Back to Login
             </a>
         </div>

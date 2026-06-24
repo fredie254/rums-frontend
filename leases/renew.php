@@ -6,18 +6,18 @@ $api    = new ApiClient();
 $id     = int_param('id');
 $errors = [];
 
-if (!$id) { redirect(BASE_URL . '/leases/index.php'); }
+if (!$id) { redirect(BASE_URL . '/leases/index'); }
 
 $res   = $api->get("leases/$id");
 $lease = $res['data'] ?? null;
-if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index.php'); }
+if (!$lease) { set_flash('error', 'Lease not found.'); redirect(BASE_URL . '/leases/index'); }
 if ($lease['status'] !== 'active') {
     set_flash('error', 'Only active leases can be renewed.');
-    redirect(BASE_URL . '/leases/view.php?id=' . $id);
+    redirect(BASE_URL . '/leases/view?id=' . $id);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/renew.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/renew?id=' . $id); }
 
     $new_end_date  = post('new_end_date');
     $new_rent      = (float)post('new_monthly_rent');
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         if (!empty($res['success'])) {
             set_flash('success', 'Lease renewed successfully.');
-            redirect(BASE_URL . '/leases/view.php?id=' . $id);
+            redirect(BASE_URL . '/leases/view?id=' . $id);
         }
         $errors[] = $res['message'] ?? 'Failed to renew lease.';
     }
@@ -46,7 +46,7 @@ $page_title = 'Renew Lease';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/view?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Renew Lease — <code><?= e($lease['lease_number']) ?></code></h5>
 </div>
 
@@ -142,7 +142,7 @@ include BASE_PATH . '/includes/header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle me-1"></i>Confirm Renewal
                             </button>
-                            <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="<?= BASE_URL ?>/leases/view?id=<?= $id ?>" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>

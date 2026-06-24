@@ -59,7 +59,7 @@ include BASE_PATH . '/includes/header.php';
         <h5 class="fw-bold mb-1"><i class="bi bi-person-gear me-2 text-primary"></i>User Management</h5>
         <small class="text-muted">Create, manage and control access for all system users</small>
     </div>
-    <a href="<?= BASE_URL ?>/users/add.php" class="btn btn-primary">
+    <a href="<?= BASE_URL ?>/users/add" class="btn btn-primary">
         <i class="bi bi-plus-circle me-1"></i>Add User
     </a>
 </div>
@@ -106,7 +106,7 @@ include BASE_PATH . '/includes/header.php';
     </a>
     <?php endforeach; ?>
     <?php if ($role || $status !== 'all' || $search): ?>
-    <a href="<?= BASE_URL ?>/users/index.php" class="text-decoration-none">
+    <a href="<?= BASE_URL ?>/users/index" class="text-decoration-none">
         <span class="badge bg-light text-muted border fs-6 px-3 py-2">
             <i class="bi bi-x-circle me-1"></i>Clear filters
         </span>
@@ -142,7 +142,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-sm btn-primary">Search</button>
-                <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-sm btn-outline-secondary ms-1">Reset</a>
+                <a href="<?= BASE_URL ?>/users/index" class="btn btn-sm btn-outline-secondary ms-1">Reset</a>
             </div>
         </form>
     </div>
@@ -207,10 +207,10 @@ include BASE_PATH . '/includes/header.php';
                 <td><small class="text-muted"><?= fmt_date($u['created_at']) ?></small></td>
                 <td class="text-end pe-3">
                     <div class="d-flex gap-1 justify-content-end">
-                        <a href="<?= BASE_URL ?>/users/view.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-secondary" title="View">
+                        <a href="<?= BASE_URL ?>/users/view?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-secondary" title="View">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>/users/edit.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
+                        <a href="<?= BASE_URL ?>/users/edit?id=<?= $u['id'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
                             <i class="bi bi-pencil"></i>
                         </a>
                         <?php if (!$isSelf): ?>
@@ -221,28 +221,28 @@ include BASE_PATH . '/includes/header.php';
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                                 <?php if ($u['status'] !== 'active'): ?>
                                 <li>
-                                    <a class="dropdown-item text-success" href="<?= BASE_URL ?>/users/set_status.php?id=<?= $u['id'] ?>&status=active&csrf=<?= csrf_token() ?>">
+                                    <a class="dropdown-item text-success" href="<?= BASE_URL ?>/users/set_status?id=<?= $u['id'] ?>&status=active&csrf=<?= csrf_token() ?>">
                                         <i class="bi bi-check-circle me-2"></i>Activate
                                     </a>
                                 </li>
                                 <?php endif; ?>
                                 <?php if ($u['status'] !== 'suspended'): ?>
                                 <li>
-                                    <a class="dropdown-item text-danger" href="<?= BASE_URL ?>/users/set_status.php?id=<?= $u['id'] ?>&status=suspended&csrf=<?= csrf_token() ?>">
+                                    <a class="dropdown-item text-danger" href="<?= BASE_URL ?>/users/set_status?id=<?= $u['id'] ?>&status=suspended&csrf=<?= csrf_token() ?>">
                                         <i class="bi bi-slash-circle me-2"></i>Suspend
                                     </a>
                                 </li>
                                 <?php endif; ?>
                                 <?php if ($u['status'] !== 'inactive'): ?>
                                 <li>
-                                    <a class="dropdown-item text-secondary" href="<?= BASE_URL ?>/users/set_status.php?id=<?= $u['id'] ?>&status=inactive&csrf=<?= csrf_token() ?>">
+                                    <a class="dropdown-item text-secondary" href="<?= BASE_URL ?>/users/set_status?id=<?= $u['id'] ?>&status=inactive&csrf=<?= csrf_token() ?>">
                                         <i class="bi bi-dash-circle me-2"></i>Deactivate
                                     </a>
                                 </li>
                                 <?php endif; ?>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a class="dropdown-item" href="<?= BASE_URL ?>/users/reset_password.php?id=<?= $u['id'] ?>">
+                                    <a class="dropdown-item" href="<?= BASE_URL ?>/users/reset_password?id=<?= $u['id'] ?>">
                                         <i class="bi bi-key me-2"></i>Reset Password
                                     </a>
                                 </li>
@@ -267,7 +267,7 @@ include BASE_PATH . '/includes/header.php';
         <small class="text-muted">
             Showing <?= count($users) ?> of <?= $total ?> user<?= $total !== 1 ? 's' : '' ?>
         </small>
-        <?= pagination_links($pg, BASE_URL . '/users/index.php?' . http_build_query(array_filter(['search' => $search, 'role' => $role, 'status' => $status !== 'all' ? $status : null]))) ?>
+        <?= pagination_links($pg, BASE_URL . '/users/index?' . http_build_query(array_filter(['search' => $search, 'role' => $role, 'status' => $status !== 'all' ? $status : null]))) ?>
     </div>
 </div>
 

@@ -32,7 +32,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-receipt me-2 text-info"></i>Invoices</h5>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/invoices/generate.php" class="btn btn-info btn-sm text-white"><i class="bi bi-plus-circle me-1"></i>Generate Invoices</a>
+    <a href="<?= BASE_URL ?>/invoices/generate" class="btn btn-info btn-sm text-white"><i class="bi bi-plus-circle me-1"></i>Generate Invoices</a>
     <?php endif; ?>
 </div>
 <div class="card shadow-sm mb-3"><div class="card-body py-2">
@@ -46,7 +46,7 @@ include BASE_PATH . '/includes/header.php';
         </div>
         <div class="col-md-1"><select name="month" class="form-select form-select-sm"><option value="">Month</option><?php for ($m=1;$m<=12;$m++): ?><option value="<?= $m ?>" <?= $month==$m?'selected':'' ?>><?= month_name($m) ?></option><?php endfor; ?></select></div>
         <div class="col-md-1"><input type="number" name="year" class="form-control form-control-sm" value="<?= $year ?>" placeholder="Year"></div>
-        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Filter</button><a href="<?= BASE_URL ?>/invoices/index.php" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
+        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Filter</button><a href="<?= BASE_URL ?>/invoices/index" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
     </form>
 </div></div>
 <div class="card shadow-sm">
@@ -57,7 +57,7 @@ include BASE_PATH . '/includes/header.php';
             <?php if ($invoices): $sn = $pg['offset']+1; foreach ($invoices as $inv): $balance = $inv['total_amount'] - $inv['amount_paid']; ?>
                 <tr>
                     <td><?= $sn++ ?></td>
-                    <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>"><code><?= e($inv['invoice_number']) ?></code></a></td>
+                    <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>"><code><?= e($inv['invoice_number']) ?></code></a></td>
                     <td><?= e($inv['tenant_name'] ?? '—') ?></td>
                     <td><?= e($inv['property_name'] ?? '') ?>/<?= e($inv['unit_number'] ?? '') ?></td>
                     <td><?= month_name($inv['period_month']) ?> <?= $inv['period_year'] ?></td>
@@ -67,12 +67,12 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= fmt_date($inv['due_date']) ?></td>
                     <td><?= invoice_badge($inv['status']) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
                         <?php if (in_array($inv['status'], ['sent','partial','overdue']) && is_manager()): ?>
-                        <a href="<?= BASE_URL ?>/payments/add.php?lease_id=<?= $inv['lease_id'] ?>&invoice_id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-success py-0 px-1" title="Record Payment"><i class="bi bi-cash"></i></a>
+                        <a href="<?= BASE_URL ?>/payments/add?lease_id=<?= $inv['lease_id'] ?>&invoice_id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-success py-0 px-1" title="Record Payment"><i class="bi bi-cash"></i></a>
                         <?php endif; ?>
                         <?php if (!in_array($inv['status'], ['paid','cancelled','voided']) && is_accountant()): ?>
-                        <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-danger py-0 px-1" title="Void Invoice"><i class="bi bi-slash-circle"></i></a>
+                        <a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-danger py-0 px-1" title="Void Invoice"><i class="bi bi-slash-circle"></i></a>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -82,6 +82,6 @@ include BASE_PATH . '/includes/header.php';
             </tbody>
         </table>
     </div>
-    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($invoices) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/invoices/index.php?' . http_build_query(['search'=>$search,'status'=>$status,'month'=>$month,'year'=>$year])) ?></div>
+    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($invoices) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/invoices/index?' . http_build_query(['search'=>$search,'status'=>$status,'month'=>$month,'year'=>$year])) ?></div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

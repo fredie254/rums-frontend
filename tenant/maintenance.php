@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_login();
 $user = current_user();
-if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index.php'); }
+if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index'); }
 
 $api    = new ApiClient();
 $page   = max(1, int_param('page'));
@@ -36,10 +36,10 @@ include BASE_PATH . '/includes/header.php';
         <small class="text-muted">Track repair and maintenance requests for your unit</small>
     </div>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-warning btn-sm">
+        <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-warning btn-sm">
             <i class="bi bi-plus-circle me-1"></i>New Request
         </a>
-        <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i>Dashboard
         </a>
     </div>
@@ -86,7 +86,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="card-footer bg-white d-flex justify-content-between align-items-center py-2">
                 <small class="text-muted"><i class="bi bi-calendar3 me-1"></i><?= fmt_date($m['created_at']) ?></small>
-                <a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $m['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
+                <a href="<?= BASE_URL ?>/maintenance/view?id=<?= $m['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
                     <i class="bi bi-eye me-1"></i>View
                 </a>
             </div>
@@ -97,7 +97,7 @@ include BASE_PATH . '/includes/header.php';
 
 <?php if ($total > $pg['per_page']): ?>
 <div class="d-flex justify-content-end mt-3">
-    <?= pagination_links($pg, BASE_URL . '/tenant/maintenance.php?' . http_build_query(array_filter(['status' => $status]))) ?>
+    <?= pagination_links($pg, BASE_URL . '/tenant/maintenance?' . http_build_query(array_filter(['status' => $status]))) ?>
 </div>
 <?php endif; ?>
 
@@ -107,7 +107,7 @@ include BASE_PATH . '/includes/header.php';
         <i class="bi bi-tools fs-1 text-muted opacity-25 d-block mb-3"></i>
         <h5 class="text-muted">No Requests Found</h5>
         <p class="text-muted small">Have an issue with your unit? Submit a maintenance request and our team will attend to it.</p>
-        <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-warning mt-2">
+        <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-warning mt-2">
             <i class="bi bi-plus-circle me-1"></i>Submit a Request
         </a>
     </div>

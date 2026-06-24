@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_login();
 $user = current_user();
-if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index.php'); }
+if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index'); }
 
 $api = new ApiClient();
 
@@ -102,7 +102,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="row g-3 mb-4">
     <?php if ($lease): ?>
     <div class="col-6 col-md-3">
-        <a href="<?= BASE_URL ?>/payments/mpesa_pay.php?lease_id=<?= $lease['id'] ?>" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
+        <a href="<?= BASE_URL ?>/payments/mpesa_pay?lease_id=<?= $lease['id'] ?>" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
             <div class="fs-2 text-success mb-1"><i class="bi bi-phone-fill"></i></div>
             <div class="fw-semibold">Pay via M-Pesa</div>
             <div class="small text-muted">STK Push to your phone</div>
@@ -110,21 +110,21 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <?php endif; ?>
     <div class="col-6 col-md-3">
-        <a href="<?= BASE_URL ?>/tenant/invoices.php" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
+        <a href="<?= BASE_URL ?>/tenant/invoices" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
             <div class="fs-2 text-primary mb-1"><i class="bi bi-receipt"></i></div>
             <div class="fw-semibold">My Invoices</div>
             <div class="small text-muted">View & download invoices</div>
         </a>
     </div>
     <div class="col-6 col-md-3">
-        <a href="<?= BASE_URL ?>/tenant/payments.php" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
+        <a href="<?= BASE_URL ?>/tenant/payments" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
             <div class="fs-2 text-info mb-1"><i class="bi bi-clock-history"></i></div>
             <div class="fw-semibold">Payment History</div>
             <div class="small text-muted">All your transactions</div>
         </a>
     </div>
     <div class="col-6 col-md-3">
-        <a href="<?= BASE_URL ?>/maintenance/add.php" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
+        <a href="<?= BASE_URL ?>/maintenance/add" class="card text-decoration-none text-center p-3 h-100 border-0 shadow-sm action-card">
             <div class="fs-2 text-warning mb-1"><i class="bi bi-tools"></i></div>
             <div class="fw-semibold">Request Repair</div>
             <div class="small text-muted">Log a maintenance issue</div>
@@ -139,7 +139,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-receipt me-2 text-primary"></i>Recent Invoices</span>
-                <a href="<?= BASE_URL ?>/tenant/invoices.php" class="btn btn-sm btn-outline-secondary">View All</a>
+                <a href="<?= BASE_URL ?>/tenant/invoices" class="btn btn-sm btn-outline-secondary">View All</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0">
@@ -173,7 +173,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm mb-3">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-file-earmark-text me-2 text-primary"></i>My Lease</span>
-                <a href="<?= BASE_URL ?>/tenant/lease.php" class="btn btn-sm btn-outline-secondary">Details</a>
+                <a href="<?= BASE_URL ?>/tenant/lease" class="btn btn-sm btn-outline-secondary">Details</a>
             </div>
             <div class="card-body p-0">
                 <table class="table table-sm mb-0">
@@ -199,7 +199,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <span class="fw-semibold"><i class="bi bi-wrench me-2 text-warning"></i>Maintenance</span>
-                <a href="<?= BASE_URL ?>/tenant/maintenance.php" class="btn btn-sm btn-outline-secondary">View All</a>
+                <a href="<?= BASE_URL ?>/tenant/maintenance" class="btn btn-sm btn-outline-secondary">View All</a>
             </div>
             <?php if ($maints): ?>
             <ul class="list-group list-group-flush">
@@ -221,7 +221,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <?php endif; ?>
             <div class="card-footer bg-white py-2">
-                <a href="<?= BASE_URL ?>/maintenance/add.php" class="btn btn-sm btn-outline-warning w-100">
+                <a href="<?= BASE_URL ?>/maintenance/add" class="btn btn-sm btn-outline-warning w-100">
                     <i class="bi bi-plus-circle me-1"></i>New Request
                 </a>
             </div>

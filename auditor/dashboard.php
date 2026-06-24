@@ -72,10 +72,10 @@ include BASE_PATH . '/includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="fw-bold mb-0"><i class="bi bi-shield-check me-2 text-info"></i>Auditor Dashboard</h5>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/auditor/audit_trail.php" class="btn btn-sm btn-outline-primary">
+        <a href="<?= BASE_URL ?>/auditor/audit_trail" class="btn btn-sm btn-outline-primary">
             <i class="bi bi-journal-text me-1"></i>Audit Trail
         </a>
-        <a href="<?= BASE_URL ?>/auditor/compliance.php" class="btn btn-sm btn-outline-success">
+        <a href="<?= BASE_URL ?>/auditor/compliance" class="btn btn-sm btn-outline-success">
             <i class="bi bi-clipboard2-check me-1"></i>Compliance
         </a>
     </div>
@@ -138,7 +138,7 @@ include BASE_PATH . '/includes/header.php';
             <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
             <div>
                 <strong><?= $kpi['pending_expenses'] ?> expense(s) pending approval.</strong><br>
-                <a href="<?= BASE_URL ?>/accountant/expenses.php" class="alert-link">Review expenses →</a>
+                <a href="<?= BASE_URL ?>/accountant/expenses" class="alert-link">Review expenses →</a>
             </div>
         </div>
     </div>
@@ -155,7 +155,7 @@ include BASE_PATH . '/includes/header.php';
                     <tbody>
                     <?php foreach ($large_payments as $lp): ?>
                     <tr>
-                        <td><a href="<?= BASE_URL ?>/payments/view.php?id=<?= $lp['id'] ?>"><?= e($lp['payment_ref']) ?></a></td>
+                        <td><a href="<?= BASE_URL ?>/payments/view?id=<?= $lp['id'] ?>"><?= e($lp['payment_ref']) ?></a></td>
                         <td><?= e($lp['tenant_name'] ?? '—') ?></td>
                         <td><?= e(ucfirst($lp['payment_method'])) ?></td>
                         <td class="text-end fw-bold text-danger"><?= money($lp['amount']) ?></td>
@@ -175,7 +175,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm">
     <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold">Recent Audit Events</span>
-        <a href="<?= BASE_URL ?>/auditor/audit_trail.php" class="btn btn-sm btn-outline-primary">Full Trail</a>
+        <a href="<?= BASE_URL ?>/auditor/audit_trail" class="btn btn-sm btn-outline-primary">Full Trail</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">

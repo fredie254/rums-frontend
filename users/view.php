@@ -4,11 +4,11 @@ require_role('admin');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/users/index.php'); }
+if (!$id) { redirect(BASE_URL . '/users/index'); }
 
 $res  = $api->get("users/$id");
 $user = $res['data'] ?? null;
-if (!$user) { set_flash('error', 'User not found.'); redirect(BASE_URL . '/users/index.php'); }
+if (!$user) { set_flash('error', 'User not found.'); redirect(BASE_URL . '/users/index'); }
 
 // Fetch user's API tokens
 $tok_res = $api->get("users/$id/tokens");
@@ -33,7 +33,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-4">
-    <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-sm btn-outline-secondary me-3">
+    <a href="<?= BASE_URL ?>/users/index" class="btn btn-sm btn-outline-secondary me-3">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div class="flex-grow-1">
@@ -41,18 +41,18 @@ include BASE_PATH . '/includes/header.php';
         <small class="text-muted">Viewing account details for <?= e($user['name']) ?></small>
     </div>
     <div class="d-flex gap-2">
-        <a href="<?= BASE_URL ?>/users/edit.php?id=<?= $id ?>" class="btn btn-primary btn-sm">
+        <a href="<?= BASE_URL ?>/users/edit?id=<?= $id ?>" class="btn btn-primary btn-sm">
             <i class="bi bi-pencil me-1"></i>Edit
         </a>
         <?php if (!$isSelf): ?>
         <?php if ($user['status'] === 'active'): ?>
-        <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
+        <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
            class="btn btn-outline-danger btn-sm"
            onclick="return confirm('Suspend <?= e(addslashes($user['name'])) ?>?')">
             <i class="bi bi-slash-circle me-1"></i>Suspend
         </a>
         <?php else: ?>
-        <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
+        <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
            class="btn btn-outline-success btn-sm">
             <i class="bi bi-check-circle me-1"></i>Activate
         </a>
@@ -143,13 +143,13 @@ include BASE_PATH . '/includes/header.php';
         <!-- Quick actions -->
         <div class="row g-3 mb-4">
             <div class="col-sm-4">
-                <a href="<?= BASE_URL ?>/users/edit.php?id=<?= $id ?>" class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card">
+                <a href="<?= BASE_URL ?>/users/edit?id=<?= $id ?>" class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card">
                     <div class="fs-3 text-primary mb-1"><i class="bi bi-pencil-square"></i></div>
                     <div class="fw-semibold small">Edit Profile</div>
                 </a>
             </div>
             <div class="col-sm-4">
-                <a href="<?= BASE_URL ?>/users/edit.php?id=<?= $id ?>#password" class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card">
+                <a href="<?= BASE_URL ?>/users/edit?id=<?= $id ?>#password" class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card">
                     <div class="fs-3 text-warning mb-1"><i class="bi bi-key"></i></div>
                     <div class="fw-semibold small">Reset Password</div>
                 </a>
@@ -157,14 +157,14 @@ include BASE_PATH . '/includes/header.php';
             <?php if (!$isSelf): ?>
             <div class="col-sm-4">
                 <?php if ($user['status'] === 'active'): ?>
-                <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
+                <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
                    class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card"
                    onclick="return confirm('Suspend this account?')">
                     <div class="fs-3 text-danger mb-1"><i class="bi bi-slash-circle"></i></div>
                     <div class="fw-semibold small">Suspend</div>
                 </a>
                 <?php else: ?>
-                <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
+                <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
                    class="card text-decoration-none border-0 shadow-sm text-center p-3 action-card">
                     <div class="fs-3 text-success mb-1"><i class="bi bi-check-circle"></i></div>
                     <div class="fw-semibold small">Activate</div>

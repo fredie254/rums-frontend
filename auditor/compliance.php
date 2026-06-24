@@ -211,7 +211,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= e($r['property_name'] ?? '') ?> / <?= e($r['unit_number'] ?? '') ?></td>
                 <td><?= fmt_date($r['start_date']) ?></td>
                 <td><?= fmt_date($r['end_date']) ?></td>
-                <td><a href="<?= BASE_URL ?>/invoices/generate.php" class="btn btn-xs btn-warning">Generate Invoice</a></td>
+                <td><a href="<?= BASE_URL ?>/invoices/generate" class="btn btn-xs btn-warning">Generate Invoice</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>
@@ -234,7 +234,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><span class="badge bg-secondary"><?= e(ucfirst($r['payment_method'] ?? '')) ?></span></td>
                 <td><?= fmt_date($r['payment_date']) ?></td>
                 <td class="text-end"><?= money($r['amount']) ?></td>
-                <td><a href="<?= BASE_URL ?>/payments/view.php?id=<?= $r['id'] ?>" class="btn btn-xs btn-warning">Review</a></td>
+                <td><a href="<?= BASE_URL ?>/payments/view?id=<?= $r['id'] ?>" class="btn btn-xs btn-warning">Review</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>
@@ -252,7 +252,7 @@ include BASE_PATH . '/includes/header.php';
             <tbody>
             <?php foreach ($severely_overdue as $r): ?>
             <tr>
-                <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $r['id'] ?>"><?= e($r['invoice_number']) ?></a></td>
+                <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $r['id'] ?>"><?= e($r['invoice_number']) ?></a></td>
                 <td><?= e($r['tenant_name']) ?></td>
                 <td><?= e($r['property_name'] ?? '') ?> / <?= e($r['unit_number'] ?? '') ?></td>
                 <td><?= fmt_date($r['due_date']) ?></td>
@@ -280,7 +280,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= e($r['property_name'] ?? '—') ?></td>
                 <td><?= fmt_date($r['expense_date']) ?></td>
                 <td class="text-end"><?= money($r['amount']) ?></td>
-                <td><a href="<?= BASE_URL ?>/accountant/expenses.php" class="btn btn-xs btn-warning">Review</a></td>
+                <td><a href="<?= BASE_URL ?>/accountant/expenses" class="btn btn-xs btn-warning">Review</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>
@@ -303,7 +303,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= e($r['property_name'] ?? '') ?> / <?= e($r['unit_number'] ?? '') ?></td>
                 <td><?= priority_badge($r['priority']) ?></td>
                 <td class="text-warning fw-bold"><?= $r['days_open'] ?></td>
-                <td><a href="<?= BASE_URL ?>/maintenance/view.php?id=<?= $r['id'] ?>" class="btn btn-xs btn-info">View</a></td>
+                <td><a href="<?= BASE_URL ?>/maintenance/view?id=<?= $r['id'] ?>" class="btn btn-xs btn-info">View</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>

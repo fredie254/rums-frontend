@@ -4,11 +4,11 @@ require_role('admin');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/users/index.php'); }
+if (!$id) { redirect(BASE_URL . '/users/index'); }
 
 $res  = $api->get("users/$id");
 $user = $res['data'] ?? null;
-if (!$user) { set_flash('error', 'User not found.'); redirect(BASE_URL . '/users/index.php'); }
+if (!$user) { set_flash('error', 'User not found.'); redirect(BASE_URL . '/users/index'); }
 
 $all_roles = [
     'admin'       => ['label' => 'Admin',       'desc' => 'Full system access — settings, users, all data.'],
@@ -27,7 +27,7 @@ $errors  = [];
 $isSelf  = ($id == $_SESSION['user_id']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/users/edit.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/users/edit?id=' . $id); }
 
     $name       = post('name');
     $phone      = post('phone');
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($r1['success'])) {
             set_flash('success', "User \"{$name}\" updated successfully.");
-            redirect(BASE_URL . '/users/index.php');
+            redirect(BASE_URL . '/users/index');
         }
         $errors[] = $r1['message'] ?? 'Failed to update user.';
     }
@@ -74,7 +74,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-4">
-    <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-sm btn-outline-secondary me-3">
+    <a href="<?= BASE_URL ?>/users/index" class="btn btn-sm btn-outline-secondary me-3">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div>
@@ -178,7 +178,7 @@ include BASE_PATH . '/includes/header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle me-1"></i>Save Changes
                             </button>
-                            <a href="<?= BASE_URL ?>/users/index.php" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="<?= BASE_URL ?>/users/index" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -226,13 +226,13 @@ include BASE_PATH . '/includes/header.php';
             <div class="card-header bg-white fw-semibold small text-uppercase text-muted">Quick Actions</div>
             <div class="card-body d-grid gap-2">
                 <?php if ($user['status'] === 'active'): ?>
-                <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
+                <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=suspended&csrf=<?= csrf_token() ?>"
                    class="btn btn-sm btn-outline-danger"
                    onclick="return confirm('Suspend this user? They will not be able to log in.')">
                     <i class="bi bi-slash-circle me-1"></i>Suspend Account
                 </a>
                 <?php else: ?>
-                <a href="<?= BASE_URL ?>/users/set_status.php?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
+                <a href="<?= BASE_URL ?>/users/set_status?id=<?= $id ?>&status=active&csrf=<?= csrf_token() ?>"
                    class="btn btn-sm btn-outline-success">
                     <i class="bi bi-check-circle me-1"></i>Activate Account
                 </a>

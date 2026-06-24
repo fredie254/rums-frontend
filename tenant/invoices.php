@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_login();
 $user = current_user();
-if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index.php'); }
+if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index'); }
 
 $api    = new ApiClient();
 $page   = max(1, int_param('page'));
@@ -41,7 +41,7 @@ include BASE_PATH . '/includes/header.php';
         <h5 class="fw-bold mb-1"><i class="bi bi-receipt me-2 text-primary"></i>My Invoices</h5>
         <small class="text-muted">All invoices for your tenancy</small>
     </div>
-    <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left me-1"></i>Dashboard
     </a>
 </div>
@@ -116,7 +116,7 @@ include BASE_PATH . '/includes/header.php';
                 <td class="small <?= $inv['status'] === 'overdue' ? 'text-danger' : '' ?>"><?= fmt_date($inv['due_date']) ?></td>
                 <td><?= invoice_badge($inv['status']) ?></td>
                 <td>
-                    <a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
+                    <a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
                         <i class="bi bi-eye"></i>
                     </a>
                 </td>
@@ -133,7 +133,7 @@ include BASE_PATH . '/includes/header.php';
     <?php if ($total > $pg['per_page']): ?>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted">Showing <?= count($invoices) ?> of <?= $total ?></small>
-        <?= pagination_links($pg, BASE_URL . '/tenant/invoices.php?' . http_build_query(array_filter(['status' => $status]))) ?>
+        <?= pagination_links($pg, BASE_URL . '/tenant/invoices?' . http_build_query(array_filter(['status' => $status]))) ?>
     </div>
     <?php endif; ?>
 </div>

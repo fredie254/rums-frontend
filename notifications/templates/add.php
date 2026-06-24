@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res = $api->post('message-templates', $input);
         if ($res['success'] ?? false) {
             set_flash('success', 'Template created successfully.');
-            redirect(BASE_URL . '/notifications/templates.php');
+            redirect(BASE_URL . '/notifications/templates');
         } else {
             $errors[] = $res['message'] ?? 'Failed to create template.';
         }
@@ -33,7 +33,7 @@ $page_title = 'New Message Template';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/notifications/templates.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/notifications/templates" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-file-plus me-2 text-primary"></i>New Message Template</h5>
@@ -101,7 +101,7 @@ include BASE_PATH . '/includes/header.php';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-lg me-1"></i>Create Template
                         </button>
-                        <a href="<?= BASE_URL ?>/notifications/templates.php" class="btn btn-outline-secondary">Cancel</a>
+                        <a href="<?= BASE_URL ?>/notifications/templates" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

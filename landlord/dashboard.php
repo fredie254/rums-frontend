@@ -20,7 +20,7 @@ if (is_manager() && $view_landlord_id) {
 
 if (!$landlord_id && $me['role'] === 'landlord') {
     set_flash('error', 'No landlord profile linked to your account.');
-    redirect(BASE_URL . '/dashboard/index.php');
+    redirect(BASE_URL . '/dashboard/index');
 }
 
 /* ── Load landlord info (includes properties array) ── */
@@ -140,7 +140,7 @@ include BASE_PATH . '/includes/header.php';
             </select>
         </form>
         <?php if ($me['role'] === 'landlord'): ?>
-        <a href="<?= BASE_URL ?>/landlord/statement.php" class="btn btn-sm btn-outline-primary">
+        <a href="<?= BASE_URL ?>/landlord/statement" class="btn btn-sm btn-outline-primary">
             <i class="bi bi-file-earmark-text me-1"></i>Statement
         </a>
         <?php endif; ?>
@@ -252,7 +252,7 @@ include BASE_PATH . '/includes/header.php';
                     <td class="text-end"><?= money($p['revenue']) ?></td>
                     <td class="text-end text-success fw-semibold"><?= money($net_rev) ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/properties/view.php?id=<?= $p['id'] ?>" class="btn btn-xs btn-outline-primary">View</a>
+                        <a href="<?= BASE_URL ?>/properties/view?id=<?= $p['id'] ?>" class="btn btn-xs btn-outline-primary">View</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -279,7 +279,7 @@ include BASE_PATH . '/includes/header.php';
                     <span class="badge bg-<?= $m_colors[$key] ?>"><?= $cnt ?></span>
                 </div>
                 <?php endforeach; ?>
-                <a href="<?= BASE_URL ?>/maintenance/index.php" class="btn btn-sm btn-outline-warning mt-2 w-100">
+                <a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-sm btn-outline-warning mt-2 w-100">
                     <i class="bi bi-wrench me-1"></i>View All Requests
                 </a>
             </div>
@@ -292,7 +292,7 @@ include BASE_PATH . '/includes/header.php';
                 <?php foreach (array_slice($properties, 0, 6) as $p):
                     $occ = $p['total_units'] > 0 ? round($p['occupied_units']/$p['total_units']*100) : 0;
                 ?>
-                <a href="<?= BASE_URL ?>/properties/view.php?id=<?= $p['id'] ?>" class="list-group-item list-group-item-action py-2">
+                <a href="<?= BASE_URL ?>/properties/view?id=<?= $p['id'] ?>" class="list-group-item list-group-item-action py-2">
                     <div class="d-flex justify-content-between">
                         <span class="fw-semibold"><?= e($p['name']) ?></span>
                         <small class="text-muted"><?= $p['occupied_units'] ?>/<?= $p['total_units'] ?> units</small>

@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $result = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/mark-overdue.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/invoices/mark-overdue'); }
     $res    = $api->post('invoices/mark-overdue', []);
     $result = $res['data'] ?? null;
     if (!empty($res['success'])) {
@@ -20,7 +20,7 @@ $page_title = 'Mark Invoices Overdue';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/invoices/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/invoices/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Mark Invoices as Overdue</h5>
 </div>
 

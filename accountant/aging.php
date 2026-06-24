@@ -64,7 +64,7 @@ include BASE_PATH . '/includes/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="fw-bold mb-0"><i class="bi bi-hourglass-split me-2 text-warning"></i>Accounts Receivable Aging</h5>
-    <a href="<?= BASE_URL ?>/accountant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/accountant/dashboard" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left me-1"></i>Back
     </a>
 </div>
@@ -99,7 +99,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
             <div class="col-auto">
                 <button class="btn btn-primary btn-sm">Filter</button>
-                <a href="aging.php" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                <a href="aging" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
             </div>
         </form>
     </div>
@@ -188,7 +188,7 @@ include BASE_PATH . '/includes/header.php';
                         else              { $b='90+';       $bc='dark'; }
                     ?>
                     <tr>
-                        <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $row['id'] ?>" class="fw-semibold"><?= e($row['invoice_number']) ?></a></td>
+                        <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $row['id'] ?>" class="fw-semibold"><?= e($row['invoice_number']) ?></a></td>
                         <td><?= e($row['tenant_name'] ?? '—') ?><br><small class="text-muted"><?= e($row['tenant_phone'] ?? '') ?></small></td>
                         <td><?= e($row['property_name'] ?? '') ?> / <?= e($row['unit_number'] ?? '') ?></td>
                         <td><?= fmt_date($row['due_date']) ?></td>

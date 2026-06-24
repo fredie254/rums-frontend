@@ -111,7 +111,7 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= e($l['property_name'] ?? '') ?>/<?= e($l['unit_number'] ?? '') ?></td>
                     <td><?= fmt_date($l['end_date']) ?></td>
                     <td><span class="badge <?= $days <= 7 ? 'bg-danger' : 'bg-warning' ?>"><?= $days ?> days</span></td>
-                    <td><a href="<?= BASE_URL ?>/leases/view.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
+                    <td><a href="<?= BASE_URL ?>/leases/view?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a></td>
                 </tr>
             <?php endforeach; else: ?><tr><td colspan="5" class="text-center text-muted py-3">No leases expiring in 30 days.</td></tr><?php endif; ?>
             </tbody>

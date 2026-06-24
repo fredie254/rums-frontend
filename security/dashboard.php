@@ -69,7 +69,7 @@ include BASE_PATH . '/includes/header.php';
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#quickCheckinModal">
             <i class="bi bi-person-plus me-1"></i>Log Visitor
         </button>
-        <a href="<?= BASE_URL ?>/security/incidents.php?action=add" class="btn btn-outline-danger btn-sm">
+        <a href="<?= BASE_URL ?>/security/incidents?action=add" class="btn btn-outline-danger btn-sm">
             <i class="bi bi-exclamation-triangle me-1"></i>Report Incident
         </a>
     </div>
@@ -132,7 +132,7 @@ include BASE_PATH . '/includes/header.php';
     <i class="bi bi-exclamation-octagon-fill fs-4 me-3"></i>
     <div>
         <strong><?= $critical_incidents ?> CRITICAL incident(s) require immediate attention.</strong>
-        <a href="<?= BASE_URL ?>/security/incidents.php" class="alert-link ms-2">View &rarr;</a>
+        <a href="<?= BASE_URL ?>/security/incidents" class="alert-link ms-2">View &rarr;</a>
     </div>
 </div>
 <?php endif; ?>
@@ -149,7 +149,7 @@ include BASE_PATH . '/includes/header.php';
         <div class="card shadow-sm h-100">
             <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">Currently Inside <span class="badge bg-primary"><?= count($inside) ?></span></span>
-                <a href="<?= BASE_URL ?>/security/visitors.php?status=in" class="btn btn-xs btn-outline-primary">Full List</a>
+                <a href="<?= BASE_URL ?>/security/visitors?status=in" class="btn btn-xs btn-outline-primary">Full List</a>
             </div>
             <div class="card-body p-0">
                 <?php if (!$inside): ?>
@@ -176,7 +176,7 @@ include BASE_PATH . '/includes/header.php';
                             <td class="small"><?= date('H:i', strtotime($v['check_in'])) ?></td>
                             <td class="small <?= $warn ? 'text-warning fw-bold' : '' ?>"><?= $duration ?><?= $warn ? ' &#9888;' : '' ?></td>
                             <td>
-                                <form method="POST" action="<?= BASE_URL ?>/security/visitors.php">
+                                <form method="POST" action="<?= BASE_URL ?>/security/visitors">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="action" value="checkout">
                                     <input type="hidden" name="id" value="<?= $v['id'] ?>">
@@ -199,7 +199,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm border-danger mb-4">
     <div class="card-header bg-danger-subtle py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold text-danger-emphasis"><i class="bi bi-exclamation-triangle me-1"></i>Open Incidents</span>
-        <a href="<?= BASE_URL ?>/security/incidents.php" class="btn btn-xs btn-outline-danger">View All</a>
+        <a href="<?= BASE_URL ?>/security/incidents" class="btn btn-xs btn-outline-danger">View All</a>
     </div>
     <div class="card-body p-0">
         <table class="table table-sm mb-0">
@@ -215,7 +215,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= e($inc['property_name'] ?? '&mdash;') ?></td>
                 <td><span class="badge bg-<?= $sc ?>"><?= ucfirst($inc['severity']) ?></span></td>
                 <td class="text-truncate" style="max-width:180px"><?= e($inc['description']) ?></td>
-                <td><a href="<?= BASE_URL ?>/security/incidents.php?id=<?= $inc['id'] ?>" class="btn btn-xs btn-outline-danger">View</a></td>
+                <td><a href="<?= BASE_URL ?>/security/incidents?id=<?= $inc['id'] ?>" class="btn btn-xs btn-outline-danger">View</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>
@@ -228,7 +228,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="card shadow-sm">
     <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
         <span class="fw-semibold">Today's Visitor Log</span>
-        <a href="<?= BASE_URL ?>/security/visitors.php" class="btn btn-sm btn-outline-primary">Full Log</a>
+        <a href="<?= BASE_URL ?>/security/visitors" class="btn btn-sm btn-outline-primary">Full Log</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -268,7 +268,7 @@ include BASE_PATH . '/includes/header.php';
 <div class="modal fade" id="quickCheckinModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="POST" action="<?= BASE_URL ?>/security/visitors.php">
+            <form method="POST" action="<?= BASE_URL ?>/security/visitors">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="checkin">
                 <div class="modal-header bg-primary text-white">

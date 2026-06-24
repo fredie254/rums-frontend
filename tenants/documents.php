@@ -4,11 +4,11 @@ require_role('admin', 'manager');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/tenants/index.php'); }
+if (!$id) { redirect(BASE_URL . '/tenants/index'); }
 
 $res    = $api->get("tenants/$id");
 $tenant = $res['data'] ?? null;
-if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index.php'); }
+if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index'); }
 
 $full_name = $tenant['full_name'] ?? trim(($tenant['first_name'] ?? '') . ' ' . ($tenant['last_name'] ?? ''));
 $errors    = [];
@@ -27,7 +27,7 @@ $doc_types = [
 
 // ── Delete document ────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'delete') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/documents.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/documents?id=' . $id); }
     $doc_id = int_param('doc_id', 0, 'post');
     if ($doc_id) {
         $del = $api->delete("tenants/$id/kyc-documents/$doc_id");
@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'delete') {
             set_flash('error', $del['message'] ?? 'Failed to delete document.');
         }
     }
-    redirect(BASE_URL . '/tenants/documents.php?id=' . $id);
+    redirect(BASE_URL . '/tenants/documents?id=' . $id);
 }
 
 // ── Upload document ────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'upload') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/documents.php?id=' . $id); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/tenants/documents?id=' . $id); }
 
     $doc_type = post('document_type');
     $notes    = post('notes');
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'upload') {
             ]);
             if (!empty($res['success'])) {
                 set_flash('success', 'Document uploaded successfully.');
-                redirect(BASE_URL . '/tenants/documents.php?id=' . $id);
+                redirect(BASE_URL . '/tenants/documents?id=' . $id);
             }
             // API failed — clean up the uploaded file
             if (is_file(UPLOAD_PATH . $path)) unlink(UPLOAD_PATH . $path);
@@ -89,7 +89,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="d-flex align-items-center mb-4 gap-2">
-    <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/tenants/view?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div class="flex-grow-1">

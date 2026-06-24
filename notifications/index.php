@@ -15,7 +15,7 @@ if ($mark) {
 if (isset($_GET['mark_all'])) {
     $api->post('notifications/read-all', []);
     set_flash('success', 'All notifications marked as read.');
-    redirect(BASE_URL . '/notifications/index.php');
+    redirect(BASE_URL . '/notifications/index');
 }
 
 $page    = max(1, int_param('page'));
@@ -32,18 +32,18 @@ include BASE_PATH . '/includes/header.php';
     <h5 class="fw-bold mb-0"><i class="bi bi-bell me-2 text-primary"></i>Notifications & Communication</h5>
     <div class="d-flex gap-2">
         <?php if (is_manager()): ?>
-        <a href="<?= BASE_URL ?>/notifications/compose.php" class="btn btn-sm btn-primary">
+        <a href="<?= BASE_URL ?>/notifications/compose" class="btn btn-sm btn-primary">
             <i class="bi bi-send me-1"></i>Compose
         </a>
-        <a href="<?= BASE_URL ?>/notifications/broadcasts.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/notifications/broadcasts" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-broadcast me-1"></i>Broadcasts
         </a>
         <?php endif; ?>
-        <a href="<?= BASE_URL ?>/notifications/logs.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/notifications/logs" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-journal-text me-1"></i>Comm Logs
         </a>
         <?php if (is_manager()): ?>
-        <a href="<?= BASE_URL ?>/notifications/templates.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/notifications/templates" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-file-text me-1"></i>Templates
         </a>
         <?php endif; ?>
@@ -60,16 +60,16 @@ include BASE_PATH . '/includes/header.php';
     </li>
     <?php if (is_manager()): ?>
     <li class="nav-item">
-        <a class="nav-link" href="<?= BASE_URL ?>/notifications/compose.php"><i class="bi bi-send me-1"></i>Compose</a>
+        <a class="nav-link" href="<?= BASE_URL ?>/notifications/compose"><i class="bi bi-send me-1"></i>Compose</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= BASE_URL ?>/notifications/logs.php"><i class="bi bi-journal-text me-1"></i>Comm Logs</a>
+        <a class="nav-link" href="<?= BASE_URL ?>/notifications/logs"><i class="bi bi-journal-text me-1"></i>Comm Logs</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= BASE_URL ?>/notifications/broadcasts.php"><i class="bi bi-broadcast me-1"></i>Broadcasts</a>
+        <a class="nav-link" href="<?= BASE_URL ?>/notifications/broadcasts"><i class="bi bi-broadcast me-1"></i>Broadcasts</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= BASE_URL ?>/notifications/templates.php"><i class="bi bi-file-text me-1"></i>Templates</a>
+        <a class="nav-link" href="<?= BASE_URL ?>/notifications/templates"><i class="bi bi-file-text me-1"></i>Templates</a>
     </li>
     <?php endif; ?>
 </ul>
@@ -116,7 +116,7 @@ include BASE_PATH . '/includes/header.php';
     <?php endif; ?>
     <?php if ($total > $pg['per_page']): ?>
     <div class="card-footer d-flex justify-content-end">
-        <?= pagination_links($pg, BASE_URL . '/notifications/index.php') ?>
+        <?= pagination_links($pg, BASE_URL . '/notifications/index') ?>
     </div>
     <?php endif; ?>
 </div>

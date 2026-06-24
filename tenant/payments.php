@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_login();
 $user = current_user();
-if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index.php'); }
+if ($user['role'] !== 'tenant') { redirect(BASE_URL . '/dashboard/index'); }
 
 $api  = new ApiClient();
 $page = max(1, int_param('page'));
@@ -40,11 +40,11 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="d-flex gap-2">
         <?php if ($lease): ?>
-        <a href="<?= BASE_URL ?>/payments/mpesa_pay.php?lease_id=<?= $lease['id'] ?>" class="btn btn-success btn-sm">
+        <a href="<?= BASE_URL ?>/payments/mpesa_pay?lease_id=<?= $lease['id'] ?>" class="btn btn-success btn-sm">
             <i class="bi bi-phone me-1"></i>Pay via M-Pesa
         </a>
         <?php endif; ?>
-        <a href="<?= BASE_URL ?>/tenant/dashboard.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/tenant/dashboard" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i>Dashboard
         </a>
     </div>
@@ -99,7 +99,7 @@ include BASE_PATH . '/includes/header.php';
                 <td class="small"><?= fmt_date($p['payment_date']) ?></td>
                 <td><?= payment_badge($p['status'] ?? 'completed') ?></td>
                 <td>
-                    <a href="<?= BASE_URL ?>/payments/view.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
+                    <a href="<?= BASE_URL ?>/payments/view?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-2">
                         <i class="bi bi-eye"></i>
                     </a>
                 </td>
@@ -109,7 +109,7 @@ include BASE_PATH . '/includes/header.php';
                 <i class="bi bi-cash-coin fs-2 d-block mb-2 opacity-25"></i>
                 No payment records found.
                 <?php if ($lease): ?>
-                <div class="mt-2"><a href="<?= BASE_URL ?>/payments/mpesa_pay.php?lease_id=<?= $lease['id'] ?>" class="btn btn-sm btn-success">Make your first payment</a></div>
+                <div class="mt-2"><a href="<?= BASE_URL ?>/payments/mpesa_pay?lease_id=<?= $lease['id'] ?>" class="btn btn-sm btn-success">Make your first payment</a></div>
                 <?php endif; ?>
             </td></tr>
             <?php endif; ?>
@@ -119,7 +119,7 @@ include BASE_PATH . '/includes/header.php';
     <?php if ($total > $pg['per_page']): ?>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted">Showing <?= count($payments) ?> of <?= $total ?></small>
-        <?= pagination_links($pg, BASE_URL . '/tenant/payments.php') ?>
+        <?= pagination_links($pg, BASE_URL . '/tenant/payments') ?>
     </div>
     <?php endif; ?>
 </div>

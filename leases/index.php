@@ -33,8 +33,8 @@ include BASE_PATH . '/includes/header.php';
     <h5 class="fw-bold mb-0"><i class="bi bi-file-earmark-text me-2 text-primary"></i>Leases</h5>
     <div class="d-flex gap-2">
         <?php if (is_manager()): ?>
-        <a href="<?= BASE_URL ?>/leases/templates/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-layout-text-window me-1"></i>Templates</a>
-        <a href="<?= BASE_URL ?>/leases/add.php" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-1"></i>New Lease</a>
+        <a href="<?= BASE_URL ?>/leases/templates/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-layout-text-window me-1"></i>Templates</a>
+        <a href="<?= BASE_URL ?>/leases/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-1"></i>New Lease</a>
         <?php endif; ?>
     </div>
 </div>
@@ -55,10 +55,10 @@ include BASE_PATH . '/includes/header.php';
         </div>
         <div class="col-auto">
             <button class="btn btn-sm btn-outline-primary">Filter</button>
-            <a href="<?= BASE_URL ?>/leases/index.php" class="btn btn-sm btn-outline-secondary ms-1">Reset</a>
+            <a href="<?= BASE_URL ?>/leases/index" class="btn btn-sm btn-outline-secondary ms-1">Reset</a>
         </div>
         <div class="col-auto ms-auto">
-            <a href="<?= BASE_URL ?>/leases/index.php?status=active&expiring=1" class="btn btn-sm btn-outline-warning">
+            <a href="<?= BASE_URL ?>/leases/index?status=active&expiring=1" class="btn btn-sm btn-outline-warning">
                 <i class="bi bi-clock-history me-1"></i>Expiring Soon
             </a>
         </div>
@@ -87,7 +87,7 @@ include BASE_PATH . '/includes/header.php';
                 <tr>
                     <td><?= $sn++ ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $l['id'] ?>">
+                        <a href="<?= BASE_URL ?>/leases/view?id=<?= $l['id'] ?>">
                             <code><?= e($l['lease_number']) ?></code>
                         </a>
                         <?php if (!empty($l['lease_type']) && $l['lease_type'] !== 'fixed-term'): ?>
@@ -123,10 +123,10 @@ include BASE_PATH . '/includes/header.php';
                         <?php endif; ?>
                     </td>
                     <td>
-                        <a href="<?= BASE_URL ?>/leases/view.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1" title="View"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/leases/view?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1" title="View"><i class="bi bi-eye"></i></a>
                         <?php if ($l['status'] === 'active' && is_manager()): ?>
-                        <a href="<?= BASE_URL ?>/leases/renew.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Renew"><i class="bi bi-arrow-clockwise"></i></a>
-                        <a href="<?= BASE_URL ?>/leases/terminate.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-danger py-0 px-1" title="Terminate"><i class="bi bi-x-circle"></i></a>
+                        <a href="<?= BASE_URL ?>/leases/renew?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Renew"><i class="bi bi-arrow-clockwise"></i></a>
+                        <a href="<?= BASE_URL ?>/leases/terminate?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-danger py-0 px-1" title="Terminate"><i class="bi bi-x-circle"></i></a>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -138,7 +138,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted"><?= count($leases) ?> of <?= $total ?> lease(s)</small>
-        <?= pagination_links($pg, BASE_URL . '/leases/index.php?search=' . urlencode($search) . '&status=' . urlencode($status)) ?>
+        <?= pagination_links($pg, BASE_URL . '/leases/index?search=' . urlencode($search) . '&status=' . urlencode($status)) ?>
     </div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>

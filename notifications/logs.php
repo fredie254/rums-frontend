@@ -37,7 +37,7 @@ $page_title = 'Communication Logs';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/notifications/index.php" class="btn btn-sm btn-outline-secondary">
+    <a href="<?= BASE_URL ?>/notifications/index" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <h5 class="fw-bold mb-0"><i class="bi bi-journal-text me-2 text-primary"></i>Communication Logs</h5>
@@ -164,7 +164,7 @@ include BASE_PATH . '/includes/header.php';
     </div>
     <?php if ($total > $pg['per_page']): ?>
     <div class="card-footer d-flex justify-content-end">
-        <?= pagination_links($pg, BASE_URL . '/notifications/logs.php?' . $baseQ) ?>
+        <?= pagination_links($pg, BASE_URL . '/notifications/logs?' . $baseQ) ?>
     </div>
     <?php endif; ?>
 </div>

@@ -6,13 +6,13 @@ $api = new ApiClient();
 
 // Handle delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/reports/scheduled.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/reports/scheduled'); }
     $id = int_param('id', 0, $_POST);
     if ($_POST['action'] === 'delete') {
         $api->delete("report-schedules/$id");
         set_flash('success', 'Schedule deleted.');
     }
-    redirect(BASE_URL . '/reports/scheduled.php');
+    redirect(BASE_URL . '/reports/scheduled');
 }
 
 $res       = $api->get('report-schedules');
@@ -23,12 +23,12 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/reports/index.php" class="btn btn-sm btn-outline-secondary">
+        <a href="<?= BASE_URL ?>/reports/index" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i>
         </a>
         <h5 class="fw-bold mb-0"><i class="bi bi-calendar-check me-2 text-primary"></i>Scheduled Reports</h5>
     </div>
-    <a href="<?= BASE_URL ?>/reports/scheduled/add.php" class="btn btn-sm btn-primary">
+    <a href="<?= BASE_URL ?>/reports/scheduled/add" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-lg me-1"></i>New Schedule
     </a>
 </div>
@@ -85,7 +85,7 @@ include BASE_PATH . '/includes/header.php';
                                 title="Run now & email">
                             <i class="bi bi-play-fill"></i>
                         </button>
-                        <a href="<?= BASE_URL ?>/reports/scheduled/add.php?id=<?= $s['id'] ?>"
+                        <a href="<?= BASE_URL ?>/reports/scheduled/add?id=<?= $s['id'] ?>"
                            class="btn btn-xs btn-sm btn-outline-primary py-0 px-1" title="Edit">
                             <i class="bi bi-pencil"></i>
                         </a>
@@ -108,7 +108,7 @@ include BASE_PATH . '/includes/header.php';
         <i class="bi bi-calendar-x fs-2 d-block mb-2"></i>
         No scheduled reports yet.
         <div class="mt-2">
-            <a href="<?= BASE_URL ?>/reports/scheduled/add.php" class="btn btn-sm btn-primary">
+            <a href="<?= BASE_URL ?>/reports/scheduled/add" class="btn btn-sm btn-primary">
                 Create First Schedule
             </a>
         </div>

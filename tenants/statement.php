@@ -4,14 +4,14 @@ require_role('admin', 'manager', 'landlord', 'accountant');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/tenants/index.php'); }
+if (!$id) { redirect(BASE_URL . '/tenants/index'); }
 
 $date_from = get_param('date_from', date('Y-m-01', strtotime('-3 months')));
 $date_to   = get_param('date_to',   date('Y-m-d'));
 
 $res    = $api->get("tenants/$id");
 $tenant = $res['data'] ?? null;
-if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index.php'); }
+if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index'); }
 $full_name = $tenant['full_name'] ?? trim(($tenant['first_name'] ?? '') . ' ' . ($tenant['last_name'] ?? ''));
 
 $stmt_res   = $api->get("tenants/$id/statement", ['date_from' => $date_from, 'date_to' => $date_to]);
@@ -24,7 +24,7 @@ $page_title = 'Statement — ' . $full_name;
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/tenants/view.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/tenants/view?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1">Statement — <?= e($full_name) ?></h5>
     <button onclick="window.print()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-printer me-1"></i>Print</button>
 </div>
@@ -89,7 +89,7 @@ include BASE_PATH . '/includes/header.php';
                         $bal = (float)($inv['balance'] ?? ((float)($inv['total_amount'] ?? 0) - (float)($inv['amount_paid'] ?? 0)));
                     ?>
                         <tr>
-                            <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>"><code class="small"><?= e($inv['invoice_number']) ?></code></a></td>
+                            <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>"><code class="small"><?= e($inv['invoice_number']) ?></code></a></td>
                             <td class="small"><?= !empty($inv['period_month']) ? month_name($inv['period_month']) . ' ' . $inv['period_year'] : fmt_date($inv['invoice_date'] ?? '') ?></td>
                             <td><?= money($inv['total_amount'] ?? 0) ?></td>
                             <td class="text-success"><?= money($inv['amount_paid'] ?? 0) ?></td>

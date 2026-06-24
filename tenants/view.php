@@ -4,11 +4,11 @@ require_role('admin', 'manager', 'landlord');
 
 $api = new ApiClient();
 $id  = int_param('id');
-if (!$id) { redirect(BASE_URL . '/tenants/index.php'); }
+if (!$id) { redirect(BASE_URL . '/tenants/index'); }
 
 $res    = $api->get("tenants/$id");
 $tenant = $res['data'] ?? null;
-if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index.php'); }
+if (!$tenant) { set_flash('error', 'Tenant not found.'); redirect(BASE_URL . '/tenants/index'); }
 
 $full_name = $tenant['full_name'] ?? trim(($tenant['first_name'] ?? '') . ' ' . ($tenant['last_name'] ?? ''));
 
@@ -24,13 +24,13 @@ $page_title = 'Tenant — ' . $full_name;
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3 gap-2">
-    <a href="<?= BASE_URL ?>/tenants/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/tenants/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0 flex-grow-1"><?= e($full_name) ?></h5>
-    <a href="<?= BASE_URL ?>/tenants/statement.php?id=<?= $id ?>" class="btn btn-sm btn-outline-info"><i class="bi bi-file-earmark-bar-graph me-1"></i>Statement</a>
+    <a href="<?= BASE_URL ?>/tenants/statement?id=<?= $id ?>" class="btn btn-sm btn-outline-info"><i class="bi bi-file-earmark-bar-graph me-1"></i>Statement</a>
     <?php if (is_manager()): ?>
-    <a href="<?= BASE_URL ?>/tenants/documents.php?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-folder2-open me-1"></i>Documents</a>
-    <a href="<?= BASE_URL ?>/tenants/edit.php?id=<?= $id ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
-    <a href="<?= BASE_URL ?>/leases/add.php?tenant_id=<?= $id ?>" class="btn btn-sm btn-primary"><i class="bi bi-file-earmark-plus me-1"></i>New Lease</a>
+    <a href="<?= BASE_URL ?>/tenants/documents?id=<?= $id ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-folder2-open me-1"></i>Documents</a>
+    <a href="<?= BASE_URL ?>/tenants/edit?id=<?= $id ?>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil me-1"></i>Edit</a>
+    <a href="<?= BASE_URL ?>/leases/add?tenant_id=<?= $id ?>" class="btn btn-sm btn-primary"><i class="bi bi-file-earmark-plus me-1"></i>New Lease</a>
     <?php endif; ?>
 </div>
 
@@ -104,7 +104,7 @@ include BASE_PATH . '/includes/header.php';
             <?php endif; ?>
             <?php if (is_manager()): ?>
             <div class="card-footer bg-white py-2">
-                <a href="<?= BASE_URL ?>/tenants/documents.php?id=<?= $id ?>" class="btn btn-sm btn-outline-primary w-100">
+                <a href="<?= BASE_URL ?>/tenants/documents?id=<?= $id ?>" class="btn btn-sm btn-outline-primary w-100">
                     <i class="bi bi-upload me-1"></i>Manage Documents
                 </a>
             </div>
@@ -121,7 +121,7 @@ include BASE_PATH . '/includes/header.php';
                     <tbody>
                     <?php if ($leases): foreach ($leases as $l): ?>
                         <tr>
-                            <td><a href="<?= BASE_URL ?>/leases/view.php?id=<?= $l['id'] ?>"><code><?= e($l['lease_number']) ?></code></a></td>
+                            <td><a href="<?= BASE_URL ?>/leases/view?id=<?= $l['id'] ?>"><code><?= e($l['lease_number']) ?></code></a></td>
                             <td><?= e($l['property_name'] ?? '') ?> / <?= e($l['unit_number'] ?? '') ?></td>
                             <td><?= fmt_date($l['start_date']) ?></td>
                             <td><?= fmt_date($l['end_date']) ?></td>
@@ -144,7 +144,7 @@ include BASE_PATH . '/includes/header.php';
                     <tbody>
                     <?php if ($invoices): foreach ($invoices as $inv): ?>
                         <tr>
-                            <td><a href="<?= BASE_URL ?>/invoices/view.php?id=<?= $inv['id'] ?>"><code><?= e($inv['invoice_number']) ?></code></a></td>
+                            <td><a href="<?= BASE_URL ?>/invoices/view?id=<?= $inv['id'] ?>"><code><?= e($inv['invoice_number']) ?></code></a></td>
                             <td><?= e($inv['unit_number'] ?? '—') ?></td>
                             <td><?= !empty($inv['period_month']) ? month_name($inv['period_month']) . ' ' . $inv['period_year'] : '—' ?></td>
                             <td><?= money($inv['total_amount']) ?></td>

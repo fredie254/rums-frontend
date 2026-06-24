@@ -18,7 +18,7 @@
         <button class="btn btn-sm btn-outline-light sidebar-toggle me-1" id="sidebarToggle">
             <i class="bi bi-list fs-5"></i>
         </button>
-        <a class="navbar-brand mb-0 fw-bold" href="<?= BASE_URL ?>/dashboard/index.php">
+        <a class="navbar-brand mb-0 fw-bold" href="<?= BASE_URL ?>/dashboard/index">
             <i class="bi bi-building-fill text-warning me-1"></i><?= APP_NAME ?>
         </a>
     </div>
@@ -44,7 +44,7 @@
                     if ($notifs):
                         foreach ($notifs as $n): ?>
                         <li>
-                            <a class="dropdown-item <?= $n['is_read'] ? '' : 'fw-semibold bg-light' ?>" href="<?= BASE_URL ?>/notifications/index.php?mark=<?= $n['id'] ?>">
+                            <a class="dropdown-item <?= $n['is_read'] ? '' : 'fw-semibold bg-light' ?>" href="<?= BASE_URL ?>/notifications/index?mark=<?= $n['id'] ?>">
                                 <small class="text-<?= $n['type'] ?>"><?= e($n['title']) ?></small><br>
                                 <small class="text-muted"><?= e(substr($n['message'], 0, 60)) ?>...</small>
                             </a>
@@ -55,7 +55,7 @@
                     <?php endif;
                 } ?>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-center small" href="<?= BASE_URL ?>/notifications/index.php">View all</a></li>
+                <li><a class="dropdown-item text-center small" href="<?= BASE_URL ?>/notifications/index">View all</a></li>
             </ul>
         </div>
         <!-- User menu -->
@@ -70,13 +70,13 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
                 <li><h6 class="dropdown-header"><?= e($u['name'] ?? '') ?><br><small class="text-muted"><?= ucfirst($u['role'] ?? '') ?></small></h6></li>
-                <li><a class="dropdown-item" href="<?= BASE_URL ?>/users/profile.php"><i class="bi bi-person me-2"></i>My Profile</a></li>
-                <li><a class="dropdown-item" href="<?= BASE_URL ?>/users/change_password.php"><i class="bi bi-key me-2"></i>Change Password</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/users/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/users/change_password"><i class="bi bi-key me-2"></i>Change Password</a></li>
                 <?php if (is_admin()): ?>
-                <li><a class="dropdown-item" href="<?= BASE_URL ?>/settings/index.php"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                <li><a class="dropdown-item" href="<?= BASE_URL ?>/settings/index"><i class="bi bi-gear me-2"></i>Settings</a></li>
                 <?php endif; ?>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="<?= BASE_URL ?>/auth/logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                <li><a class="dropdown-item text-danger" href="<?= BASE_URL ?>/auth/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
             </ul>
         </div>
     </div>

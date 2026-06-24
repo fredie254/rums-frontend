@@ -50,7 +50,7 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
-        <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
         <h5 class="fw-bold mb-0"><i class="bi bi-bank me-2 text-primary"></i>Bank Reconciliation</h5>
     </div>
     <button class="btn btn-sm btn-outline-primary d-print-none" data-bs-toggle="modal" data-bs-target="#importModal">
@@ -194,7 +194,7 @@ include BASE_PATH . '/includes/header.php';
                         title="Match to payment">
                     <i class="bi bi-link-45deg"></i> Match
                 </button>
-                <a href="<?= BASE_URL ?>/payments/add.php?amount=<?= $e['credit'] ?>"
+                <a href="<?= BASE_URL ?>/payments/add?amount=<?= $e['credit'] ?>"
                    class="btn btn-sm btn-outline-success py-0 px-1" title="Create payment">
                     <i class="bi bi-plus"></i>
                 </a>
@@ -223,7 +223,7 @@ include BASE_PATH . '/includes/header.php';
             <td class="text-end fw-semibold"><?= money($p['amount']) ?></td>
             <td class="small"><?= fmt_date($p['payment_date']) ?></td>
             <td class="small text-muted"><?= e($p['notes'] ?? '') ?></td>
-            <td><a href="<?= BASE_URL ?>/payments/view.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td>
+            <td><a href="<?= BASE_URL ?>/payments/view?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-eye"></i></a></td>
         </tr>
         <?php endforeach; else: ?>
         <tr><td colspan="8" class="text-center text-muted py-4">No unmatched RUMS bank payments in this period.</td></tr>
@@ -247,7 +247,7 @@ include BASE_PATH . '/includes/header.php';
             <td class="text-end text-success fw-semibold"><?= money($e['credit']) ?></td>
             <td>
                 <?php if (!empty($e['payment_ref'])): ?>
-                <a href="<?= BASE_URL ?>/payments/view.php?id=<?= $e['payment_id'] ?>" class="small text-decoration-none">
+                <a href="<?= BASE_URL ?>/payments/view?id=<?= $e['payment_id'] ?>" class="small text-decoration-none">
                     <code><?= e($e['payment_ref']) ?></code>
                 </a>
                 <?php if (!empty($e['tenant_name'])): ?>

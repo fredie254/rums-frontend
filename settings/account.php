@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res  = $api->post('auth/mfa/confirm', ['code' => $code]);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Two-factor authentication is now enabled.');
-                redirect(BASE_URL . '/settings/account.php?tab=security');
+                redirect(BASE_URL . '/settings/account?tab=security');
             } else {
                 $errors[] = $res['message'] ?? 'Invalid code — please try again.';
                 // Re-populate setup data so user can retry without rescanning
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = $api->post('auth/mfa/disable', ['password' => $pw]);
             if ($res['success'] ?? false) {
                 set_flash('success', 'Two-factor authentication disabled.');
-                redirect(BASE_URL . '/settings/account.php?tab=security');
+                redirect(BASE_URL . '/settings/account?tab=security');
             } else {
                 $errors[] = $res['message'] ?? 'Incorrect password.';
             }
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
                 if ($res['success'] ?? false) {
                     set_flash('success', 'Password changed successfully.');
-                    redirect(BASE_URL . '/settings/account.php?tab=password');
+                    redirect(BASE_URL . '/settings/account?tab=password');
                 } else {
                     $errors[] = $res['message'] ?? 'Password change failed.';
                 }
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (isset($_SESSION['user_data'])) $_SESSION['user_data']['name'] = $data['name'];
                     }
                     set_flash('success', 'Profile updated.');
-                    redirect(BASE_URL . '/settings/account.php?tab=profile');
+                    redirect(BASE_URL . '/settings/account?tab=profile');
                 } else {
                     $errors[] = $res['message'] ?? 'Update failed.';
                 }

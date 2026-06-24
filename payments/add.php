@@ -18,7 +18,7 @@ $invoices = array_merge($inv1['data'] ?? [], $inv2['data'] ?? [], $inv3['data'] 
 usort($invoices, fn($a, $b) => strcmp($a['due_date'] ?? '', $b['due_date'] ?? ''));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/payments/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/payments/add'); }
 
     $lease_id   = int_param('lease_id', 0, 'post');
     $invoice_id = int_param('invoice_id', 0, 'post') ?: null;
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pay_id = $res['data']['id'] ?? 0;
             $ref    = $res['data']['payment_ref'] ?? '';
             set_flash('success', "Payment $ref recorded successfully.");
-            redirect(BASE_URL . '/payments/view.php?id=' . $pay_id);
+            redirect(BASE_URL . '/payments/view?id=' . $pay_id);
         }
         $errors[] = $res['message'] ?? 'Failed to record payment.';
     }
@@ -62,7 +62,7 @@ $page_title = 'Record Payment';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/payments/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">Record Payment</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -127,7 +127,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="col-12"><label class="form-label fw-semibold">Notes</label><textarea name="notes" class="form-control" rows="2"><?= e(post('notes')) ?></textarea></div>
             <div class="col-12 d-flex gap-2">
                 <button type="submit" class="btn btn-success"><i class="bi bi-check-circle me-1"></i>Record Payment</button>
-                <a href="<?= BASE_URL ?>/payments/index.php" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= BASE_URL ?>/payments/index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </div>
     </form>

@@ -6,7 +6,7 @@ $api    = new ApiClient();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/templates/add.php'); }
+    if (!verify_csrf()) { set_flash('error', 'Invalid request.'); redirect(BASE_URL . '/leases/templates/add'); }
 
     $name       = trim(post('name'));
     $lease_type = post('lease_type') ?: 'fixed-term';
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         if (!empty($res['success'])) {
             set_flash('success', 'Template "' . $name . '" created.');
-            redirect(BASE_URL . '/leases/templates/index.php');
+            redirect(BASE_URL . '/leases/templates/index');
         }
         $errors[] = $res['message'] ?? 'Failed to create template.';
     }
@@ -35,7 +35,7 @@ $page_title = 'New Lease Template';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/leases/templates/index.php" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= BASE_URL ?>/leases/templates/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">New Lease Template</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger small"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -85,7 +85,7 @@ include BASE_PATH . '/includes/header.php';
 
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-1"></i>Save Template</button>
-                <a href="<?= BASE_URL ?>/leases/templates/index.php" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= BASE_URL ?>/leases/templates/index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
     </div>

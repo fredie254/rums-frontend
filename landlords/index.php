@@ -17,12 +17,12 @@ include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0"><i class="bi bi-person-badge me-2 text-primary"></i>Landlords</h5>
-    <a href="<?= BASE_URL ?>/landlords/add.php" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Landlord</a>
+    <a href="<?= BASE_URL ?>/landlords/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Landlord</a>
 </div>
 <div class="card shadow-sm mb-3"><div class="card-body py-2">
     <form method="GET" class="row g-2">
         <div class="col-md-4"><input type="text" name="search" class="form-control form-control-sm" placeholder="Search name, email, ID..." value="<?= e($search) ?>"></div>
-        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Search</button><a href="<?= BASE_URL ?>/landlords/index.php" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
+        <div class="col-auto"><button class="btn btn-sm btn-outline-primary">Search</button><a href="<?= BASE_URL ?>/landlords/index" class="btn btn-sm btn-outline-secondary ms-1">Reset</a></div>
     </form>
 </div></div>
 <div class="card shadow-sm">
@@ -41,8 +41,8 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= $l['commission_rate'] ?>%</td>
                     <td><?= ($l['user_status'] ?? '') === 'active' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-secondary">Inactive</span>' ?></td>
                     <td>
-                        <a href="<?= BASE_URL ?>/landlords/view.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
-                        <a href="<?= BASE_URL ?>/landlords/edit.php?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
+                        <a href="<?= BASE_URL ?>/landlords/view?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-primary py-0 px-1"><i class="bi bi-eye"></i></a>
+                        <a href="<?= BASE_URL ?>/landlords/edit?id=<?= $l['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1"><i class="bi bi-pencil"></i></a>
                     </td>
                 </tr>
             <?php endforeach; else: ?>
@@ -51,6 +51,6 @@ include BASE_PATH . '/includes/header.php';
             </tbody>
         </table>
     </div>
-    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($landlords) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/landlords/index.php?search=' . urlencode($search)) ?></div>
+    <div class="card-footer d-flex justify-content-between"><small class="text-muted"><?= count($landlords) ?> of <?= $total ?></small><?= pagination_links($pg, BASE_URL . '/landlords/index?search=' . urlencode($search)) ?></div>
 </div>
 <?php include BASE_PATH . '/includes/footer.php'; ?>
