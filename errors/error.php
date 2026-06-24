@@ -10,12 +10,17 @@ declare(strict_types=1);
  */
 
 // ── Detect status code ────────────────────────────────────────
-$code = (int)(
-    $_SERVER['REDIRECT_STATUS']   // Apache ErrorDocument
-    ?? $_SERVER['HTTP_STATUS']    // some proxy setups
-    ?? $_GET['code']              // manual override for testing
-    ?? 500
-);
+// REDIRECT_STATUS is always set to 200 by nginx/PHP-FPM fastcgi_params as a
+// CGI security mechanism — only trust it when it's a real error (>= 400).
+// Apache ErrorDocument also sets REDIRECT_STATUS, but to the actual error code.
+$_redirect = (int)($_SERVER['REDIRECT_STATUS'] ?? 0);
+$_http     = (int)($_SERVER['HTTP_STATUS']     ?? 0);
+$code = match(true) {
+    $_redirect >= 400 && $_redirect <= 599 => $_redirect,  // Apache real error
+    $_http     >= 400 && $_http     <= 599 => $_http,       // proxy
+    isset($_GET['code'])                   => (int)$_GET['code'], // abort() / nginx error_page
+    default                                => 500,
+};
 if ($code < 100 || $code > 599) $code = 500;
 http_response_code($code);
 
