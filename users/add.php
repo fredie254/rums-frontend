@@ -122,15 +122,22 @@ include BASE_PATH . '/includes/header.php';
                                 <?= $sel_role && isset($all_roles[$sel_role]) ? $all_roles[$sel_role]['desc'] : '' ?>
                             </div>
                         </div>
-                        <!-- Extra field shown only for tenant role -->
+                        <!-- Landlord info banner -->
+                        <div class="col-12" id="landlordFields" style="<?= $sel_role === 'landlord' ? '' : 'display:none' ?>">
+                            <div class="alert alert-warning d-flex gap-2 small py-2 mb-0">
+                                <i class="bi bi-person-badge-fill flex-shrink-0 mt-1"></i>
+                                <div>A <strong>landlord profile</strong> will be auto-created. The landlord will appear in the Landlords section. You can complete their banking and ID details from the Landlords page after creation.</div>
+                            </div>
+                        </div>
+                        <!-- Tenant fields -->
                         <div class="col-12" id="tenantFields" style="<?= $sel_role === 'tenant' ? '' : 'display:none' ?>">
                             <div class="alert alert-info d-flex gap-2 small py-2 mb-0">
                                 <i class="bi bi-info-circle-fill flex-shrink-0 mt-1"></i>
                                 <div>A <strong>tenant profile</strong> will be auto-created and the tenant will appear in the tenant list. Provide their National ID so the profile is complete.</div>
                             </div>
-                            <label class="form-label fw-semibold mt-3">National ID Number</label>
+                            <label class="form-label fw-semibold mt-3">National ID Number <span class="text-danger">*</span></label>
                             <input type="text" name="id_number" id="idNumber" class="form-control" value="<?= e(post('id_number')) ?>" placeholder="e.g. 12345678">
-                            <div class="form-text text-muted">Required for tenant profile. Also sets the default password: <code>Tenant@{last4digits}</code></div>
+                            <div class="form-text text-muted">Required for tenant profile.</div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
@@ -191,7 +198,9 @@ function updateRoleHint(val) {
         const row = document.getElementById('roleRow_' + val);
         if (row) row.classList.add('bg-primary-soft');
     }
-    // Show/hide tenant ID field
+    // Show/hide role-specific info banners
+    document.getElementById('landlordFields').style.display = val === 'landlord' ? '' : 'none';
+
     const tenantFields = document.getElementById('tenantFields');
     const idInput      = document.getElementById('idNumber');
     if (val === 'tenant') {

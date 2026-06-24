@@ -30,11 +30,11 @@ function current_user(): ?array
         return $_SESSION['user_data'];
     }
 
-    // Refresh from API
+    // Refresh from API — /auth/me returns { data: { user:{...}, token:{...} } }
     $res = (new ApiClient())->get('auth/me');
     if (empty($res['success'])) return null;
 
-    $_SESSION['user_data'] = $res['data'];
+    $_SESSION['user_data'] = $res['data']['user'] ?? $res['data'];
     return $_SESSION['user_data'];
 }
 
