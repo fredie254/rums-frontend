@@ -103,6 +103,17 @@ $isTenant      = $role === 'tenant';
 $isMaintStaff  = $role === 'maintenance';
 $isAssignedToMe = $isMaintStaff && ((int)($req['assigned_to'] ?? 0) === (int)$user['id']);
 
+// ── Find approval actor from log ──────────────────────────────────
+$approvedByName = null;
+$approvedAt     = null;
+foreach (array_reverse($logs) as $logEntry) {
+    if ($logEntry['action'] === 'approved') {
+        $approvedByName = $logEntry['user_name'] ?? 'Tenant';
+        $approvedAt     = $logEntry['created_at'] ?? null;
+        break;
+    }
+}
+
 $page_title = 'Maintenance Request';
 include BASE_PATH . '/includes/header.php';
 ?>
@@ -173,6 +184,22 @@ include BASE_PATH . '/includes/header.php';
                     <?php if (!empty($req['work_completed'])): ?>
                     <dt class="col-5 text-muted">Completed</dt>
                     <dd class="col-7"><?= fmt_date($req['work_completed']) ?></dd>
+                    <?php endif; ?>
+                    <?php if ($status === 'completed'): ?>
+                    <dt class="col-5 text-muted">Approval</dt>
+                    <dd class="col-7">
+                        <span class="badge bg-warning-subtle text-warning">
+                            <i class="bi bi-hourglass-split me-1"></i>Pending tenant approval
+                        </span>
+                    </dd>
+                    <?php elseif ($status === 'resolved' && $approvedByName): ?>
+                    <dt class="col-5 text-muted">Approved by</dt>
+                    <dd class="col-7">
+                        <span class="text-success fw-semibold"><?= e($approvedByName) ?></span>
+                        <?php if ($approvedAt): ?>
+                        <div class="text-muted" style="font-size:.75rem"><?= fmt_date($approvedAt, 'd M Y, H:i') ?></div>
+                        <?php endif; ?>
+                    </dd>
                     <?php endif; ?>
                 </dl>
             </div>
