@@ -50,20 +50,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $res = $api->post('maintenance', $payload);
         if (!empty($res['success'])) {
-            $num = $res['data']['request_number'] ?? '';
+            $num      = $res['data']['request_number'] ?? '';
+            $backPage = $user['role'] === 'tenant'
+                ? BASE_URL . '/tenant/maintenance'
+                : BASE_URL . '/maintenance/index';
             set_flash('success', "Maintenance request $num submitted.");
-            redirect(BASE_URL . '/maintenance/index');
+            redirect($backPage);
         }
         $errors[] = $res['message'] ?? 'Failed to submit request.';
     }
 }
 
 $categories = ['plumbing','electrical','structural','pest_control','appliance','painting','cleaning','security','other'];
+$backUrl    = $user['role'] === 'tenant' ? BASE_URL . '/tenant/maintenance' : BASE_URL . '/maintenance/index';
 $page_title = 'New Maintenance Request';
 include BASE_PATH . '/includes/header.php';
 ?>
 <div class="d-flex align-items-center mb-3">
-    <a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+    <a href="<?= $backUrl ?>" class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
     <h5 class="fw-bold mb-0">New Maintenance Request</h5>
 </div>
 <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $er): ?><li><?= e($er) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
@@ -112,7 +116,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="col-12"><label class="form-label fw-semibold">Detailed Description *</label><textarea name="description" class="form-control" rows="4" required><?= e(post('description')) ?></textarea></div>
             <div class="col-12 d-flex gap-2">
                 <button type="submit" class="btn btn-warning"><i class="bi bi-check-circle me-1"></i>Submit Request</button>
-                <a href="<?= BASE_URL ?>/maintenance/index" class="btn btn-outline-secondary">Cancel</a>
+                <a href="<?= $backUrl ?>" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </div>
     </form>

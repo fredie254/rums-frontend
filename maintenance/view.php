@@ -6,12 +6,13 @@ $api  = new ApiClient();
 $id   = int_param('id');
 $user = current_user();
 $role = $user['role'] ?? '';
+$listUrl = $role === 'tenant' ? BASE_URL . '/tenant/maintenance' : BASE_URL . '/maintenance/index';
 
-if (!$id) { redirect(BASE_URL . '/maintenance/index'); }
+if (!$id) { redirect($listUrl); }
 
 $res = $api->get("maintenance/$id");
 $req = $res['data'] ?? null;
-if (!$req) { set_flash('error', 'Request not found.'); redirect(BASE_URL . '/maintenance/index'); }
+if (!$req) { set_flash('error', 'Request not found.'); redirect($listUrl); }
 
 $status = $req['status'] ?? 'open';
 
