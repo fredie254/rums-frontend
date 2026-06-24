@@ -14,9 +14,9 @@ $query = array_filter([
 
 $res     = $api->get('tenants', $query);
 $tenants = $res['data'] ?? [];
-$meta    = $res['meta'] ?? ['total' => 0, 'total_pages' => 1, 'current_page' => 1, 'per_page' => ROWS_PER_PAGE];
-$total   = $meta['total'] ?? 0;
-$pg      = ['total' => $total, 'per_page' => $meta['per_page'], 'page' => $meta['current_page'], 'total_pages' => $meta['total_pages'], 'offset' => ($meta['current_page'] - 1) * $meta['per_page']];
+$meta    = $res['meta'] ?? [];
+$total   = (int)($meta['total'] ?? 0);
+$pg      = ['total' => $total, 'per_page' => (int)($meta['per_page'] ?? ROWS_PER_PAGE), 'page' => (int)($meta['current_page'] ?? $page), 'total_pages' => (int)($meta['total_pages'] ?? 1), 'offset' => ((int)($meta['current_page'] ?? $page) - 1) * (int)($meta['per_page'] ?? ROWS_PER_PAGE)];
 
 $page_title = 'Tenants';
 include BASE_PATH . '/includes/header.php';
@@ -72,7 +72,7 @@ include BASE_PATH . '/includes/header.php';
                         <?php if (is_manager()): ?>
                         <a href="<?= BASE_URL ?>/tenants/edit?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Edit"><i class="bi bi-pencil"></i></a>
                         <?php endif; ?>
-                        <?php if (current_user()['role'] === 'admin'): ?>
+                        <?php if (is_admin()): ?>
                         <button type="button" class="btn btn-sm btn-outline-danger py-0 px-1"
                                 title="Delete"
                                 onclick="deleteTenant(<?= $t['id'] ?>, '<?= e(addslashes($t['full_name'] ?? ($t['first_name'] . ' ' . $t['last_name']))) ?>')">

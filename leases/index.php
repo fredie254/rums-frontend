@@ -16,14 +16,14 @@ $query = array_filter([
 
 $res    = $api->get('leases', $query);
 $leases = $res['data'] ?? [];
-$meta   = $res['meta'] ?? ['total' => 0, 'total_pages' => 1, 'current_page' => 1, 'per_page' => ROWS_PER_PAGE];
-$total  = $meta['total'] ?? 0;
+$meta   = $res['meta'] ?? [];
+$total  = (int)($meta['total'] ?? 0);
 $pg     = [
     'total'       => $total,
-    'per_page'    => $meta['per_page'],
-    'page'        => $meta['current_page'],
-    'total_pages' => $meta['total_pages'],
-    'offset'      => ($meta['current_page'] - 1) * $meta['per_page'],
+    'per_page'    => (int)($meta['per_page']     ?? ROWS_PER_PAGE),
+    'page'        => (int)($meta['current_page'] ?? $page),
+    'total_pages' => (int)($meta['total_pages']  ?? 1),
+    'offset'      => ((int)($meta['current_page'] ?? $page) - 1) * (int)($meta['per_page'] ?? ROWS_PER_PAGE),
 ];
 
 $page_title = 'Leases';

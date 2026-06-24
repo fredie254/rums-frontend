@@ -30,12 +30,6 @@ $page_title = 'Maintenance Requests';
 include BASE_PATH . '/includes/header.php';
 ?>
 
-<?php if ($flash = get_flash()): ?>
-<div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show mb-3">
-    <?= e($flash['message']) ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-<?php endif; ?>
-
 <div class="page-header mb-4">
     <div>
         <h5 class="fw-bold mb-1"><i class="bi bi-wrench me-2 text-warning"></i>Maintenance Requests</h5>
