@@ -8,48 +8,58 @@ $me  = current_user();
 
 /* ══ Handle POST actions ══════════════════════════════════════════ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
-    $action = post_param('action');
+    $action = post('action');
 
     /* ── Check In ── */
     if ($action === 'checkin') {
-        $check_in_val = post_param('check_in') ?: date('Y-m-d H:i:s');
+        $check_in_val = post('check_in') ?: date('Y-m-d H:i:s');
         $check_in_dt  = date('Y-m-d H:i:s', strtotime($check_in_val));
+        $visitor_name = post('visitor_name');
 
         $body = [
-            'property_id'     => int_param('property_id') ?: null,
-            'visitor_name'    => post_param('visitor_name'),
-            'visitor_phone'   => post_param('visitor_phone') ?: null,
-            'visitor_id_no'   => post_param('visitor_id_no') ?: null,
-            'visitor_id_type' => post_param('visitor_id_type') ?: 'national_id',
-            'vehicle_reg'     => post_param('vehicle_reg') ?: null,
-            'host_name'       => post_param('host_name') ?: null,
-            'purpose'         => post_param('purpose'),
-            'badge_no'        => post_param('badge_no') ?: null,
+            'property_id'     => int_param('property_id', 0, 'post') ?: null,
+            'visitor_name'    => $visitor_name,
+            'visitor_phone'   => post('visitor_phone') ?: null,
+            'visitor_id_no'   => post('visitor_id_no') ?: null,
+            'visitor_id_type' => post('visitor_id_type') ?: 'national_id',
+            'vehicle_reg'     => post('vehicle_reg') ?: null,
+            'host_name'       => post('host_name') ?: null,
+            'purpose'         => post('purpose'),
+            'badge_no'        => post('badge_no') ?: null,
             'check_in'        => $check_in_dt,
-            'notes'           => post_param('notes') ?: null,
+            'notes'           => post('notes') ?: null,
         ];
 
-        $res = $api->post('visitors', $body);
+        $res    = $api->post('visitors', $body);
         $new_id = (int)($res['data']['id'] ?? 0);
-        audit_log('CREATE', 'visitors', $new_id, 'Visitor checked in: ' . post_param('visitor_name'));
-        set_flash('success', 'Visitor ' . post_param('visitor_name') . ' checked in successfully.');
+        if (!empty($res['success'])) {
+            audit_log('CREATE', 'visitors', $new_id, 'Visitor checked in: ' . $visitor_name);
+            set_flash('success', 'Visitor ' . $visitor_name . ' checked in successfully.');
+        } else {
+            set_flash('error', $res['message'] ?? 'Failed to check in visitor.');
+        }
         redirect(BASE_URL . '/security/visitors');
     }
 
     /* ── Check Out ── */
     if ($action === 'checkout') {
-        $id = int_param('id');
-        $api->patch("visitors/$id/checkout", []);
-        audit_log('UPDATE', 'visitors', $id, 'Visitor checked out');
-        set_flash('success', 'Visitor checked out.');
+        $id  = int_param('id', 0, 'post');
+        $res = $api->patch("visitors/$id/checkout", []);
+        if (!empty($res['success'])) {
+            audit_log('UPDATE', 'visitors', $id, 'Visitor checked out');
+            set_flash('success', 'Visitor checked out.');
+        } else {
+            set_flash('error', $res['message'] ?? 'Failed to check out visitor.');
+        }
         redirect(BASE_URL . '/security/visitors');
     }
 
     /* ── Mark overstay ── */
     if ($action === 'overstay') {
-        $id = int_param('id');
-        $api->patch("visitors/$id/overstay", []);
-        set_flash('warning', 'Visitor flagged as overstay.');
+        $id  = int_param('id', 0, 'post');
+        $res = $api->patch("visitors/$id/overstay", []);
+        set_flash(!empty($res['success']) ? 'warning' : 'error',
+            $res['message'] ?? (!empty($res['success']) ? 'Visitor flagged as overstay.' : 'Action failed.'));
         redirect(BASE_URL . '/security/visitors');
     }
 }
@@ -188,8 +198,8 @@ include BASE_PATH . '/includes/header.php';
                             <?php endif; ?>
                         </td>
                         <td class="small"><?= e($v['purpose'] ?? '&mdash;') ?></td>
-                        <td class="text-nowrap small"><?= fmt_date($v['check_in'], true) ?></td>
-                        <td class="text-nowrap small"><?= $v['check_out'] ? fmt_date($v['check_out'], true) : '&mdash;' ?></td>
+                        <td class="text-nowrap small"><?= fmt_date($v['check_in'], 'd M Y, H:i') ?></td>
+                        <td class="text-nowrap small"><?= $v['check_out'] ? fmt_date($v['check_out'], 'd M Y, H:i') : '&mdash;' ?></td>
                         <td class="small"><?= $dur ?></td>
                         <td><span class="badge bg-<?= $status_badge[$v['status']] ?? 'secondary' ?>"><?= ucfirst($v['status']) ?></span></td>
                         <td>
