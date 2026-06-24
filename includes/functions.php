@@ -291,20 +291,72 @@ function upload_image(array $file, string $subfolder = 'general'): ?string {
     return null;
 }
 
-function upload_document(array $file, string $subfolder = 'kyc'): ?string {
-    if ($file['error'] !== UPLOAD_ERR_OK) return null;
-    if ($file['size'] > MAX_UPLOAD_SIZE) return null;
-    $allowed = ['image/jpeg','image/png','image/webp','application/pdf'];
-    if (!in_array($file['type'], $allowed)) return null;
+/**
+ * Upload a KYC document. Returns the relative path on success, or sets
+ * $error to a human-readable reason and returns null on failure.
+ *
+ * Uses server-side finfo MIME detection — never trusts the browser-supplied
+ * Content-Type which is unreliable across iOS, Android, and desktop clients.
+ */
+function upload_document(array $file, string $subfolder = 'kyc', string &$error = ''): ?string
+{
+    // ── PHP-level upload errors ───────────────────────────────
+    $phpErrors = [
+        UPLOAD_ERR_INI_SIZE   => 'File exceeds the server upload limit (' . ini_get('upload_max_filesize') . '). Ask your administrator to raise upload_max_filesize.',
+        UPLOAD_ERR_FORM_SIZE  => 'File exceeds the form size limit.',
+        UPLOAD_ERR_PARTIAL    => 'File was only partially uploaded. Please try again.',
+        UPLOAD_ERR_NO_FILE    => 'No file was received by the server.',
+        UPLOAD_ERR_NO_TMP_DIR => 'Server temporary directory is missing.',
+        UPLOAD_ERR_CANT_WRITE => 'Server could not write the file to disk.',
+        UPLOAD_ERR_EXTENSION  => 'A PHP extension blocked the upload.',
+    ];
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $error = $phpErrors[$file['error']] ?? 'Upload error code ' . $file['error'] . '.';
+        return null;
+    }
 
-    $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    // ── Application size cap ──────────────────────────────────
+    if ($file['size'] > MAX_UPLOAD_SIZE) {
+        $mb    = round(MAX_UPLOAD_SIZE / 1024 / 1024, 0);
+        $error = 'File is too large (' . round($file['size'] / 1024 / 1024, 1) . ' MB). Maximum allowed size is ' . $mb . ' MB.';
+        return null;
+    }
+
+    // ── Server-side MIME detection (never trust the browser) ─
+    $finfo    = finfo_open(FILEINFO_MIME_TYPE);
+    $realMime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    $allowed = [
+        'image/jpeg'      => 'jpg',
+        'image/jpg'       => 'jpg',   // non-standard but common
+        'image/png'       => 'png',
+        'image/webp'      => 'webp',
+        'application/pdf' => 'pdf',
+        'application/x-pdf' => 'pdf', // some servers/clients
+    ];
+
+    if (!isset($allowed[$realMime])) {
+        $error = 'Invalid file type (' . $realMime . '). Only PDF, JPEG, PNG and WebP files are accepted.';
+        return null;
+    }
+
+    // ── Use the safe extension from the MIME map, not the filename ──
+    $ext      = $allowed[$realMime];
     $filename = uniqid('kyc_', true) . '.' . $ext;
     $dir      = UPLOAD_PATH . $subfolder . '/';
-    if (!is_dir($dir)) mkdir($dir, 0775, true);
-    if (move_uploaded_file($file['tmp_name'], $dir . $filename)) {
-        return $subfolder . '/' . $filename;
+
+    if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
+        $error = 'Server could not create the upload directory. Contact support.';
+        return null;
     }
-    return null;
+
+    if (!move_uploaded_file($file['tmp_name'], $dir . $filename)) {
+        $error = 'Server could not save the file. Check directory permissions.';
+        return null;
+    }
+
+    return $subfolder . '/' . $filename;
 }
 
 // ─── Input Sanitize ───────────────────────────────────────────

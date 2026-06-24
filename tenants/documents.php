@@ -57,9 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('action') === 'upload') {
     if (empty($_FILES['document']['name']))            $errors[] = 'Please select a file to upload.';
 
     if (!$errors) {
-        $path = upload_document($_FILES['document'], 'kyc');
+        $uploadError = '';
+        $path = upload_document($_FILES['document'], 'kyc', $uploadError);
         if (!$path) {
-            $errors[] = 'Upload failed. Allowed formats: PDF, JPEG, PNG. Max size: ' . (MAX_UPLOAD_SIZE / 1024 / 1024) . ' MB.';
+            $errors[] = $uploadError ?: 'Upload failed.';
         } else {
             $res = $api->post("tenants/$id/kyc-documents", [
                 'document_type' => $doc_type,
@@ -130,7 +131,11 @@ include BASE_PATH . '/includes/header.php';
                     <div class="mb-3">
                         <label class="form-label fw-semibold">File <span class="text-danger">*</span></label>
                         <input type="file" name="document" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.webp" required>
-                        <div class="form-text">PDF, JPEG or PNG · Max <?= MAX_UPLOAD_SIZE / 1024 / 1024 ?> MB</div>
+                        <?php
+                            $phpLimit  = (int)preg_replace('/[^0-9]/', '', ini_get('upload_max_filesize')) * 1024 * 1024;
+                            $effective = min(MAX_UPLOAD_SIZE, $phpLimit ?: MAX_UPLOAD_SIZE);
+                        ?>
+                        <div class="form-text">PDF, JPEG, PNG or WebP · Max <?= round($effective / 1024 / 1024, 0) ?> MB</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Notes</label>
