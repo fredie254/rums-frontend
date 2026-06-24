@@ -43,6 +43,11 @@ $total_properties= (int)($prop_res['meta']['total'] ?? 0);
 $ten_res      = $api->get('tenants', ['per_page' => 1]);
 $total_tenants= (int)($ten_res['meta']['total'] ?? 0);
 
+// System users (for KPI + team widget)
+$users_res   = $api->get('users', ['status' => 'all', 'per_page' => 50]);
+$all_users   = $users_res['data'] ?? [];
+$total_users = (int)($users_res['meta']['total'] ?? count($all_users));
+
 // Recent payments
 $pay_res        = $api->get('payments', ['per_page' => 7]);
 $recent_payments= $pay_res['data'] ?? [];
@@ -156,6 +161,106 @@ include BASE_PATH . '/includes/header.php';
             <div class="kpi-icon"><i class="bi bi-hourglass-split"></i></div>
             <div class="kpi-value"><?= $expiring_30d ?></div>
             <div class="kpi-label">Expiring (30d)</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <a href="<?= BASE_URL ?>/users/index" class="text-decoration-none">
+            <div class="kpi-card kpi-blue">
+                <div class="kpi-icon"><i class="bi bi-person-gear"></i></div>
+                <div class="kpi-value"><?= $total_users ?></div>
+                <div class="kpi-label">System Users</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- System Users Widget -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-semibold"><i class="bi bi-person-gear text-primary me-2"></i>System Users <span class="badge bg-primary ms-1"><?= $total_users ?></span></h6>
+                <a href="<?= BASE_URL ?>/users/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-1"></i>Add User</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:36px">#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Last Login</th>
+                            <th class="text-end pe-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $roleBadges = [
+                        'admin'       => 'danger',
+                        'manager'     => 'primary',
+                        'landlord'    => 'warning text-dark',
+                        'accountant'  => 'info text-dark',
+                        'maintenance' => 'secondary',
+                        'auditor'     => 'purple',
+                        'security'    => 'dark',
+                        'tenant'      => 'success',
+                    ];
+                    $avatarColors = [
+                        'admin'       => 'bg-danger',
+                        'manager'     => 'bg-primary',
+                        'landlord'    => 'bg-warning text-dark',
+                        'accountant'  => 'bg-info text-dark',
+                        'maintenance' => 'bg-secondary',
+                        'auditor'     => 'bg-secondary',
+                        'security'    => 'bg-dark',
+                        'tenant'      => 'bg-success',
+                    ];
+                    foreach ($all_users as $i => $u):
+                        $isSelf = $u['id'] == $_SESSION['user_id'];
+                    ?>
+                    <tr>
+                        <td class="text-muted small ps-3"><?= $i + 1 ?></td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-sm <?= $avatarColors[$u['role']] ?? 'bg-secondary' ?> rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0" style="width:32px;height:32px;font-size:.8rem">
+                                    <?= strtoupper(substr($u['name'], 0, 1)) ?>
+                                </div>
+                                <span class="fw-semibold">
+                                    <?= e($u['name']) ?>
+                                    <?= $isSelf ? '<span class="badge bg-light text-muted border ms-1 small">You</span>' : '' ?>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-muted small"><?= e($u['email']) ?></td>
+                        <td><span class="badge bg-<?= $roleBadges[$u['role']] ?? 'secondary' ?>"><?= ucfirst($u['role']) ?></span></td>
+                        <td>
+                            <?php if ($u['status'] === 'active'): ?>
+                                <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Active</span>
+                            <?php elseif ($u['status'] === 'suspended'): ?>
+                                <span class="badge bg-danger"><i class="bi bi-slash-circle me-1"></i>Suspended</span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">Inactive</span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="text-muted small">
+                            <?= !empty($u['last_login']) ? fmt_date($u['last_login'], 'd M Y H:i') : '<span class="fst-italic">Never</span>' ?>
+                        </td>
+                        <td class="text-end pe-3">
+                            <a href="<?= BASE_URL ?>/users/view?id=<?= $u['id'] ?>" class="btn btn-xs btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-eye"></i></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php if (!$all_users): ?>
+                    <tr><td colspan="7" class="text-center text-muted py-3">No users found.</td></tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-white text-end">
+                <a href="<?= BASE_URL ?>/users/index" class="btn btn-sm btn-outline-primary">Manage All Users <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
         </div>
     </div>
 </div>
