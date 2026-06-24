@@ -7,25 +7,26 @@ $page_title = 'Occupancy Log';
 $me  = current_user();
 
 /* ══ POST handler ══════════════════════════════════════════════ */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
-    $action = post_param('action');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
+    $action = post('action');
 
     if ($action === 'add') {
         $body = [
-            'property_id'  => int_param('property_id') ?: null,
-            'unit_id'      => int_param('unit_id') ?: null,
-            'event_type'   => post_param('event_type'),
-            'event_date'   => post_param('event_date'),
-            'event_time'   => post_param('event_time') ?: null,
-            'description'  => post_param('description') ?: null,
-            'persons_count'=> (int)post_param('persons_count') ?: 1,
-            'authorized_by'=> post_param('authorized_by') ?: null,
-            'reference_no' => post_param('reference_no') ?: null,
+            'property_id'  => int_param('property_id', 0, 'post') ?: null,
+            'unit_id'      => int_param('unit_id', 0, 'post') ?: null,
+            'event_type'   => post('event_type'),
+            'event_date'   => post('event_date'),
+            'event_time'   => post('event_time') ?: null,
+            'description'  => post('description') ?: null,
+            'persons_count'=> (int)post('persons_count') ?: 1,
+            'authorized_by'=> post('authorized_by') ?: null,
+            'reference_no' => post('reference_no') ?: null,
         ];
 
         $res    = $api->post('occupancy-logs', $body);
         $new_id = (int)($res['data']['id'] ?? 0);
-        audit_log('CREATE', 'occupancy', $new_id, 'Occupancy event: ' . post_param('event_type'));
+        audit_log('CREATE', 'occupancy', $new_id, 'Occupancy event: ' . post('event_type'));
         set_flash('success', 'Occupancy event logged.');
         redirect(BASE_URL . '/security/occupancy_log');
     }

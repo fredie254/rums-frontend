@@ -190,7 +190,7 @@ include BASE_PATH . '/includes/header.php';
                     $bc = $action_colors[$log['action']] ?? 'secondary';
                 ?>
                 <tr>
-                    <td class="text-nowrap small"><?= fmt_date($log['created_at'], true) ?></td>
+                    <td class="text-nowrap small"><?= fmt_date($log['created_at'], 'd M Y, H:i') ?></td>
                     <td><?= e($log['user_name'] ?? '—') ?></td>
                     <td><span class="badge bg-secondary small"><?= e($log['user_role'] ?? '—') ?></span></td>
                     <td><span class="badge bg-<?= $bc ?>"><?= e($log['action']) ?></span></td>

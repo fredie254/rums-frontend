@@ -210,7 +210,7 @@ include BASE_PATH . '/includes/header.php';
                 $sc = $sev_colors[$inc['severity']] ?? 'secondary';
             ?>
             <tr>
-                <td><?= fmt_date($inc['incident_date'], true) ?></td>
+                <td><?= fmt_date($inc['incident_date'], 'd M Y, H:i') ?></td>
                 <td><?= ucfirst(str_replace('_',' ',$inc['incident_type'])) ?></td>
                 <td><?= e($inc['property_name'] ?? '&mdash;') ?></td>
                 <td><span class="badge bg-<?= $sc ?>"><?= ucfirst($inc['severity']) ?></span></td>

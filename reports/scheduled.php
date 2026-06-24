@@ -7,7 +7,7 @@ $api = new ApiClient();
 // Handle delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/reports/scheduled'); }
-    $id = int_param('id', 0, $_POST);
+    $id = int_param('id', 0, 'post');
     if ($_POST['action'] === 'delete') {
         $api->delete("report-schedules/$id");
         set_flash('success', 'Schedule deleted.');

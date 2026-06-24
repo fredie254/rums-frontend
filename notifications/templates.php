@@ -7,7 +7,7 @@ $api = new ApiClient();
 // Handle delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
     if (!verify_csrf()) { set_flash('error', 'Invalid CSRF token.'); redirect(BASE_URL . '/notifications/templates'); }
-    $id  = int_param('id', 0, $_POST);
+    $id  = int_param('id', 0, 'post');
     $res = $api->delete("message-templates/$id");
     if ($res['success'] ?? false) {
         set_flash('success', 'Template deleted.');

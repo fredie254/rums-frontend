@@ -324,7 +324,7 @@ include BASE_PATH . '/includes/header.php';
                 <td><?= e($r['name']) ?></td>
                 <td><?= e($r['email']) ?></td>
                 <td><span class="badge bg-secondary"><?= e($r['role']) ?></span></td>
-                <td><?= $r['last_login'] ? fmt_date($r['last_login'], true) : '<span class="text-muted">Never</span>' ?></td>
+                <td><?= $r['last_login'] ? fmt_date($r['last_login'], 'd M Y, H:i') : '<span class="text-muted">Never</span>' ?></td>
             </tr>
             <?php endforeach; ?>
             </tbody>

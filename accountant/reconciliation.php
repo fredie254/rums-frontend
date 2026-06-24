@@ -219,7 +219,7 @@ include BASE_PATH . '/includes/header.php';
                     <td><?= e(trim(($m['first_name'] ?? '') . ' ' . ($m['last_name'] ?? ''))) ?></td>
                     <td><?= e($m['msisdn'] ?? '—') ?></td>
                     <td class="text-end fw-semibold"><?= money($m['amount']) ?></td>
-                    <td><?= fmt_date($m['created_at'], true) ?></td>
+                    <td><?= fmt_date($m['created_at'], 'd M Y, H:i') ?></td>
                     <td>
                         <a href="<?= BASE_URL ?>/payments/add?mpesa_id=<?= $m['id'] ?>" class="btn btn-xs btn-warning">
                             <i class="bi bi-link-45deg me-1"></i>Link

@@ -8,42 +8,43 @@ $page_title = 'Expense Management';
 $categories = ['repairs','utilities','insurance','taxes','management_fee','advertising','legal','office','salaries','other'];
 
 /* ── handle form actions ── */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
-    $action = post_param('action', '');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
+    $action = post('action');
 
     if ($action === 'add') {
         $res = $api->post('expenses', [
-            'property_id'  => post_param('property_id') ?: null,
-            'category'     => post_param('category'),
-            'description'  => post_param('description'),
-            'amount'       => (float)post_param('amount'),
-            'expense_date' => post_param('expense_date'),
-            'vendor'       => post_param('vendor') ?: null,
-            'receipt_ref'  => post_param('receipt_ref') ?: null,
-            'notes'        => post_param('notes') ?: null,
+            'property_id'  => int_param('property_id', 0, 'post') ?: null,
+            'category'     => post('category'),
+            'description'  => post('description'),
+            'amount'       => (float)post('amount'),
+            'expense_date' => post('expense_date'),
+            'vendor'       => post('vendor') ?: null,
+            'receipt_ref'  => post('receipt_ref') ?: null,
+            'notes'        => post('notes') ?: null,
         ]);
-        set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error saving expense.');
+        set_flash($res['success'] ? 'success' : 'error', $res['message'] ?? 'Error saving expense.');
         redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'approve' && is_admin()) {
-        $id  = int_param('id');
+        $id  = int_param('id', 0, 'post');
         $res = $api->patch("expenses/$id/approve", []);
-        set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
+        set_flash($res['success'] ? 'success' : 'error', $res['message'] ?? 'Error.');
         redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'reject' && is_admin()) {
-        $id  = int_param('id');
+        $id  = int_param('id', 0, 'post');
         $res = $api->patch("expenses/$id/reject", []);
-        set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
+        set_flash($res['success'] ? 'success' : 'error', $res['message'] ?? 'Error.');
         redirect(BASE_URL . '/accountant/expenses');
     }
 
     if ($action === 'mark_paid') {
-        $id  = int_param('id');
+        $id  = int_param('id', 0, 'post');
         $res = $api->patch("expenses/$id/mark-paid", []);
-        set_flash($res['success'] ? 'success' : 'danger', $res['message'] ?? 'Error.');
+        set_flash($res['success'] ? 'success' : 'error', $res['message'] ?? 'Error.');
         redirect(BASE_URL . '/accountant/expenses');
     }
 }

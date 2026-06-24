@@ -8,9 +8,10 @@ $page_title = 'Work Orders';
 $me = current_user();
 
 /* ── Handle status updates ── */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
-    $id     = int_param('id');
-    $action = post_param('action');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
+    $id     = int_param('id', 0, 'post');
+    $action = post('action');
 
     if ($action === 'start') {
         $api->post("maintenance/$id/start", []);
@@ -19,11 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
     }
 
     if ($action === 'complete') {
-        $labour_h  = (float)post_param('labour_hours');
-        $mat_cost  = (float)post_param('materials_cost');
-        $lab_cost  = (float)post_param('labour_cost');
-        $contractor = post_param('contractor_name');
-        $notes     = post_param('completion_notes');
+        $labour_h   = (float)post('labour_hours');
+        $mat_cost   = (float)post('materials_cost');
+        $lab_cost   = (float)post('labour_cost');
+        $contractor = post('contractor_name');
+        $notes      = post('completion_notes');
 
         $api->post("maintenance/$id/complete", [
             'labour_hours'     => $labour_h,
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf()) {
     }
 
     if ($action === 'assign' && is_manager()) {
-        $assigned = int_param('assigned_to');
+        $assigned = int_param('assigned_to', 0, 'post');
         $api->post("maintenance/$id/assign", ['assigned_to' => $assigned]);
         audit_log('UPDATE', 'maintenance', $id, 'Work order assigned to user '.$assigned);
         set_flash('success', 'Work order assigned.');
@@ -111,14 +112,14 @@ include BASE_PATH . '/includes/header.php';
                     <dt class="col-sm-3">Assigned To</dt>
                     <dd class="col-sm-9"><?= e($work_order['assigned_to_name'] ?? '—') ?></dd>
                     <dt class="col-sm-3">Reported</dt>
-                    <dd class="col-sm-9"><?= fmt_date($work_order['created_at'], true) ?></dd>
+                    <dd class="col-sm-9"><?= fmt_date($work_order['created_at'], 'd M Y, H:i') ?></dd>
                     <?php if ($work_order['work_started']): ?>
                     <dt class="col-sm-3">Started</dt>
-                    <dd class="col-sm-9"><?= fmt_date($work_order['work_started'], true) ?></dd>
+                    <dd class="col-sm-9"><?= fmt_date($work_order['work_started'], 'd M Y, H:i') ?></dd>
                     <?php endif; ?>
                     <?php if ($work_order['work_completed']): ?>
                     <dt class="col-sm-3">Completed</dt>
-                    <dd class="col-sm-9"><?= fmt_date($work_order['work_completed'], true) ?></dd>
+                    <dd class="col-sm-9"><?= fmt_date($work_order['work_completed'], 'd M Y, H:i') ?></dd>
                     <?php endif; ?>
                 </dl>
                 <?php if ($work_order['description']): ?>

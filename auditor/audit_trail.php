@@ -161,7 +161,7 @@ include BASE_PATH . '/includes/header.php';
                         $bc = $action_colors[$log['action']] ?? 'secondary';
                     ?>
                     <tr>
-                        <td class="text-nowrap small"><?= fmt_date($log['created_at'], true) ?></td>
+                        <td class="text-nowrap small"><?= fmt_date($log['created_at'], 'd M Y, H:i') ?></td>
                         <td>
                             <div><?= e($log['user_name'] ?? '—') ?></div>
                             <small class="text-muted"><?= e($log['user_email'] ?? '') ?></small>
