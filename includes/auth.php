@@ -2,13 +2,8 @@
 /**
  * RUMS — Authentication helpers
  *
- * All authentication now goes through the REST API.
+ * All authentication goes through the REST API.
  * Session stores: api_token, user_id, user_role, user_name, user_data.
- *
- * Kept on direct DB (no API endpoint for these):
- *   - audit_log()
- *   - get_tenant_id_for_user()
- *   - get_landlord_id_for_user()
  */
 
 function is_logged_in(): bool

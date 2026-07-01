@@ -61,9 +61,6 @@ define('API_URL', env('API_URL', 'http://localhost/Rental_api'));
 // ── CORS ──────────────────────────────────────────────────────
 define('CORS_ALLOWED_ORIGINS', env('CORS_ALLOWED_ORIGINS', '*'));
 
-// ── Load database singleton ───────────────────────────────────
-require_once __DIR__ . '/database.php';
-
 // ── Start session (skip for API/CLI contexts) ─────────────────
 if (session_status() === PHP_SESSION_NONE && PHP_SAPI !== 'cli') {
     session_name(SESSION_NAME);
