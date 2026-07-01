@@ -121,7 +121,15 @@ function _validated_currency_symbol(string $raw): string {
     return 'Ksh'; // hardcoded last resort
 }
 
-function money(float $amount, bool $accounting = false): string {
+function money(int|float|string|null $amount, bool $accounting = false): string {
+    // API responses can legitimately surface NULL for a monetary value — e.g. a SQL
+    // SUM()/AVG() aggregate over zero matching rows is NULL, not 0. money() used to be
+    // typed `float $amount` (non-nullable, no default): PHP does NOT coerce null to a
+    // scalar type even outside strict_types, so money(null) threw an uncaught TypeError,
+    // which the production exception handler turns into a hard HTTP 500. Coercing here
+    // makes every call site safe without auditing every `money($x['key'])` call individually.
+    $amount = is_numeric($amount) ? (float)$amount : 0.0;
+
     static $cfg = null;
     if ($cfg === null) {
         $cfg = [
@@ -156,7 +164,8 @@ function money(float $amount, bool $accounting = false): string {
  * Format a currency code + amount for formal documents (invoices, statements).
  * E.g.  KES 45,000.00
  */
-function money_formal(float $amount): string {
+function money_formal(int|float|string|null $amount): string {
+    $amount = is_numeric($amount) ? (float)$amount : 0.0;
     $raw  = trim(get_setting('currency_code', ''));
     $isValidCode = $raw !== '' && !is_numeric($raw) && strlen($raw) <= 10;
     $constCode   = defined('CURRENCY_CODE') ? trim((string)CURRENCY_CODE) : '';
@@ -177,7 +186,9 @@ function money_formal(float $amount): string {
     return $negative ? '(' . $value . ')' : $value;
 }
 
-function pct(float $part, float $total): string {
+function pct(int|float|string|null $part, int|float|string|null $total): string {
+    $part  = is_numeric($part)  ? (float)$part  : 0.0;
+    $total = is_numeric($total) ? (float)$total : 0.0;
     if ($total == 0) return '0%';
     return round(($part / $total) * 100, 1) . '%';
 }
