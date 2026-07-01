@@ -97,7 +97,6 @@ class ApiClient
         $body   = curl_exec($ch);
         $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error  = curl_error($ch);
-        curl_close($ch);
 
         if ($error) {
             return ['success' => false, 'message' => 'Upload connection error: ' . $error];
@@ -149,7 +148,6 @@ class ApiClient
         $body   = curl_exec($ch);
         $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error  = curl_error($ch);
-        curl_close($ch);
 
         if ($error) {
             error_log("[ApiClient] cURL error on $method $url: $error");

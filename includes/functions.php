@@ -434,6 +434,6 @@ function str_param(string $key, string $default = ''): string {
 }
 
 function int_param(string $key, int $default = 0, string $source = 'get'): int {
-    $val = ($source === 'post' ? $_POST[$key] : $_GET[$key]) ?? $default;
+    $val = $source === 'post' ? ($_POST[$key] ?? $default) : ($_GET[$key] ?? $default);
     return (int)filter_var($val, FILTER_SANITIZE_NUMBER_INT);
 }
